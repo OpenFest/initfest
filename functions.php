@@ -6,6 +6,6 @@ register_nav_menus(
            'footer-openfest' => __('OpenFest', 'initfest'),
            'footer-openfest' => __('OpenFest', 'initfest'),
            'footer-schedule' => __('Schedule', 'initfest'),
-           'footer-others' => __('Footer Others', 'initfest'),
+           'footer-others' => __('Others', 'initfest'),
            'footer-followus' => __('Follow us in:', 'initfest') )
 );
