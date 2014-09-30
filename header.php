@@ -25,7 +25,7 @@
 
         <nav>
             <div class="content cf">
-                <a href="#" class="logo"><img src="img/logo.png" alt="OpenFest" /></a>
+                <a href="#" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="OpenFest" /></a>
                 <ul>
                     <li><a href="#">Начало</a></li>
                     <li><a href="#">За събитието</a></li>
