@@ -26,7 +26,9 @@
         <nav>
             <div class="content cf">
                 <a href="#" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="OpenFest" /></a>
-                <ul>
+                
+                <?php wp_nav_menu( array('menu' => 'main-menu') ); ?> 
+                <!--ul>
                     <li><a href="#">Начало</a></li>
                     <li><a href="#">За събитието</a></li>
                     <li><a href="#">Спонсори</a></li>
@@ -38,6 +40,6 @@
                     <li><a href="#"><i class="fa fa-rss"><?php bloginfo('rss2_url'); ?></i></a></li>
                     <li class="separator"></li>
                     <li><a href="#">EN</a></li>
-                </ul>
+                </ul-->
             </div>
         </nav>

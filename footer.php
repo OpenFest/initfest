@@ -5,39 +5,43 @@
                 <div class="col4">
                     <h3>OpenFest</h3>
                     <p>
-                        <a href="#">Начало</a><br />
+                        <?php wp_nav_menu(array('menu' => 'footer-openfest', 'items_wrap' => '%3$s<br/>' )); ?>
+                        <!--a href="#">Начало</a><br />
                         <a href="#">Идеи и препоръки</a><br />
                         <a href="#">За събитието</a><br />
                         <a href="#">Спонсори</a><br />
                         <a href="#">Програма</a><br />
                         <a href="#">Екип</a><br />
                         <a href="#">Историята</a><br />
-                        <a href="#">Контакти</a>
+                        <a href="#">Контакти</a-->
                     </p>
                 </div>
                 <div class="col4">
                     <h3>Програма</h3>
                     <p>
-                        <a href="#">Информация</a><br />
+                        <?php wp_nav_menu(array('menu' => 'footer-schedule', 'items_wrap' => '%3$s<br/>' )); ?>
+                        <!--a href="#">Информация</a><br />
                         <a href="#">Календар</a><br />
-                        <a href="#">Зали</a><br />
+                        <a href="#">Зали</a><br /-->
                     </p>
                 </div>
                 <div class="col4">
                     <h3>Други</h3>
                     <p>
-                        <a href="#">Хотели</a><br />
+                        <?php wp_nav_menu(array('menu' => 'footer-others', 'items_wrap' => '%3$s<br/>' )); ?>
+                        <!--a href="#">Хотели</a><br />
                         <a href="#">Заведения</a><br />
                         <a href="#">Beer Events</a><br />
-                        <a href="#">After party</a><br />
+                        <a href="#">After party</a><br /-->
                     </p>
                 </div>
                 <div class="col4">
                     <h3>Последвайте ни в:</h3>
                     <p>
-                        <a href="#"><i class="fa fa-twitter"></i> Twitter</a><br />
+                        <?php wp_nav_menu(array('menu' => 'footer-follow', 'items_wrap' => '%3$s<br/>' )); ?>
+                        <!--a href="#"><i class="fa fa-twitter"></i> Twitter</a><br />
                         <a href="#"><i class="fa fa-facebook"></i> Facebook</a><br />
-                        <a href="#"><i class="fa fa-youtube"></i> YouTube</a>
+                        <a href="#"><i class="fa fa-youtube"></i> YouTube</a-->
                     </p>
                 </div>
             </div>
