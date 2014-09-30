@@ -33,9 +33,9 @@
                     <li><a href="#">Програма</a></li>
                     <li><a href="#">Контакти</a></li>
                     <li class="separator"></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter">https://twitter.com/openfestbg</i></a></li>
+                    <li><a href="#"><i class="fa fa-facebook">https://www.facebook.com/groups/6360369433</i></a></li>
+                    <li><a href="#"><i class="fa fa-rss"><?php bloginfo('rss2_url'); ?></i></a></li>
                     <li class="separator"></li>
                     <li><a href="#">EN</a></li>
                 </ul>
