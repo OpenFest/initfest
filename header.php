@@ -32,6 +32,6 @@
         </nav>
         <?php 
             if(is_front_page()){
-                echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner.jpg" alt="" /></section>';
+                echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner.png" alt="" /></section>';
             }
         ?>
