@@ -25,21 +25,13 @@
 
         <nav>
             <div class="content cf">
-                <a href="#" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="OpenFest" /></a>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="OpenFest" /></a>
                 
-                <?php wp_nav_menu( array('theme_location' => 'main-menu') ); ?> 
-                <!--ul>
-                    <li><a href="#">Начало</a></li>
-                    <li><a href="#">За събитието</a></li>
-                    <li><a href="#">Спонсори</a></li>
-                    <li><a href="#">Програма</a></li>
-                    <li><a href="#">Контакти</a></li>
-                    <li class="separator"></li>
-                    <li><a href="#"><i class="fa fa-twitter">https://twitter.com/openfestbg</i></a></li>
-                    <li><a href="#"><i class="fa fa-facebook">https://www.facebook.com/groups/6360369433</i></a></li>
-                    <li><a href="#"><i class="fa fa-rss"><?php bloginfo('rss2_url'); ?></i></a></li>
-                    <li class="separator"></li>
-                    <li><a href="#">EN</a></li>
-                </ul-->
+                <?php wp_nav_menu( array('theme_location' => 'main-menu') ); ?>
             </div>
         </nav>
+        <?php 
+            if(is_front_page()){
+                echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner.jpg" alt="" /></section>';
+            }
+        ?>
