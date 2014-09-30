@@ -27,7 +27,7 @@
             <div class="content cf">
                 <a href="#" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="OpenFest" /></a>
                 
-                <?php wp_nav_menu( array('menu' => 'main-menu') ); ?> 
+                <?php wp_nav_menu( array('theme_location' => 'main-menu') ); ?> 
                 <!--ul>
                     <li><a href="#">Начало</a></li>
                     <li><a href="#">За събитието</a></li>
