@@ -12,13 +12,17 @@ register_nav_menus(
 add_shortcode('sh-latest-posts', 'sh_latest_posts');
 
 function sh_latest_posts($atts){
+    $atts = shortcode_atts( array(
+          'cat' => 'news',
+          'label' => __('News', 'initfest')
+      ), $atts );
+    
+    $result = '<div class="separator"></div><section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3>';
+    
     ob_start();
+    
     ?>
-
-<div class="separator"></div>
-
-        <section class="content">
-            <h3>Новини | <small><a href="#">виж всички новини</a></small></h3>
+            
             <div class="grid">
                 <div class="col3">
                     <h4>Разходи за OpenFest 2013</h4>
@@ -61,7 +65,7 @@ function sh_latest_posts($atts){
 
         <div class="separator"></div>
 <?php
-    $result = ob_get_contents();
+    $result .= ob_get_contents();
     ob_end_clean();
     
     return $result;
