@@ -235,16 +235,17 @@ nav ul {
 	margin: 0;
 	padding: 0;
 }
-nav ul > li {
+nav ul li {
+    position: relative;
+}
+
+nav .menu > li {
 	float: left;
 	margin: 0;
 	padding: 0;
 }
-nav ul a {
-	color: #000;
-	text-decoration: none;
-	display: block;
-	padding: 1.5em 0.4em;
+
+nav .menu > li {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -252,9 +253,40 @@ nav ul a {
 	-webkit-transition: border-top 200ms;
 	border-top: 0 solid #FFF;
 }
-nav ul a:hover {
+
+nav .menu > li:hover {
 	border-top: 0.4em solid #A8D6FF;
 }
+
+nav ul a {
+	color: #000;
+	text-decoration: none;
+	display: block;
+	padding: 1.5em 0.4em;
+}
+
+nav ul .sub-menu {
+    display: none;
+    position: absolute;
+    background: #fff;
+    width: 200px;
+    left: 50%;
+    margin-left: -100px;
+    box-shadow: 0 3px 5px -3px #000
+}
+
+nav ul li:hover .sub-menu {
+    display: block;
+    position: absolute;
+}
+
+nav ul .sub-menu  li,
+nav ul .sub-menu  li a { display: block; width: 100%; }
+
+nav ul .sub-menu  li a { padding: 1em 0; text-align: center; }
+
+nav ul .sub-menu  li { border-bottom: 1px solid #ccc; }
+
 nav ul .separator {
 	display: block;
 	width: 0.05em;
@@ -422,6 +454,10 @@ footer {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	background: #ddd;
+}
+
+#copyright { 
+    text-align: center;
 }
 
 /* Sub navigation */
