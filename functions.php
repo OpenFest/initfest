@@ -71,3 +71,51 @@ function sh_latest_posts($atts){
     return $result;
     
 }
+
+# Add support for thumbnais 
+add_theme_support( 'post-thumbnails' );
+
+
+# Create a custom post type for Sponsors
+function create_sponsors_posttype() {
+
+    $labels = array(
+        'name' => __( 'Sponsors' ),
+        'singular_name' => __( 'Sponsor' ),
+        'menu_nam' => __( 'Sponsors'),
+        'all_items' => __( 'All Sponsors' ),
+        'view_item' => __( 'View Sponsor' ),
+        'add_new_item' => __( 'Add New Sponsor' ),
+        'add_new' => __( 'Add New' ),
+        'edit_item' => __( 'Edit Sponsor' ),
+        'update_item' => __( 'Update Sponsor' ),
+        'search_item' => __( 'Search Sponsor' ),
+        'not_found' => __( 'Not Found' ),
+        'not_found_in_trash' => __( 'Not Found In Trash' ),
+    );
+
+    $args =  array(
+        'label' => __( 'sponsors' ),
+        'description' => __( 'Sponsors of OpenFest' ),
+        'labels' => $labels,
+        'supports' => array( 'title', 'excerpt', 'thumbnail', 'custom-fields', ),
+        'hierarchical' => false,
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'show_in_nav_menus' => true,
+        'show_in_admin_bar' => true,
+        'menu_position' => 5,
+        'can_export' => true,
+        'has_archive' => true,
+        'exclude_from_search' => false,
+        'publicly_queryable' => true,
+        'capability_type' => 'post',
+    );
+
+    register_post_type( 'sponsors', $args );
+}
+
+add_action( 'init', create_sponsors_posttype );
+
+?>
