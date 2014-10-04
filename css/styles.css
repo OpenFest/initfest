@@ -456,6 +456,8 @@ footer {
 	background: #ddd;
 }
 
+footer .content li { list-style: none; }
+
 #copyright { 
     text-align: center;
 }
