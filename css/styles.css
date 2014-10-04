@@ -236,7 +236,7 @@ nav ul {
 	padding: 0;
 }
 nav ul li {
-    position: relative;
+	position: relative;
 }
 
 nav .menu > li {
@@ -266,18 +266,18 @@ nav ul a {
 }
 
 nav ul .sub-menu {
-    display: none;
-    position: absolute;
-    background: #fff;
-    width: 200px;
-    left: 50%;
-    margin-left: -100px;
-    box-shadow: 0 3px 5px -3px #000
+	display: none;
+	position: absolute;
+	background: #fff;
+	width: 200px;
+	left: 50%;
+	margin-left: -100px;
+	box-shadow: 0 3px 5px -3px #000
 }
 
 nav ul li:hover .sub-menu {
-    display: block;
-    position: absolute;
+	display: block;
+	position: absolute;
 }
 
 nav ul .sub-menu  li,
@@ -459,7 +459,7 @@ footer {
 footer .content li { list-style: none; }
 
 #copyright { 
-    text-align: center;
+	text-align: center;
 }
 
 /* Sub navigation */
@@ -500,9 +500,9 @@ footer .content li { list-style: none; }
 	float: left;
 	padding: 0.3em;
 	background: #FFF;
-	-moz-box-shadow:    0px 0px 1px 1px #999;
+	-moz-box-shadow:	0px 0px 1px 1px #999;
 	-webkit-box-shadow: 0px 0px 1px 1px #999;
-	box-shadow:         0px 0px 1px 1px #999;
+	box-shadow:			0px 0px 1px 1px #999;
 	margin: 0 1em 2em 0;
 }
 .speaker .icons {
@@ -530,3 +530,4 @@ footer .content li { list-style: none; }
 	display: inline-block;
 	margin: 0 0 2em 0;
 }
+
