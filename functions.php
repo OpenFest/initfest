@@ -1,5 +1,4 @@
 <?php
-
 register_nav_menus(
 	array( 'main-menu' => __( 'Main Menu', 'initfest' ),
 		   'footer-openfest' => __('OpenFest', 'initfest'),
@@ -117,5 +116,23 @@ function create_sponsors_posttype() {
 }
 
 add_action( 'init', create_sponsors_posttype );
+
+
+# Create a custom post type for Tranportation 
+function transportation_posttype() {
+
+        register_post_type( 'transportation',
+            array(
+                'labels' => array(
+                'name' => __( 'Tranportation' ),
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'transportation'),
+        )
+    );
+}
+
+add_action( 'init', 'transportation_posttype' );
 
 ?>
