@@ -179,4 +179,37 @@ function transportation_posttype() {
 
 add_action( 'init', 'transportation_posttype' );
 
+
+# Create shortcode for sponsors
+function sponsors_shortcode() {
+    global $post;
+
+    $output = '';
+
+    $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
+    $sponsors = new WP_Query( $sponsors_args ); 
+
+    if ( $sponsors->have_posts() ) :
+        while ( $sponsors->have_posts() ) : $sponsors->the_post();
+            if ( has_post_thumbnail() ) {
+                $output .= the_post_thumbnail();
+            } else {
+                $output .= get_the_title();
+            }
+        endwhile;
+    endif;
+
+    return $output;
+
+}
+
+
+# Register all shortcodes
+function register_shortcodes(){
+   add_shortcode('sponsors', 'sponsors_shortcode');
+}
+
+add_action( 'init', 'register_shortcodes');
+
+
 ?>

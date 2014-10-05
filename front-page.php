@@ -15,24 +15,7 @@
     </div>
     <div class="col2">
         <h3>Спонсори</h3>
-    <?php
-            $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
-            $sponsors = new WP_Query( $sponsors_args ); 
-
-            if ( $sponsors->have_posts() ) :
-                while ( $sponsors->have_posts() ) : $sponsors->the_post();
-                    if ( has_post_thumbnail() ) {
-    ?>
-        <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
-    <?php
-                    } else {
-    ?>
-        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-    <?php
-                    }
-                endwhile;
-            endif;
-    ?>
+        <?php echo do_shortcode( '[sponsors]' ); ?>
     </div>
 </section>
 
@@ -52,7 +35,7 @@
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
             <p class="info">От <?php the_author(); ?> | Публикувано на <?php the_date(); ?> </p>
             <?php the_excerpt(); ?>
-        <a class="button" href="<?php the_permalink(); ?>">виж цялата новина</a>
+            <a class="button" href="<?php the_permalink(); ?>">виж цялата новина</a>
         </div>
     <?php 
             endwhile;
