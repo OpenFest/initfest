@@ -400,10 +400,15 @@ nav .selected {
 .grid .col-right {
 	width: 30%;
 	float: left;
+    margin-bottom: 2em;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+.grid .col-right .content {
+    width: 100%;
+}
+
 @media all and (max-width: 600px) {
 	.grid .col2, .grid .col3, .grid .col4, .grid .col-left, .grid .col-right {
 		width: 100%;
