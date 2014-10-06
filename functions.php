@@ -1,4 +1,9 @@
 <?php
+
+# Add support for thumbnais 
+add_theme_support( 'post-thumbnails' );
+
+
 register_nav_menus(
 	array( 'main-menu' => __( 'Main Menu', 'initfest' ),
 		   'footer-openfest' => __('OpenFest', 'initfest'),
@@ -16,64 +21,33 @@ function sh_latest_posts($atts){
 		  'label' => __('News', 'initfest')
 	  ), $atts );
 	
-	$result = '<div class="separator"></div><section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3>';
+	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
 	ob_start();
 	
-	?>
-			
-			<div class="grid">
-				<div class="col3">
-					<h4>Разходи за OpenFest 2013</h4>
-					<p class="info">От HACKMAN | Публикувано на: 13.11.2013</p>
-					<p>4913.05 – Зали, озвучаване и техника за презентиране<br />
-					2265.07 – Тениски за посетители, екип и доброволци<br />
-					673.18 – Разходи за вода, чай, кафе, вафли, разколнители, канцеларски материали<br />
-					2442.00 – Транспорт, хотел и вечеря за лекторите<br />
-					397.00 – Закуска и обяд за екипа в двата дни ...</p>
-					<a href="#" class="button">виж цялата новина</a>
-				</div>
-				<div class="col3">
-					<h4>2013 Network Stats</h4>
-					<p class="info">От HACKMAN | Публикувано на: 13.11.2013</p>
-					<p>Удостоверили и сме им раздали 1841 уникални потребителски IP версия 4
-адреси и 1356 IPv6 адреси!<br />Максимума едновременно работещи потребители върху всичките 4 AP-та е 326
-устройства и е направен на 2.11.2013 в 15:33
-– Зала Варна 2.4GHz 11ng = 44
-– Лоби 2.4GHz 11ng = 85 ...</p>
-					<a href="#" class="button">виж цялата новина</a>
-				</div>
-				<div class="col3">
-					<h4>Статистика за Бирата</h4>
-					<p class="info">От HACKMAN | Публикувано на: 13.11.2013</p>
-					<p>418х Старопрамен наливно 0.500мл<br />
-97х Каменица 0.500мл<br />
-62х Бекс<br />
-48х Старопрамен бутилка 0.500мл<br />
-34х Стела Артоа<br />
-29х Каменица тъмно<br />
-29х Ла Трап<br />
-23х Корона<br />
-23х Гинес<br />
-23х ХопГоблин<br />
-13х Трупър ...</p>
-					<a href="#" class="button">виж цялата новина</a>
-				</div>
-			</div>
-		</section>
+	$news_args = array( 'catecory_name' => $cat, 'numberposts' => 3  );
+	$news = new WP_Query( $news_args ); 
 
-		<div class="separator"></div>
-<?php
+	if ( $news->have_posts() ) :
+		while ( $news->have_posts() ) : $news->the_post();
+?>
+        <div class="col3">
+            <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+            <p class="info">От <?php the_author(); ?> | Публикувано на <?php the_date(); ?> </p>
+            <?php the_excerpt(); ?>
+            <a class="button" href="<?php the_permalink(); ?>">виж цялата новина</a>
+        </div>
+<?php 
+		endwhile;
+	endif;
+
 	$result .= ob_get_contents();
+	$result .='</div></section>';
 	ob_end_clean();
 	
 	return $result;
 	
 }
-
-# Add support for thumbnais 
-add_theme_support( 'post-thumbnails' );
-
 
 # Create a custom post type for Sponsors
 function create_sponsors_posttype() {
@@ -182,8 +156,6 @@ add_action( 'init', 'transportation_posttype' );
 
 # Create shortcode for sponsors
 function sponsors_shortcode() {
-    global $post;
-
     $output = '';
 
     $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );

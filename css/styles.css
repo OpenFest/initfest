@@ -447,7 +447,7 @@ h4 {
 /* Footer */
 
 footer {
-	margin: 2em 0 0 0;
+	margin: -0.3em 0 0;
 	padding-top: 1em;
 	padding-bottom: 1em;
 	-webkit-box-sizing: border-box;
@@ -531,3 +531,8 @@ footer .content li { list-style: none; }
 	margin: 0 0 2em 0;
 }
 
+/* Plugins */
+.gmp_map_opts {
+	float: none !important;
+    margin-top: 1em;
+}. 
