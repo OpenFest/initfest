@@ -5,6 +5,8 @@ Template Name: Sponsors
 
 get_header(); ?>
 <section class="content">
+    <h1><?php the_title(); ?></h1>
+    <div class="separator"></div>
 <?php
     if ( have_posts() ) : while ( have_posts() ) : the_post(); 
         the_content();
@@ -29,7 +31,7 @@ get_header(); ?>
                     the_title();
                 }
 
-                the_content();
+                the_excerpt();
 ?>
     </div>
 <?php

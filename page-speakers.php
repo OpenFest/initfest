@@ -1,8 +1,4 @@
 <?php
-/*
-Template Name: Speakers 
- */
-
 get_header(); ?>
 <div class="separator"></div>
 <section class="content grid">
@@ -36,7 +32,7 @@ get_header(); ?>
         endif;
     ?>
     </div>
-    <div class="col-right"><?php get_sidebar(); ?></div>
+    <?php # get_sidebar(); ?>
 </section>
 
 <?php get_footer(); ?>

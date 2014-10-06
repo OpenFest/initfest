@@ -473,10 +473,14 @@ footer .content li { list-style: none; }
 	list-style: none;
 	padding-left: 0;
 }
+.subnav .menu {
+    margin-left: -2.2em;
+}
 .subnav li {
 	float: left;
 	padding: 0;
 	margin: 0 1em 0 0;
+    list-style: none outside;
 }
 .subnav li.selected {
 	font-weight: bold;

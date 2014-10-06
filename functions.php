@@ -6,6 +6,7 @@ add_theme_support( 'post-thumbnails' );
 
 register_nav_menus(
 	array( 'main-menu' => __( 'Main Menu', 'initfest' ),
+           'subnav-menu' => __( 'Sub Navigation', 'initfest'),
 		   'footer-openfest' => __('OpenFest', 'initfest'),
 		   'footer-openfest' => __('OpenFest', 'initfest'),
 		   'footer-schedule' => __('Schedule', 'initfest'),
@@ -99,7 +100,8 @@ function transport_shortcode() {
     if ( $transport->have_posts() ) :
         while ( $transport->have_posts() ) : $transport->the_post();
 ?>
-    <p><?php the_title(); ?> <br /> <?php the_content(); ?></p>
+    <h4><?php the_title(); ?></h4>
+    <p><?php the_content(); ?></p>
 <?php 
         endwhile;
     endif;
