@@ -13,7 +13,16 @@ register_nav_menus(
 		   'footer-followus' => __('Follow us in:', 'initfest') )
 );
 
-add_shortcode('sh-latest-posts', 'sh_latest_posts');
+
+# Register all shortcodes
+function register_shortcodes(){
+    add_shortcode('sh-latest-posts', 'sh_latest_posts');
+    add_shortcode('sponsors', 'sponsors_shortcode');
+    add_shortcode('transport', 'transport_shortcode');
+}
+
+add_action( 'init', 'register_shortcodes');
+
 
 function sh_latest_posts($atts){
 	$atts = shortcode_atts( array(
@@ -23,10 +32,11 @@ function sh_latest_posts($atts){
 	
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
-	ob_start();
 	
 	$news_args = array( 'catecory_name' => $cat, 'numberposts' => 3  );
 	$news = new WP_Query( $news_args ); 
+
+	ob_start();
 
 	if ( $news->have_posts() ) :
 		while ( $news->have_posts() ) : $news->the_post();
@@ -48,6 +58,62 @@ function sh_latest_posts($atts){
 	return $result;
 	
 }
+
+
+# Create shortcode for sponsors
+function sponsors_shortcode() {
+    $result= '<h3>Спонсори</h3>';
+
+    
+    $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
+    $sponsors = new WP_Query( $sponsors_args ); 
+
+	ob_start();
+
+    if ( $sponsors->have_posts() ) :
+        while ( $sponsors->have_posts() ) : $sponsors->the_post();
+            if ( has_post_thumbnail() ) {
+                the_post_thumbnail();
+            } else {
+                get_the_title();
+            }
+        endwhile;
+    endif;
+
+	$result .= ob_get_contents();
+	ob_end_clean();
+
+    return $result;
+}
+
+
+# Create shortcode for transport methods 
+function transport_shortcode() {
+    $result= '<section class="content"><h3>Място: Интерпред, София, България</h3>';
+
+    $transport_args = array( 'post_type' => 'transportation' );
+    $transport = new WP_Query( $transport_args ); 
+
+	ob_start();
+
+    if ( $transport->have_posts() ) :
+        while ( $transport->have_posts() ) : $transport->the_post();
+?>
+    <p><?php the_title(); ?> <br /> <?php the_content(); ?></p>
+<?php 
+        endwhile;
+    endif;
+?>
+</section>
+<?php
+    echo do_shortcode( '[ready_google_map id="1" map_language="en" type="HYBRID" align="right"]' ); 
+
+    $result .= ob_get_contents();
+	ob_end_clean();
+
+    return $result;
+}
+
 
 # Create a custom post type for Sponsors
 function create_sponsors_posttype() {
@@ -135,7 +201,6 @@ function create_speakers_posttype() {
 add_action( 'init', create_speakers_posttype );
 
 
-
 # Create a custom post type for Tranportation 
 function transportation_posttype() {
 
@@ -152,36 +217,5 @@ function transportation_posttype() {
 }
 
 add_action( 'init', 'transportation_posttype' );
-
-
-# Create shortcode for sponsors
-function sponsors_shortcode() {
-    $output = '';
-
-    $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
-    $sponsors = new WP_Query( $sponsors_args ); 
-
-    if ( $sponsors->have_posts() ) :
-        while ( $sponsors->have_posts() ) : $sponsors->the_post();
-            if ( has_post_thumbnail() ) {
-                $output .= the_post_thumbnail();
-            } else {
-                $output .= get_the_title();
-            }
-        endwhile;
-    endif;
-
-    return $output;
-
-}
-
-
-# Register all shortcodes
-function register_shortcodes(){
-   add_shortcode('sponsors', 'sponsors_shortcode');
-}
-
-add_action( 'init', 'register_shortcodes');
-
 
 ?>
