@@ -534,5 +534,5 @@ footer .content li { list-style: none; }
 /* Plugins */
 .gmp_map_opts {
 	float: none !important;
-    margin-top: 1em;
+    margin-top: 2em !important;
 }. 
