@@ -63,7 +63,7 @@ function sh_latest_posts($atts){
 
 # Create shortcode for sponsors
 function sponsors_shortcode() {
-    $result= '<h3>Спонсори</h3>';
+    $result= '<h3>'.pll__('Спонсори').'</h3>';
 
     
     $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
@@ -90,7 +90,7 @@ function sponsors_shortcode() {
 
 # Create shortcode for transport methods 
 function transport_shortcode() {
-    $result= '<section class="content"><h3>Място: Интерпред, София, България</h3>';
+    $result= '<section class="content"><h3>'.pll__('Място').': '.pll__('Интерпред, София, България').'</h3>';
 
     $transport_args = array( 'post_type' => 'transportation' );
     $transport = new WP_Query( $transport_args ); 
@@ -219,5 +219,15 @@ function transportation_posttype() {
 }
 
 add_action( 'init', 'transportation_posttype' );
+pll_register_string('Schedule','Програма');
+pll_register_string('Others','Други');
+pll_register_string('follow','Последвайте ни в:');
+pll_register_string('venue','Интерпред, София, България');
+pll_register_string('venue_w','Място');
+pll_register_string('sponsors_w','Спонсори');
+pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
+
+
+
 
 ?>

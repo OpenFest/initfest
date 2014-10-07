@@ -9,19 +9,19 @@
 					</p>
 				</div>
 				<div class="col4">
-					<h3>Програма</h3>
+				<h3><?php pll_e('Програма')?></h3>
 					<p>
 						<?php wp_nav_menu(array('theme_location' => 'footer-schedule', 'items_wrap' => '%3$s<br/>' )); ?>
 					</p>
 				</div>
 				<div class="col4">
-					<h3>Други</h3>
+				<h3><?php pll_e('Други')?></h3>
 					<p>
 						<?php wp_nav_menu(array('theme_location' => 'footer-others', 'items_wrap' => '%3$s<br/>' )); ?>
 					</p>
 				</div>
 				<div class="col4">
-					<h3>Последвайте ни в:</h3>
+				<h3><?php pll_e('Последвайте ни в:')?></h3>
 					<p>
 						<?php wp_nav_menu(array('theme_location' => 'footer-followus', 'items_wrap' => '%3$s<br/>' )); ?>
 					</p>
