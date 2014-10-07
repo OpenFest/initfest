@@ -258,6 +258,11 @@ nav .menu > li:hover {
 	border-top: 0.4em solid #A8D6FF;
 }
 
+.menu li.fa::before {
+	display: block;
+	padding: 30px 4px 0 4px;
+}
+
 nav ul a {
 	color: #000;
 	text-decoration: none;
