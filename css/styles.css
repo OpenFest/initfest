@@ -263,6 +263,17 @@ nav .menu > li:hover {
 	padding: 30px 4px 0 4px;
 }
 
+
+.menu li.fa a {
+	padding-top: 0;
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	height: 52px;
+	width: 10px;
+}
+
 nav ul a {
 	color: #000;
 	text-decoration: none;
