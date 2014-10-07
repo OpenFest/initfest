@@ -31,7 +31,7 @@
 			</div>
 		</nav>
 		<?php 
-			if(is_front_page()){
+			if($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2'){
 				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner.png" alt="" /></section>';
 			}
 		?>
