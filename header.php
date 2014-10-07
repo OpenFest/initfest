@@ -31,7 +31,7 @@
 			</div>
 		</nav>
 		<?php 
-			if($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2'){
+			if(openfest_home_page()){
 				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner.png" alt="" /></section>';
 			}
 		?>

@@ -218,6 +218,10 @@ function transportation_posttype() {
     );
 }
 
+function openfest_home_page() {
+	return !($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2');
+}
+
 add_action( 'init', 'transportation_posttype' );
 pll_register_string('Schedule','Програма');
 pll_register_string('Others','Други');
