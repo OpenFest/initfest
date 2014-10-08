@@ -12,7 +12,7 @@
 <div class="separator"></div>
 
 <section class="content">
-	<?php echo do_shortcode( '[sh-latest-posts cat="news" label="Новини"]' ); ?>
+	<?php echo do_shortcode( '[sh-latest-posts cat="news" label="'.pll__('Новини').'"]' ); ?>
 </section>
 
 <div class="separator"></div>

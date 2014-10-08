@@ -44,9 +44,9 @@ function sh_latest_posts($atts){
 ?>
         <div class="col3">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-            <p class="info">От <?php the_author(); ?> | Публикувано на <?php the_date(); ?> </p>
+			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
             <?php the_excerpt(); ?>
-            <a class="button" href="<?php the_permalink(); ?>">виж цялата новина</a>
+	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
         </div>
 <?php 
 		endwhile;
@@ -230,8 +230,11 @@ pll_register_string('venue','Интерпред, София, България');
 pll_register_string('venue_w','Място');
 pll_register_string('sponsors_w','Спонсори');
 pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
+pll_register_string('publishedon','Публикувано на');
+pll_register_string('by_w','От');
+pll_register_string('see_whole_news','виж цялата новина');
+pll_register_string('news','Новини');
 
 
 
-
-?>
+	?>
