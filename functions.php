@@ -34,13 +34,13 @@ function sh_latest_posts($atts){
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
 	
-	$news_args = array( 'catecory_name' => $cat, 'numberposts' => 3  );
+	$news_args = array( 'category_name' => $cat, 'numberposts' => 3  );
 	$news = new WP_Query( $news_args ); 
 
 	ob_start();
-
+	$i=0;
 	if ( $news->have_posts() ) :
-		while ( $news->have_posts() ) : $news->the_post();
+		while ( $news->have_posts() && $i++<3) : $news->the_post();
 ?>
         <div class="col3">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
