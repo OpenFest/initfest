@@ -1,17 +1,11 @@
 <?php
 get_header(); 
 
-if ( $pagename == 'about' ||
-     $pagename == 'about-3' ||
-     $pagename == 'ideas-and-recommendations' ||
-     $pagename == 'feedback' ||
-     $pagename == 'team' ||
-     $pagename == 'team-2' ||
-	 $pagename == 'history' ||
-     $pagename == 'history-2') {
+/* Some special pages (the ones describing the event, team, etc. need a special submenu */
+if ( preg_match('/^(about|ideas-and-recommendations|feedback|team|history)/', $pagename) ) {
     wp_nav_menu( array( 'theme_location' => 'subnav-menu', 'container_class' => 'content subnav cf' ) );
     echo '<div class="separator"></div>';
-	 }
+}
 
 if (openfest_home_page()) {
 	$coldiv1='';
