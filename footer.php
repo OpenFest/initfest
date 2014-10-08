@@ -1,6 +1,6 @@
 		<div class="clear"></div>
 
-		<footer>
+		<footer class="clear">
 			<div class="content grid">
 				<div class="col4">
 					<h3>OpenFest</h3>
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<div id="copyright">
-			<?php echo sprintf( __( '%1$s %2$s %3$s. Some Rights Reserved.', 'initfest' ), '&copy;', date( 'Y' ), esc_html( get_bloginfo( 'name' ) ) ); ?>
+			<?php echo sprintf( __( '%1$s %2$s %3$s. Some Rights Reserved.', 'initfest' ), '&copy;', date( 'Y' ), 'OpenFest' ); ?>
 			</div>
 		</footer>
 		<?php wp_footer(); ?>

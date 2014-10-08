@@ -400,10 +400,15 @@ nav .selected {
 .grid .col-right {
 	width: 30%;
 	float: left;
+    margin-bottom: 2em;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+.grid .col-right .content {
+    width: 100%;
+}
+
 @media all and (max-width: 600px) {
 	.grid .col2, .grid .col3, .grid .col4, .grid .col-left, .grid .col-right {
 		width: 100%;
@@ -447,7 +452,7 @@ h4 {
 /* Footer */
 
 footer {
-	margin: 2em 0 0 0;
+	margin: -0.3em 0 0;
 	padding-top: 1em;
 	padding-bottom: 1em;
 	-webkit-box-sizing: border-box;
@@ -468,10 +473,14 @@ footer .content li { list-style: none; }
 	list-style: none;
 	padding-left: 0;
 }
+.subnav .menu {
+    margin-left: -2.2em;
+}
 .subnav li {
 	float: left;
 	padding: 0;
 	margin: 0 1em 0 0;
+    list-style: none outside;
 }
 .subnav li.selected {
 	font-weight: bold;
@@ -531,3 +540,8 @@ footer .content li { list-style: none; }
 	margin: 0 0 2em 0;
 }
 
+/* Plugins */
+.gmp_map_opts {
+	float: none !important;
+    margin-top: 2em !important;
+}. 
