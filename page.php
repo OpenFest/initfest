@@ -2,12 +2,16 @@
 get_header(); 
 
 if ( $pagename == 'about' ||
+     $pagename == 'about-3' ||
      $pagename == 'ideas-and-recommendations' ||
+     $pagename == 'feedback' ||
      $pagename == 'team' ||
-     $pagename == 'history' ) {
+     $pagename == 'team-2' ||
+	 $pagename == 'history' ||
+     $pagename == 'history-2') {
     wp_nav_menu( array( 'theme_location' => 'subnav-menu', 'container_class' => 'content subnav cf' ) );
     echo '<div class="separator"></div>';
-}
+	 }
 
 if (openfest_home_page()) {
 	$coldiv1='';
