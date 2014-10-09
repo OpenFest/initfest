@@ -561,3 +561,47 @@ footer .content li { list-style: none; }
 	float: none !important;
     margin-top: 2em !important;
 }. 
+
+
+/*********************************************
+ * GLOBAL STYLES (Small style changes)
+ *********************************************/
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.8em; }
+h3 { font-size: 1.6em; }
+h4 { font-size: 1.4em; }
+h5 { font-size: 1.2em; }
+h6 { font-size: 1.0em; }
+
+h1 h2 h3 h4 h5 h6 { font-weight: normal; }
+
+a { color: #428bca; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+/*********************************************
+ * Navigation
+ *********************************************/
+
+nav .menu > li { margin: 1px 10px; }
+
+/*********************************************
+ * Tagline & Sponsors 
+ *********************************************/
+
+.col2.tagline { width: 70%; }
+
+.col2.sponsors { width: 30%; }
+
+.separator { margin: 2.4em 0; height: 1px; background: #DBDBDB; }
+
+section.content.grid.homepage { margin-top: 2em; }
+
+h4 { margin: 1em 0; }
+
+a.footer { color: #333; }
+
+a.button { text-decoration: none; color: #333; }
+
+a.button:hover { opacity: 0.8; }
