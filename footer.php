@@ -1,7 +1,7 @@
 		<div class="clear"></div>
 
 		<footer class="clear">
-			<div class="content grid">
+			<div class="content grid footer">
 				<div class="col4">
 					<h3>OpenFest</h3>
 					<p>
