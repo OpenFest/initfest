@@ -222,19 +222,35 @@ function openfest_home_page() {
 	return !($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2');
 }
 
-add_action( 'init', 'transportation_posttype' );
-pll_register_string('Schedule','Програма');
-pll_register_string('Others','Други');
-pll_register_string('follow','Последвайте ни в:');
-pll_register_string('venue','Интерпред, София, България');
-pll_register_string('venue_w','Място');
-pll_register_string('sponsors_w','Спонсори');
-pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
-pll_register_string('publishedon','Публикувано на');
-pll_register_string('by_w','От');
-pll_register_string('see_whole_news','виж цялата новина');
-pll_register_string('news','Новини');
+function of_get_lang() {
+	if (function_exists("pll_current_language"))
+		return pll_current_language('slug');
+	else
+		return 'bg';
+}
 
+function e_($word) {
+	if (function_exists("pll_e"))
+		return pll_e($word);
+	else
+		echo $word;
+}
+
+add_action( 'init', 'transportation_posttype' );
+
+if (function_exists("pll_register_string")) {
+	pll_register_string('Schedule','Програма');
+	pll_register_string('Others','Други');
+	pll_register_string('follow','Последвайте ни в:');
+	pll_register_string('venue','Интерпред, София, България');
+	pll_register_string('venue_w','Място');
+	pll_register_string('sponsors_w','Спонсори');
+	pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
+	pll_register_string('publishedon','Публикувано на');
+	pll_register_string('by_w','От');
+	pll_register_string('see_whole_news','виж цялата новина');
+	pll_register_string('news','Новини');
+}
 
 
 	?>
