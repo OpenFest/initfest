@@ -560,7 +560,7 @@ footer .content li { list-style: none; }
 .gmp_map_opts {
 	float: none !important;
     margin-top: 2em !important;
-}. 
+} 
 
 
 /*********************************************
@@ -574,7 +574,7 @@ h4 { font-size: 1.4em; }
 h5 { font-size: 1.2em; }
 h6 { font-size: 1.0em; }
 
-h1 h2 h3 h4 h5 h6 { font-weight: normal; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
 
 a { color: #428bca; text-decoration: none; }
 a:hover { text-decoration: underline; }
