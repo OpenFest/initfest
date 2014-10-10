@@ -34,7 +34,7 @@ function sh_latest_posts($atts){
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
 	
-	$news_args = array( 'category_name' => $cat, 'numberposts' => 3  );
+	$news_args = array( 'category_name' => 'news', 'numberposts' => 3, 'lang' => of_get_lang() );
 	$news = new WP_Query( $news_args ); 
 
 	ob_start();
@@ -157,7 +157,7 @@ function create_sponsors_posttype() {
 	register_post_type( 'sponsors', $args );
 }
 
-add_action( 'init', create_sponsors_posttype );
+add_action( 'init', 'create_sponsors_posttype' );
 
 
 # Create a custom post type for Speakers 
@@ -200,7 +200,7 @@ function create_speakers_posttype() {
 	register_post_type( 'speakers', $args );
 }
 
-add_action( 'init', create_speakers_posttype );
+add_action( 'init', 'create_speakers_posttype' );
 
 
 # Create a custom post type for Tranportation 
@@ -219,6 +219,7 @@ function transportation_posttype() {
 }
 
 function openfest_home_page() {
+	if (empty($wp))  {return true;} ;
 	return !($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2');
 }
 
