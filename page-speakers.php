@@ -1,11 +1,15 @@
 <?php
+/*
+* Template Name: Speakers
+*/
+
 get_header(); ?>
 <div class="separator"></div>
 <section class="content grid">
     <div class="col-left">
         <h1 class="big">Лектори</h1>
     <?php
-        $speakers_args = array( 'post_type' => 'speakers' );
+        $speakers_args = array( 'post_type' => 'speakers', 'nopaging' => 'true', 'order' => 'ASC' );
         $speakers = new WP_Query( $speakers_args ); 
 
         if ( $speakers->have_posts() ) :
@@ -14,10 +18,10 @@ get_header(); ?>
         <div class="speaker">
     <?php
                 if ( has_post_thumbnail() ) {
-                    the_post_thumbnail();
+                    the_post_thumbnail(array(100, 100));
                 } else {
     ?>
-            <img src="img/speakers.jpg">
+            <img src="/img/speaker.jpg">
     <?php
                 }
     ?>
