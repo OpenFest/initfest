@@ -529,7 +529,7 @@ footer .content li { list-style: none; }
 	display: block;
 }
 .speaker > img {
-	width: 100px;
+/*  width: 100px; */
 	float: left;
 	padding: 0.3em;
 	background: #FFF;
