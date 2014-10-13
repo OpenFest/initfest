@@ -663,3 +663,74 @@ a.button:hover { opacity: 0.8; }
 .program table td, .program table th {
         padding: 1em 0;
 }
+/*********************************************
+ * Team members
+ *********************************************/
+.schedule {
+	width: 100%;
+	font-size: 0.8em;
+	margin: 0 0 3em 0;
+	clear: both;
+}
+.schedule-legend {
+	width: 300px;
+}
+.schedule th, .schedule td {
+	border-bottom: 1px solid #000;
+	border-right: 1px dotted #999;
+	padding: 0.6em 0.4em;
+	text-align: center;
+	vertical-align: middle;
+}
+.schedule-legend td {
+	padding: 0.4em;
+}
+.schedule tr td:first-child {
+	min-width: 82px;
+}
+.schedule-day {
+	font-weight: bold;
+}
+.schedule-empty {
+	background: #FFF;
+}
+.schedule-social {
+	background: #EDD7A7;
+}
+.schedule-technical {
+	background: #A4D183;
+}
+.schedule-workshop {
+	background: #E2E0E9;
+}
+.schedule-english::after {
+	content: " ";
+	background: url('../img/en_US.png');
+	width: 16px;
+	height: 11px;
+	display: block;
+	margin: 0.3em auto 0.3em auto;
+}
+.schedule-bg::after {
+	content: " ";
+	background: url('../img/bg_BG.png');
+	width: 16px;
+	height: 11px;
+	display: block;
+	margin: 0.3em auto 0.3em auto;
+}
+.schedule-civic {
+	background: #E8AAAB;
+}
+.schedule-advanced-technical {
+	background: #91C4DF;
+}
+.schedule-open-biz {
+	background: #DECDCB;
+}
+.schedule-misc {
+	background: #B0E9EC;
+}
+.schedule-open-art {
+	background: #ED9134;
+}
