@@ -636,3 +636,30 @@ a.button:hover { opacity: 0.8; }
 .member span {
 	display: block;
 }
+
+/* from the old site */
+.program a:visited {
+    color:#004B91;
+}
+
+.program table {
+        width: 99%;
+}
+
+.program h2 {
+}
+
+.program table, .program td, .program tr, .program th {
+        border: 0;
+}
+.program table td.time {
+        width: 130px;
+		vertical-align: baseline;
+}
+.program table caption {
+        font-size: 120%;
+        font-weight: bold;
+}
+.program table td, .program table th {
+        padding: 1em 0;
+}
