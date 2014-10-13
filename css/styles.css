@@ -706,7 +706,7 @@ a.button:hover { opacity: 0.8; }
 .schedule-workshop {
 	background: #E2E0E9;
 }
-.schedule-english::after {
+.schedule-en::after {
 	content: " ";
 	background: url('../img/en_US.png');
 	width: 16px;
