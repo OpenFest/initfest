@@ -5,7 +5,7 @@
 				<div class="col4">
 					<h3>OpenFest</h3>
 					<p>
-						<?php wp_nav_menu(array('theme_location' => 'footer-openfest', 'items_wrap' => '%3$s<br/>' )); ?>
+						<?php wp_nav_menu(array('theme_location' => 'footer-openfest', 'items_wrap' => '%3$s' )); ?>
 					</p>
 				</div>
 				<div class="col4">
