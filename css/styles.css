@@ -659,6 +659,9 @@ a.button:hover { opacity: 0.8; }
 .schedule-legend td {
 	padding: 0.4em;
 }
+.schedule a {
+	color: #000;
+}
 .schedule tr td:first-child {
 	min-width: 82px;
 }
