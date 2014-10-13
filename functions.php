@@ -34,7 +34,7 @@ function sh_latest_posts($atts){
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
 	
-	$news_args = array( 'category_name' => $cat, 'numberposts' => 3  );
+	$news_args = array( 'category_name' => 'news', 'numberposts' => 3, 'lang' => of_get_lang() );
 	$news = new WP_Query( $news_args ); 
 
 	ob_start();
@@ -157,7 +157,7 @@ function create_sponsors_posttype() {
 	register_post_type( 'sponsors', $args );
 }
 
-add_action( 'init', create_sponsors_posttype );
+add_action( 'init', 'create_sponsors_posttype' );
 
 
 # Create a custom post type for Speakers 
@@ -200,7 +200,7 @@ function create_speakers_posttype() {
 	register_post_type( 'speakers', $args );
 }
 
-add_action( 'init', create_speakers_posttype );
+add_action( 'init', 'create_speakers_posttype' );
 
 
 # Create a custom post type for Tranportation 
@@ -219,22 +219,68 @@ function transportation_posttype() {
 }
 
 function openfest_home_page() {
+	if (empty($wp))  {return true;} ;
 	return !($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2');
 }
 
-add_action( 'init', 'transportation_posttype' );
-pll_register_string('Schedule','Програма');
-pll_register_string('Others','Други');
-pll_register_string('follow','Последвайте ни в:');
-pll_register_string('venue','Интерпред, София, България');
-pll_register_string('venue_w','Място');
-pll_register_string('sponsors_w','Спонсори');
-pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
-pll_register_string('publishedon','Публикувано на');
-pll_register_string('by_w','От');
-pll_register_string('see_whole_news','виж цялата новина');
-pll_register_string('news','Новини');
+function of_get_lang() {
+	if (function_exists("pll_current_language"))
+		return pll_current_language('slug');
+	else
+		return 'bg';
+}
 
+function e_($word) {
+	if (function_exists("pll_e"))
+		return pll_e($word);
+	else
+		echo $word;
+}
+
+function pn_get_attachment_id_from_url( $attachment_url = '' ) {
+ 
+	global $wpdb;
+	$attachment_id = false;
+ 
+	// If there is no url, return.
+	if ( '' == $attachment_url )
+		return;
+ 
+	// Get the upload directory paths
+	$upload_dir_paths = wp_upload_dir();
+ 
+	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
+	if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
+ 
+		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
+		$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
+ 
+		// Remove the upload path base directory from the attachment URL
+		$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
+ 
+		// Finally, run a custom database query to get the attachment ID from the modified attachment URL
+		$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+ 
+	}
+ 
+	return $attachment_id;
+}
+add_action( 'init', 'transportation_posttype' );
+
+if (function_exists("pll_register_string")) {
+	pll_register_string('Schedule','Програма');
+	pll_register_string('Others','Други');
+	pll_register_string('follow','Последвайте ни в:');
+	pll_register_string('venue','Интерпред, София, България');
+	pll_register_string('venue_w','Място');
+	pll_register_string('sponsors_w','Спонсори');
+	pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
+	pll_register_string('publishedon','Публикувано на');
+	pll_register_string('by_w','От');
+	pll_register_string('see_whole_news','виж цялата новина');
+	pll_register_string('news','Новини');
+}
 
 
 	?>
+
