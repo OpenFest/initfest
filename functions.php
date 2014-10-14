@@ -34,7 +34,7 @@ function sh_latest_posts($atts){
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
 	
-	$news_args = array( 'category_name' => 'news', 'numberposts' => 3, 'lang' => of_get_lang() );
+	$news_args = array( 'category_name' => 'news,news-bg', 'numberposts' => 3, 'lang' => of_get_lang() );
 	$news = new WP_Query( $news_args ); 
 
 	ob_start();
