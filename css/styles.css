@@ -485,10 +485,30 @@ footer {
 	background: #ddd;
 }
 
-footer .content li { list-style: none; }
+footer h3 {
+  font-weight: bold;
+  font-size: 1em;
+}
 
-#copyright { 
-	text-align: center;
+footer .content li {
+  list-style: none;
+  margin-bottom: 11px;
+}
+
+footer .content li a {
+  margin-left: 4px;
+  color: #000;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+#copyright {
+  width: 75%;
+  margin: 15px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid #999;
+  text-align: center;
+  font-size: 16px;
 }
 
 /* Sub navigation */
@@ -567,7 +587,7 @@ footer .content li { list-style: none; }
 .gmp_map_opts {
 	float: none !important;
     margin-top: 2em !important;
-} 
+}
 
 
 /*********************************************
@@ -594,7 +614,7 @@ a:hover { text-decoration: underline; }
 nav .menu > li { margin: 1px 10px; }
 
 /*********************************************
- * Tagline & Sponsors 
+ * Tagline & Sponsors
  *********************************************/
 
 .col2.tagline { width: 70%; }
