@@ -74,7 +74,7 @@ function sponsors_shortcode() {
     if ( $sponsors->have_posts() ) :
         while ( $sponsors->have_posts() ) : $sponsors->the_post();
             if ( has_post_thumbnail() ) {
-                the_post_thumbnail();
+                the_post_thumbnail(array(100, 100));
             } else {
                 get_the_title();
             }
