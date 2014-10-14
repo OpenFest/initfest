@@ -686,7 +686,11 @@ a.button:hover { opacity: 0.8; }
 	padding: 0.4em;
 }
 .schedule a {
+	border-bottom: dotted 1px #000;
 	color: #000;
+}
+.schedule a:hover {
+	border-bottom: none;
 }
 .schedule tr td:first-child {
 	min-width: 82px;
