@@ -16,7 +16,7 @@ get_header(); ?>
 <div class="separator"></div>
 <section class="content grid sponsors-item">
 <?php
-        $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
+        $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand', 'nopaging' => 'true' );
         $sponsors = new WP_Query( $sponsors_args ); 
         $sponsor_count = 0;
 

@@ -67,7 +67,7 @@ function sponsors_shortcode() {
     $result= '<h3>'.pll__('Спонсори').'</h3>';
 
     
-    $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
+    $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand', 'nopaging' => 'true');
     $sponsors = new WP_Query( $sponsors_args ); 
 
 	ob_start();
@@ -102,7 +102,7 @@ function partners_shortcode() {
 	$result= '<h3>'.pll__('Партньори').'</h3>';
 
 	
-	$sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
+	$sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand', 'nopaging' => 'true' );
 	$sponsors = new WP_Query( $sponsors_args ); 
 
 	ob_start();
