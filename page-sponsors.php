@@ -26,7 +26,7 @@ get_header(); ?>
     <div class="col2 tac">
 <?php 
                 if ( has_post_thumbnail() ) {
-                    the_post_thumbnail();
+                    the_post_thumbnail(array(100, 100));
                 } else {
                     the_title();
                 }
