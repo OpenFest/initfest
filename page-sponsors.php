@@ -24,13 +24,21 @@ get_header(); ?>
             while ( $sponsors->have_posts() ) : $sponsors->the_post();
 ?>
     <div class="col2 tac">
-<?php 
+<?php
+	            $custom = get_post_custom();
+				if (!empty ($custom['url'])) {
+					echo '<a href="'.$custom['url'][0].'" target=_blank alt="'.get_the_title().'">';
+				}
+
                 if ( has_post_thumbnail() ) {
                     the_post_thumbnail();
                 } else {
                     the_title();
                 }
 
+				if (!empty ($custom['url'])) {
+					echo '</a>';
+				}
                 the_excerpt();
 ?>
     </div>
