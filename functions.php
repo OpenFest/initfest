@@ -19,6 +19,7 @@ register_nav_menus(
 function register_shortcodes(){
     add_shortcode('sh-latest-posts', 'sh_latest_posts');
     add_shortcode('sponsors', 'sponsors_shortcode');
+    add_shortcode('partners', 'partners_shortcode');
     add_shortcode('transport', 'transport_shortcode');
 }
 
@@ -71,23 +72,59 @@ function sponsors_shortcode() {
 
 	ob_start();
 
-    if ( $sponsors->have_posts() ) :
-        while ( $sponsors->have_posts() ) : $sponsors->the_post();
+	if ( $sponsors->have_posts() ) :
+		while ( $sponsors->have_posts() ) : $sponsors->the_post();
 			$custom = get_post_custom();
-				if (!empty ($custom['url'])) {
+			if (empty($custom['partner'])) {
+				if (empty ($custom['url'])) {
 					echo '<a href="'.$custom['url'][0].'" target=_blank alt="'.get_the_title().'">';
 				}
-            if ( has_post_thumbnail() ) {
-                the_post_thumbnail();
-            } else {
-                get_the_title();
-            }
+				if ( has_post_thumbnail() ) {
+					the_post_thumbnail();
+				} else {
+					get_the_title();
+				}
 				if (!empty ($custom['url'])) {
 					echo '</a>';
 				}
+			}
+		endwhile;
+	endif;
 
-        endwhile;
-    endif;
+	$result .= ob_get_contents();
+	ob_end_clean();
+
+	return $result;
+}
+
+# Create shortcode for partners
+function partners_shortcode() {
+	$result= '<h3>'.pll__('Партньори').'</h3>';
+
+	
+	$sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand' );
+	$sponsors = new WP_Query( $sponsors_args ); 
+
+	ob_start();
+
+	if ( $sponsors->have_posts() ) :
+		while ( $sponsors->have_posts() ) : $sponsors->the_post();
+			$custom = get_post_custom();
+			if (!empty($custom['partner'])) {
+				if (!empty ($custom['url'])) {
+					echo '<a href="'.$custom['url'][0].'" target=_blank alt="'.get_the_title().'">';
+				}
+				if ( has_post_thumbnail() ) {
+					the_post_thumbnail();
+				} else {
+					get_the_title();
+				}
+				if (!empty ($custom['url'])) {
+						echo '</a>';
+				}
+			}
+		endwhile;
+	endif;
 
 	$result .= ob_get_contents();
 	ob_end_clean();
@@ -227,7 +264,7 @@ function transportation_posttype() {
 }
 
 function openfest_home_page() {
-	if (empty($wp))  {return true;} ;
+	if (empty($wp))  {return is_front_page();} ;
 	return !($wp->query_vars['pagename']=='home' || $wp->query_vars['pagename']=='home-2');
 }
 
@@ -282,6 +319,7 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('venue','Интерпред, София, България');
 	pll_register_string('venue_w','Място');
 	pll_register_string('sponsors_w','Спонсори');
+	pll_register_string('partners_w','Партньори');
 	pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
 	pll_register_string('publishedon','Публикувано на');
 	pll_register_string('by_w','От');

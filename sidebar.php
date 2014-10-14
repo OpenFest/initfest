@@ -4,5 +4,7 @@
     <div class="separator"></div>
     <?php echo do_shortcode( '[sponsors]' ); ?>
     <div class="separator"></div>
+    <?php echo do_shortcode( '[partners]' ); ?>
+    <div class="separator"></div>
     <?php echo do_shortcode( '[transport]' ); ?>
 </div>

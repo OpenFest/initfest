@@ -6,7 +6,9 @@
     </div>
     <div class="col2 sponsors">
         <?php echo do_shortcode( '[sponsors]' ); ?>
+        <?php echo do_shortcode( '[partners]' ); ?>
     </div>
+
 </section>
 
 <div class="separator"></div>
