@@ -26,7 +26,7 @@ if (openfest_home_page()) {
         endwhile;
     endif;
 ?>
-<?php echo $coldiv1; ?>
+<?php echo $coldiv2; ?>
     <?php if (!openfest_home_page()) get_sidebar(); ?>
 </section>
 
