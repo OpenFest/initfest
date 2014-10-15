@@ -172,7 +172,7 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	font-size: 18px;
+	font-size: 16px;
 	font-family: 'Arimo', sans-serif;
 }
 @media all and (max-width: 400px) {
@@ -188,6 +188,8 @@ body {
 p {
 	margin: 0 0 1em 0;
 	padding: 0;
+  line-height: 1.5em;
+  font-weight: 300;
 }
 h1.big {
 	font-size: 2.4em;
@@ -457,7 +459,6 @@ h4 {
 	margin: 1em 0 0 0;
 	padding: 0;
 	height: 70px;
-	margin-bottom: 0.4em;
 }
 
 p.info + p {
@@ -632,8 +633,6 @@ nav .menu > li { margin: 1px 10px; }
 .separator { margin: 2.4em 0; height: 1px; background: #DBDBDB; }
 
 section.content.grid.homepage { margin-top: 2em; }
-
-h4 { margin: 1em 0; }
 
 a.footer { color: #333; }
 
