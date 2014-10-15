@@ -3,7 +3,13 @@
 * Template Name: Speakers
 */
 
-get_header(); ?>
+get_header(); 
+
+if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
+    wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
+}
+
+?>
 <div class="separator"></div>
 <section class="content grid">
     <div class="col-left">
