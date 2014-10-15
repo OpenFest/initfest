@@ -26,7 +26,7 @@
 	}
 
 	$spk = pg_query("select 
-		distinct sp.user_id, sp.id, sp.first_name, sp.last_name, e.language, picture, biography, github, twitter 
+		distinct sp.user_id, sp.id, sp.first_name, sp.last_name, e.language, picture, biography, github, twitter, public_email
 		from 
 		speaker_profiles sp join events_speaker_profiles esp on sp.id=esp.speaker_profile_id 
 		join events e on esp.event_id=e.id
@@ -61,6 +61,12 @@
 		$attid = pn_get_attachment_id_from_url($wpurl);
 		add_post_meta($postid_en, '_thumbnail_id', $attid);
 		pll_set_post_language($postid_en, 'en');
+
+		foreach (array($postid, $postid_en) as $v) {
+			if (strlen($row->github)>1)  add_post_meta ($v, 'github', $row->github);
+			if (strlen($row->twitter)>1)  add_post_meta ($v, 'twitter', $row->twitter);
+			if (strlen($row->public_email)>1)  add_post_meta ($v, 'public_email', $row->public_email);
+		}
 
 		pll_save_post_translations(array($postid => 'bg', $postid_en => '$en'));
 

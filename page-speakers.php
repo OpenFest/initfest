@@ -35,8 +35,19 @@ if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
     <?php
                 }
 ?>
-<br>
+</a>
+		<div class="icons">
+    <?php
+		$custom = get_post_custom();
+		if (!empty($custom['twitter'])) echo '<a href="https://twitter.com/'.$custom['twitter'][0].'"><i class="fa fa-twitter"></i></a>';
+		if (!empty($custom['github'])) echo '<a href="https://github.com/'.$custom['github'][0].'"><i class="fa fa-github"></i></a>';
+		if (!empty($custom['public_email'])) echo '<a href="mailto:'.$custom['public_email'][0].'"><i class="fa fa-envelope"></i></a>';
+?>
+		 </div>      
+
+<a href="#<?php the_title(); ?>">
 		<?php the_title(); ?>
+
 </a>
 </div>
     <?php
@@ -64,11 +75,20 @@ if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
                 }
     ?>
             <h3><?php the_title(); ?></h3>
+		<div class="icons">
+    <?php
+		$custom = get_post_custom();
+		if (!empty($custom['twitter'])) echo '<a href="https://twitter.com/'.$custom['twitter'][0].'"><i class="fa fa-twitter"></i></a>';
+		if (!empty($custom['github'])) echo '<a href="https://github.com/'.$custom['github'][0].'"><i class="fa fa-github"></i></a>';
+		if (!empty($custom['public_email'])) echo '<a href="mailto:'.$custom['public_email'][0].'"><i class="fa fa-envelope"></i></a>';
+?>
+		 </div>      
+
     <?php
                 the_content();
     ?>
         </div>
-    <?php
+<?php
             endwhile;
             wp_reset_postdata();
         endif;
