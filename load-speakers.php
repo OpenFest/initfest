@@ -19,9 +19,9 @@
 			$chld = get_children($args);
 			foreach ($chld as $k => $att) {
 				if (preg_match('/^photo_spk/', $att->post_name))
-					var_dump(wp_delete_post($att->ID, true));
+					wp_delete_post($att->ID, true);
 			}
-			var_dump(wp_delete_post($v->ID, true));
+			wp_delete_post($v->ID, true);
 		}
 	}
 

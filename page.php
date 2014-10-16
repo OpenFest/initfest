@@ -6,7 +6,7 @@ if ( preg_match('/^(about|ideas-and-recommendations|feedback|team|history|volunt
     wp_nav_menu( array( 'theme_location' => 'subnav-menu', 'container_class' => 'content subnav cf' ) );
 }
 
-if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
+if ( preg_match('/^(schedule|programa|speakers|halls|workshop)/', $pagename) ) {
     wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 }
 
