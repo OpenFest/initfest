@@ -76,7 +76,7 @@ function sponsors_shortcode() {
 		while ( $sponsors->have_posts() ) : $sponsors->the_post();
 			$custom = get_post_custom();
 			if (empty($custom['partner'])) {
-				if (empty ($custom['url'])) {
+				if (!empty ($custom['url'])) {
 					echo '<a href="'.$custom['url'][0].'" target=_blank alt="'.get_the_title().'">';
 				}
 				if ( has_post_thumbnail() ) {
@@ -320,6 +320,7 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('venue_w','Място');
 	pll_register_string('sponsors_w','Спонсори');
 	pll_register_string('partners_w','Партньори');
+	pll_register_string('speakers_w','Лектори');
 	pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
 	pll_register_string('publishedon','Публикувано на');
 	pll_register_string('by_w','От');

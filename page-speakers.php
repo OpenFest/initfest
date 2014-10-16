@@ -13,7 +13,7 @@ if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
 <div class="separator"></div>
 <section class="content grid">
     <div class="col-left">
-        <h1 class="big">Лектори</h1>
+	<h1 class="big"><?php e_('Лектори'); ?></h1>
 
 <div class="grid members">
     <?php
@@ -34,7 +34,7 @@ if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
             <img src="/img/speaker.jpg">
     <?php
                 }
-?>
+?><br>
 		<?php the_title(); ?>
 
 </a>
