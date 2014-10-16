@@ -41,9 +41,9 @@ function sh_latest_posts($atts){
 	ob_start();
 	$i=0;
 	if ( $news->have_posts() ) :
-		while ( $news->have_posts() && $i++<3) : $news->the_post();
+		while ( $news->have_posts() && $i++<2) : $news->the_post();
 ?>
-        <div class="col3">
+        <div class="col2">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
 			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
             <?php the_excerpt(); ?>
@@ -51,6 +51,22 @@ function sh_latest_posts($atts){
         </div>
 <?php 
 		endwhile;
+
+	$result .='</div></section>';
+
+	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
+	$i=0;
+		while ( $news->have_posts() && $i++<2) : $news->the_post();
+?>
+        <div class="col2">
+            <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
+            <?php the_excerpt(); ?>
+	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
+        </div>
+<?php 
+		endwhile;
+
 	endif;
 
 	$result .= ob_get_contents();
