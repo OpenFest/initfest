@@ -29,7 +29,7 @@ $sched_bg=3940;*/
 		join events_speaker_profiles esp on esp.event_id=e.id
 		join speaker_profiles sp on esp.speaker_profile_id=sp.id
 		where
-		not s.event_id is null
+		not s.event_id is null and h.id in (1,2,3)
 		group by h.name, h.id, starts_at, ends_at, t.id, e.title, e.subtitle, e.language, e.id, s.hall_id
 		order by date(s.starts_at),s.starts_at, s.hall_id;
 		");
