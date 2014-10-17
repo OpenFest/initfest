@@ -43,7 +43,7 @@ function sh_latest_posts($atts){
 	if ( $news->have_posts() ) :
 		while ( $news->have_posts() && $i++<2) : $news->the_post();
 ?>
-        <div class="col2">
+        <div class="col3">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
 			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
             <?php the_excerpt(); ?>
@@ -58,7 +58,7 @@ function sh_latest_posts($atts){
 	$i=0;
 		while ( $news->have_posts() && $i++<2) : $news->the_post();
 ?>
-        <div class="col2">
+        <div class="col3">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
 			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
             <?php the_excerpt(); ?>
