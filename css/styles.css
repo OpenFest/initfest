@@ -786,3 +786,14 @@ a.button:hover { opacity: 0.8; }
 p img {
 	max-width: 100%;
 }
+
+.front-page-sponsors {
+	text-align: center;
+}
+.front-page-big-title h1 {
+	font-size: 1.4em;
+	text-align: center;
+}
+.content.front-page-big-title {
+	padding: 1em 0 0 0;
+}
