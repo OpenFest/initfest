@@ -35,13 +35,13 @@ function sh_latest_posts($atts){
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
 	
-	$news_args = array( 'category_name' => 'news,news-bg', 'numberposts' => 3, 'lang' => of_get_lang() );
+	$news_args = array( 'category_name' => 'news,news-bg', 'numberposts' => 6, 'lang' => of_get_lang() );
 	$news = new WP_Query( $news_args ); 
 
 	ob_start();
-	$i=0;
 	if ( $news->have_posts() ) :
-		while ( $news->have_posts() && $i++<2) : $news->the_post();
+		$i=0;
+		while ( $news->have_posts() && $i++<6) : $news->the_post();
 ?>
         <div class="col3">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
@@ -50,21 +50,8 @@ function sh_latest_posts($atts){
 	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
         </div>
 <?php 
-		endwhile;
-
-	$result .='</div></section>';
-
-	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
-	$i=0;
-		while ( $news->have_posts() && $i++<2) : $news->the_post();
-?>
-        <div class="col3">
-            <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
-            <?php the_excerpt(); ?>
-	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
-        </div>
-<?php 
+		if ($i==3)
+			echo '</div></section><section class="content"><div class="grid">';
 		endwhile;
 
 	endif;
