@@ -351,6 +351,9 @@ nav .selected {
 	nav ul a:hover {
 		border-top: 0 solid #A8D6FF;
 	}
+  nav .fa-twitter, nav .fa-facebook, nav .fa-rss {
+    display: none;
+  }
 }
 
 /* Banner */
@@ -463,6 +466,7 @@ h4 {
 
 p.info + p {
 	height: 240px;
+  overflow: hidden;
 }
 
 .entry-content {
@@ -654,6 +658,8 @@ a.button:hover { opacity: 0.8; }
 	display: block;
 }
 .member a > img {
+  width: 100px;
+  max-width: 100%;
 	padding: 0.3em;
 	background: #FFF;
 	-moz-box-shadow:	0px 0px 1px 1px #999;
@@ -796,4 +802,16 @@ p img {
 }
 .content.front-page-big-title {
 	padding: 1em 0 0 0;
+}
+
+section.entry-meta {
+  font-size: 0.8em;
+  padding: 0 0 2em 0;
+  color: #999;
+}
+footer.entry-footer {
+  padding: 1em;
+  border-radius: 0.4em;
+  background: #F0F0F0;
+  font-size: 0.8em;
 }

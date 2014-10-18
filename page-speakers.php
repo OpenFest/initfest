@@ -46,6 +46,7 @@ if ( preg_match('/^(schedule|programa|speakers|halls)/', $pagename) ) {
     ?>
 
 </div>
+<div class="separator"></div>
     <?php
         $speakers_args = array( 'post_type' => 'speakers', 'nopaging' => 'true', 'order' => 'ASC' );
         $speakers = new WP_Query( $speakers_args ); 
