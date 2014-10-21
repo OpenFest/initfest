@@ -596,6 +596,11 @@ footer .content li a {
 	margin: 0 0 2em 0;
 }
 
+.sponsors-frontpage a {
+	display: inline-block;
+	padding: 0 2.2em 1em 0;
+}
+
 /* Plugins */
 .gmp_map_opts {
 	float: none !important;

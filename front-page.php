@@ -2,7 +2,7 @@
 <section class="content">
 	<?php echo do_shortcode( '[sh-latest-posts cat="news" label="'.pll__('Новини').'"]' ); ?>
 <div class="separator"></div>
-<div class="col-right sponsors">
+<div class="col-right sponsors sponsors-frontpage">
     <?php echo do_shortcode( '[sponsors]' ); ?>
     <?php echo do_shortcode( '[partners]' ); ?>
 </div>
