@@ -1,4 +1,4 @@
-<div class="col-right">
+<div class="col-right sponsors-frontpage">
 
 <h3><?php pll_e('1-ви и 2-ри ноември 2014 г.');?> <br /> <?php pll_e('Интерпред, София, България');?></h3>
     <div class="separator"></div>
