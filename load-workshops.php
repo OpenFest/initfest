@@ -26,8 +26,8 @@ $sched_bg=3940;*/
 		slots s join halls h on h.id=s.hall_id
 		join events e on s.event_id = e.id
 		join tracks t on t.id=e.track_id
-		join events_speaker_profiles esp on esp.event_id=e.id
-		join speaker_profiles sp on esp.speaker_profile_id=sp.id
+		left join events_speaker_profiles esp on esp.event_id=e.id
+		left join speaker_profiles sp on esp.speaker_profile_id=sp.id
 		where
 		not s.event_id is null and h.id in (4,5)
 		group by h.name, h.id, starts_at, ends_at, t.id, e.title, e.subtitle, e.language, e.id, s.hall_id
@@ -88,6 +88,7 @@ while ($row = pg_fetch_object($prg)) {
 				$spkbgarr = array();
 				$spkenarr = array();
 				foreach ($spkarr as $val){ 
+					if ($val == 'NULL') continue;
 					$spkbgarr[] = '<a class="vt-p" href="/bg/programa/speakers/#'.htmlentities($val).'">'.htmlentities($val).'</a>';
 					$spkenarr[] = '<a class="vt-p" href="/en/schedule/speakers/#'.htmlentities($val).'">'.htmlentities($val).'</a>';
 				}
