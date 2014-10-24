@@ -95,8 +95,13 @@ while ($row = pg_fetch_object($prg)) {
 				$spkbg = implode(", ", $spkbgarr);
 				$spken = implode(", ", $spkenarr);
 
-				$event->spken = $spken;
-				$event->spkbg = $spkbg;
+				if (count($spkbgarr)>0) {
+					$event->spken = '('.$spken.')';
+					$event->spkbg = '('.$spkbg.')';
+				} else {
+					$event->spken = '';
+					$event->spkbg = '';
+				}
 			
 				$events[] = $event;	
 
@@ -143,8 +148,9 @@ while ($row = pg_fetch_object($prg)) {
 
 
 	foreach ($events as $k => $event) {
+		if ($event->spkbg=='') continue;
 		$bg .= '<section id="lecture-'.$event->eventid.'">';
-		$bg .= '<p><strong> '.$event->title.' ('.$event->spkbg.')</strong><p>';
+		$bg .= '<p><strong> '.$event->title.' '.$event->spkbg.'</strong><p>';
 		if (strlen($event->subtitle)>2) $bg .= '<p><small>'.htmlentities($event->subtitle).'</small></p>';
 		$bg .= '<p>'.htmlentities($event->abstract).'</p>';
 #		$bg .= '<p>'.htmlentities($event->description).'</p>';
@@ -153,7 +159,7 @@ while ($row = pg_fetch_object($prg)) {
 		$bg .= '<div class="separator"></div>';
 
 		$en .= '<section id="lecture-'.$event->eventid.'">';
-		$en .= '<p><strong> '.$event->title.' ('.$event->spken.')</strong><p>';
+		$en .= '<p><strong> '.$event->title.' '.$event->spken.'</strong><p>';
 		if (strlen($event->subtitle)>2) $en .= '<p><small>'.htmlentities($event->subtitle).'</small></p>';
 		$en .= '<p>'.htmlentities($event->abstract).'</p>';
 #		$en .= '<p>'.htmlentities($event->description).'</p>';
