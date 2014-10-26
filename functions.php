@@ -329,6 +329,7 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('by_w','От');
 	pll_register_string('see_whole_news','виж цялата новина');
 	pll_register_string('news','Новини');
+	pll_register_string('share_freedom','Да споделим свободата');
 	pll_register_string('hall1','София');
 	pll_register_string('hall2','Варна');
 	pll_register_string('hall3','G1');
