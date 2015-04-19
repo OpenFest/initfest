@@ -32,6 +32,6 @@
 		</nav>
 		<?php 
 			if(openfest_home_page()){
-				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'.png" alt="" /></section>';
+				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. date('Y') .'.png" alt="" /></section>';
 			}
 		?>
