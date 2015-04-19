@@ -336,8 +336,3 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('hall4','Пловдив');
 	pll_register_string('hall5','Бургас');
 }
-
-$wp_customize->add_section( 'header_image' , array(
-    'title'      => __( 'Header image', 'initfest' ),
-    'priority'   => 30,
-) );
