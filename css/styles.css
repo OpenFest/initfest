@@ -820,3 +820,8 @@ footer.entry-footer {
   background: #F0F0F0;
   font-size: 0.8em;
 }
+.alignright {
+  display: inline;
+  float: right;
+  margin-left: 1.625em;
+}
