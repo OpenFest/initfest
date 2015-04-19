@@ -32,6 +32,8 @@
 		</nav>
 		<?php 
 			if(openfest_home_page()){
-				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. date('Y') .'.png" alt="" /></section>';
+				$blog_details = get_blog_details();
+				$blog_slug = str_replace('/', '', $blog_details->path);
+				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
 			}
 		?>
