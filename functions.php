@@ -156,7 +156,7 @@ function transport_shortcode() {
 ?>
 </section>
 <?php
-    echo do_shortcode( '[ready_google_map id="1" map_language="en" type="HYBRID" align="right"]' ); 
+    echo do_shortcode( '[ready_google_map id="2" map_language="en" align="center"]' ); 
 
     $result .= ob_get_contents();
 	ob_end_clean();
