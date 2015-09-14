@@ -273,6 +273,7 @@ nav .menu > li:hover {
 	left: 0;
 	height: 52px;
 	width: 10px;
+	text-indent: -9999px;
 }
 
 nav ul a {
