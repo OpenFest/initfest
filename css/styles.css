@@ -267,7 +267,6 @@ nav .menu > li:hover {
 
 
 .menu li.fa a {
-	padding-top: 0;
 	position: absolute;
 	display: block;
 	top: 0;
@@ -281,7 +280,7 @@ nav ul a {
 	color: #000;
 	text-decoration: none;
 	display: block;
-	padding: 1.5em 0.4em;
+	padding: 1.9em 0.4em;
 }
 
 nav ul .sub-menu {
