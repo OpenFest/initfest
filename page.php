@@ -2,7 +2,7 @@
 get_header(); 
 
 /* Some special pages (the ones describing the event, team, etc. need a special submenu */
-if ( preg_match('/^(about|ideas-and-recommendations|feedback|team|history|volunteers)/', $pagename) ) {
+if ( preg_match('/^(about|ideas-and-recommendations|feedback|team|history|volunteers|code-of-conduct)/', $pagename) ) {
     wp_nav_menu( array( 'theme_location' => 'subnav-menu', 'container_class' => 'content subnav cf' ) );
 }
 

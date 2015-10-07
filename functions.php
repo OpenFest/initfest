@@ -138,7 +138,7 @@ function partners_shortcode() {
 
 # Create shortcode for transport methods 
 function transport_shortcode() {
-    $result= '<section class="content"><h3>'.pll__('Място').': '.pll__('Интерпред, София, България').'</h3>';
+    $result= '<section class="content"><h3>'.pll__('Място').': '.pll__('VENUE_LOCATION').'</h3>';
 
     $transport_args = array( 'post_type' => 'transportation' );
     $transport = new WP_Query( $transport_args ); 
@@ -156,7 +156,7 @@ function transport_shortcode() {
 ?>
 </section>
 <?php
-    echo do_shortcode( '[ready_google_map id="2" map_language="en" align="center"]' ); 
+    //echo do_shortcode( '[ready_google_map id="2" map_language="en" align="center"]' ); 
 
     $result .= ob_get_contents();
 	ob_end_clean();
@@ -319,12 +319,12 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('Schedule','Програма');
 	pll_register_string('Others','Други');
 	pll_register_string('follow','Последвайте ни в:');
-	pll_register_string('venue','Интерпред, София, България');
+	pll_register_string('venue','VENUE_LOCATION');
 	pll_register_string('venue_w','Място');
 	pll_register_string('sponsors_w','Спонсори');
 	pll_register_string('partners_w','Партньори');
 	pll_register_string('speakers_w','Лектори');
-	pll_register_string('time','1-ви и 2-ри ноември 2014 г.');
+	pll_register_string('time','EVENT_TIME');
 	pll_register_string('publishedon','Публикувано на');
 	pll_register_string('by_w','От');
 	pll_register_string('see_whole_news','виж цялата новина');

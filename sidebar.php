@@ -1,6 +1,6 @@
 <div class="col-right sponsors-frontpage">
 
-<h3><?php pll_e('1-ви и 2-ри ноември 2014 г.');?> <br /> <?php pll_e('Интерпред, София, България');?></h3>
+<h3><?php pll_e('EVENT_TIME');?> <br /> <?php pll_e('VENUE_LOCATION');?></h3>
     <div class="separator"></div>
     <?php echo do_shortcode( '[sponsors]' ); ?>
     <div class="separator"></div>
