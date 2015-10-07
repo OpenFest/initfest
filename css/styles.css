@@ -630,6 +630,9 @@ a:hover { text-decoration: underline; }
  *********************************************/
 
 nav .menu > li { margin: 1px 10px; }
+nav .menu a:hover {
+  color: #000;
+}
 
 /*********************************************
  * Tagline & Sponsors
