@@ -12,7 +12,8 @@
 		<meta name="description" content="" />
 
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<link rel="icon" type="image/png" href="">
+		<!--<link rel="icon" type="image/png" href="">-->
+    <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" />
 		
 		<title><?php is_front_page() ? (bloginfo('name').e_(' | ').e_('Да споделим свободата')) : wp_title( ' | ', true, 'right' ); ?></title>
 
