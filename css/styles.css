@@ -429,7 +429,7 @@ nav .selected {
 .grid .col-right {
 	width: 30%;
 	float: left;
-    margin-bottom: 2em;
+  margin-bottom: 2em;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -438,7 +438,7 @@ nav .selected {
     width: 100%;
 }
 
-@media all and (max-width: 600px) {
+@media all and (max-width: 660px) {
 	.grid .col2, .grid .col3, .grid .col4, .grid .col-left, .grid .col-right {
 		width: 100%;
 		float: none;
@@ -459,9 +459,8 @@ nav .selected {
 
 /* News */
 h4 {
-	margin: 1em 0 0 0;
+	margin: 1em 0 0.4em 0;
 	padding: 0;
-	height: 70px;
 }
 
 p.info + p {
@@ -599,6 +598,10 @@ footer .content li a {
 .sponsors-frontpage a {
 	display: inline-block;
 	padding: 0 2.2em 1em 0;
+}
+.sponsors-frontpage p a {
+  display: inline;
+  padding: 0;
 }
 
 /* Plugins */
