@@ -92,7 +92,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 		$fulltalk_spkr = strlen($speakers)>1 ? ' (' . $speakers . ')' : '';
 		$fulltalks[$eid] .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong>';
 		$fulltalks[$eid] .= '<p>' . $event['abstract'] . '</p>';
-		$fulltalks[$eid] .= '<div class="separator"></div>';
+		$fulltalks[$eid] .= '<div class="separator"></div></section>';
 
 		if ($slot['event_id'] === $prev_event_id) {
 			array_pop($lines);
@@ -135,7 +135,7 @@ foreach ($data['speakers'] as $speaker) {
 	$fspk[] = '<div class="icons">';
 	foreach ($types as $type => $parm) {
 		if (!empty($speaker[$type])) {
-			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a>';
+			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a></div>';
 		}
 	}
 	$fspk[] = '<p>' . $speaker['biography'] . '</p>';
