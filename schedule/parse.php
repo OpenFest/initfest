@@ -21,6 +21,8 @@ $hall_ids = array_keys($data['halls']);
 $first_hall_id = min($hall_ids);
 $last_hall_id = max($hall_ids);
 
+date_default_timezone_set('Europe/Sofia');
+
 foreach ($data['slots'] as $slot_id => $slot) {
 	$slotTime = $slot['starts_at'];
 	$slotDate = date('d', $slotTime);
