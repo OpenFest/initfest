@@ -135,9 +135,10 @@ foreach ($data['speakers'] as $speaker) {
 	$fspk[] = '<div class="icons">';
 	foreach ($types as $type => $parm) {
 		if (!empty($speaker[$type])) {
-			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a></div>';
+			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a>';
 		}
 	}
+	$fspk[] = '</div>';
 	$fspk[] = '<p>' . $speaker['biography'] . '</p>';
 	$fspk[] = '</div><div class="separator"></div>';
 }
