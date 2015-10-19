@@ -12,6 +12,10 @@ $data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
 /* sensible default */
 if (empty($lang)) $lang = 'bg';
 
+/* no idea why do I have to write this, doesn't seem to exist in the system */
+
+$languages = array('en' => array('name' => 'English', 'locale' => 'en_US.UTF8'), 'bg' => array ('name' => 'Български', 'locale' => 'bg_BG.UTF8'));
+
 $cut_len = 70;
 $cfp_url = 'http://cfp.openfest.org';
 $time = 0;
@@ -31,8 +35,11 @@ foreach ($data['slots'] as $slot_id => $slot) {
 	$slotDate = date('d', $slotTime);
 		
 	if ($slotDate !== $date) {
+		/* this seems to be the easiest way to localize the date */
+		setlocale(LC_TIME, $languages[$lang]['locale']);
+		$localdate = strftime('%d %B - %A' ,$slotTime);
 		$lines[] = '<tr>';
-		$lines[] = '<td>' . date('d F - l', $slotTime) . '</td>';
+		$lines[] = '<td>' . $localdate . '</td>';
 		$lines[] = '<td colspan="3">&nbsp;</td>';
 		$lines[] = '</tr>';
 		
@@ -120,8 +127,8 @@ $legend = [];
 foreach($data['tracks'] as $track) {
 	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$lang] . '</td></tr>';
 }
-foreach (array('en' => 'English', 'bg' => 'Български') as $l => $n) {
-	$legend[] = '<tr><td class="schedule-' . $l . '">' . $n . '</td></tr>';
+foreach ($languages as $l => $n) {
+	$legend[] = '<tr><td class="schedule-' . $l . '">' . $n['name'] . '</td></tr>';
 }
 
 $gspk = [];
