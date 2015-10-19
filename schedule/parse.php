@@ -9,6 +9,9 @@
 
 $data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
 
+/* sensible default */
+if (empty($lang)) $lang = 'bg';
+
 $cut_len = 70;
 $cfp_url = 'http://cfp.openfest.org';
 $time = 0;
