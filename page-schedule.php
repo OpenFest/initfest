@@ -6,7 +6,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 ?>
 <section class="content">
 	<h1>Програма</h1>
-	<table border="1" style="text-align: center;">
+	<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">
 		<thead>
 			<tr>
 				<td>&nbsp;</td>
