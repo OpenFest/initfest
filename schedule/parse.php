@@ -110,6 +110,16 @@ foreach ($data['slots'] as $slot_id => $slot) {
 }
 
 $lines[] = '</tr>';
+/* create the legend */
+
+$legend = [];
+
+foreach($data['tracks'] as $track) {
+	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$lang] . '</td></tr>';
+}
+foreach (array('en' => 'English', 'bg' => 'Български') as $l => $n) {
+	$legend[] = '<tr><td class="schedule-' . $l . '">' . $n . '</td></tr>';
+}
 
 $gspk = [];
 $fspk = [];
@@ -147,4 +157,4 @@ foreach ($data['speakers'] as $speaker) {
 
 $gspk[] = '</div>';
 
-return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk'));
+return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk', 'legend'));

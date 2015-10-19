@@ -57,6 +57,15 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 		</tbody>
 	</table>
 	<div class="separator"></div>
+	<table cellpadding="0" cellspacing="0" class="schedule schedule-legend">
+	<tbody>
+<?php
+		foreach ($content['legend'] as $line) {
+			echo $line, PHP_EOL;
+		}
+?>
+	</tbody>
+	</table>
 <?php
 	foreach ($content['fulltalks'] as $line) {
 		echo $line, PHP_EOL;
