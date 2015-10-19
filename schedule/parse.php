@@ -67,7 +67,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 				} else {
 					/* TODO: fix the URL */
 					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-					$spk[$uid] = '<a class="vt-p" href="#'. $name . '">' . $name . '</a>';
+					$spk[$uid] = '<a class="vt-p" href="SPKURL#'. $name . '">' . $name . '</a>';
 				}
 			}
 			$speakers = implode (', ', $spk);
