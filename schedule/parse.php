@@ -28,7 +28,9 @@ $hall_ids = array_keys($data['halls']);
 $first_hall_id = min($hall_ids);
 $last_hall_id = max($hall_ids);
 
+/* We need to set these so we actually parse properly the dates. WP fucks up both. */
 date_default_timezone_set('Europe/Sofia');
+setlocale(LC_TIME, $languages[$lang]['locale']);
 
 foreach ($data['slots'] as $slot_id => $slot) {
 	$slotTime = $slot['starts_at'];
@@ -36,7 +38,6 @@ foreach ($data['slots'] as $slot_id => $slot) {
 		
 	if ($slotDate !== $date) {
 		/* this seems to be the easiest way to localize the date */
-		setlocale(LC_TIME, $languages[$lang]['locale']);
 		$localdate = strftime('%d %B - %A' ,$slotTime);
 		$lines[] = '<tr>';
 		$lines[] = '<td>' . $localdate . '</td>';
