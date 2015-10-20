@@ -32,7 +32,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 ?>
 <section class="content grid">
 <div class="col-left">
-	<h1>Програма</h1>
+<h1><?php pll_e('Програма') ?></h1>
 
 
 	<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">

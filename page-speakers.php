@@ -6,7 +6,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 ?>
 <section class="content grid">
 <div class="col-left">
-	<h1>Лектори</h1>
+<h1><?php pll_e('Лектори') ?></h1>
 
 <?php
 
