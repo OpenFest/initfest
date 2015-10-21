@@ -773,10 +773,10 @@ a.button:hover { opacity: 0.8; }
 
 /* OpenArt track 2015*/
 .schedule-open-art {
-  background: #88cbf0;
+  background: #F0A388;
 }
 .schedule-11 {
-  background: #88cbf0;
+  background: #F0A388;
 }
 
 /* Technical track 2015 */
@@ -797,14 +797,14 @@ a.button:hover { opacity: 0.8; }
 
 /* Civic hacking track 2015 */
 .schedule-civic {
-  background: #a7de49;
+  background: #DAEBBB;
   color: #000;
 }
 .schedule-civic a {
   color: #000;
 }
 .schedule-13 {
-  background: #a7de49;
+  background: #DAEBBB;
   color: #000;
 }
 .schedule-13 a {
@@ -821,14 +821,14 @@ a.button:hover { opacity: 0.8; }
 
 /* Advanced technical track 2015 */
 .schedule-advanced-technical {
-  background: #b3b3b3;
+  background: #DF9959;
   color: #000;
 }
 .schedule-advanced-technical a {
   color: #000;
 }
 .schedule-15 {
-  background: #b3b3b3;
+  background: #DF9959;
   color: #000;
 }
 .schedule-15 a {
@@ -837,10 +837,10 @@ a.button:hover { opacity: 0.8; }
 
 /* Misc track 2015 */
 .schedule-misc {
-  background: #ede6b6;
+  background: #fff;
 }
 .schedule-16 {
-  background: #ede6b6;
+  background: #fff;
 }
 
 /* Workshop 2015 */
@@ -868,9 +868,9 @@ a.button:hover { opacity: 0.8; }
   float: left;
   padding: 0.3em;
   background: #FFF;
-  -moz-box-shadow:  0px 0px 1px 1px #999;
+  -moz-box-shadow: 0px 0px 1px 1px #999;
   -webkit-box-shadow: 0px 0px 1px 1px #999;
-  box-shadow:     0px 0px 1px 1px #999;
+  box-shadow: 0px 0px 1px 1px #999;
   margin: 0 1em 2em 0;
 }
 
