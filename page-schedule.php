@@ -68,16 +68,8 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 	</table>
 <?php
 	foreach ($content['fulltalks'] as $line) {
-		echo $line, PHP_EOL;
+		echo str_replace('SPKURL', $url, $line), PHP_EOL;
 	}
-/*
-	foreach ($content['gspk'] as $line) {
-		echo $line, PHP_EOL;
-	}
-
-	foreach ($content['fspk'] as $line) {
-		echo $line, PHP_EOL;
-	}*/
 ?>
 	</div>
 	<?php  get_sidebar(); ?>
