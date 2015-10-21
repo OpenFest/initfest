@@ -459,8 +459,8 @@ nav .selected {
 
 /* News */
 h4 {
-	margin: 1em 0 0.4em 0;
-	padding: 0;
+    margin: 1em 0 0.4em 0;
+  padding: 0;
 }
 
 p.info + p {
@@ -730,6 +730,7 @@ a.button:hover { opacity: 0.8; }
   padding: 0.6em 0.4em;
   text-align: center;
   vertical-align: middle;
+  box-shadow: 0px 1px 2px #999;
 }
 .schedule-legend td {
   padding: 0.4em;
@@ -750,98 +751,100 @@ a.button:hover { opacity: 0.8; }
 .schedule-empty {
   background: #FFF;
 }
-.schedule-social {
-  background: #decf72;
+
+/* Color definitions */
+
+/* Open-biz track 2015 */
+.schedule-open-biz {
+  background: #75d3b3;
+  color: #000;
+}
+.schedule-open-biz a {
+  color: #000;
+}
+.schedule-10 {
+  background: #75d3b3;
+  color: #000;
+}
+.schedule-10 a {
+  color: #000;
+}
+
+/* OpenArt track 2015*/
+.schedule-open-art {
+  background: #88cbf0;
+}
+.schedule-11 {
+  background: #88cbf0;
+}
+
+/* Technical track 2015 */
+.schedule-technical {
+  background: #e9d765;
+  color: #000;
+}
+.schedule-technical a {
+  color: #000;
+}
+.schedule-12 {
+  background: #e9d765;
+  color: #000;
+}
+.schedule-12 a {
+  color: #000;
+}
+
+/* Civic hacking track 2015 */
+.schedule-civic {
+  background: #a7de49;
+  color: #000;
+}
+.schedule-civic a {
+  color: #000;
+}
+.schedule-13 {
+  background: #a7de49;
+  color: #000;
+}
+.schedule-13 a {
+  color: #000;
 }
 
 /* Social track 2015 */
+.schedule-social {
+  background: #a6b4de;
+}
 .schedule-14 {
-  background: #decf72;
+  background: #;
 }
 
-.schedule-technical {
-  background: #953c4f;
-  color: #FFF;
-}
-.schedule-technical a {
-  color: #FFF;
-}
-/* Technical track 2015 */
-.schedule-12 {
-  background: #953c4f;
-  color: #FFF;
-}
-.schedule-12 a {
-  color: #FFF;
-}
-
-.schedule-workshop {
-  background: #E2E0E9;
-}
-
-
-.schedule-civic {
-  background: #6548a3;
-  color: #FFF;
-}
-.schedule-civic a {
-  color: #FFF;
-}
-/* Civic hacking track 2015 */
-.schedule-13 {
-  background: #6548a3;
-  color: #FFF;
-}
-.schedule-13 a {
-  color: #FFF;
-}
-
+/* Advanced technical track 2015 */
 .schedule-advanced-technical {
-  background: #750023;
-  color: #FFF;
+  background: #b3b3b3;
+  color: #000;
 }
 .schedule-advanced-technical a {
-  color: #FFF;
+  color: #000;
 }
-/* Advanced technical track 2015 */
 .schedule-15 {
-  background: #750023;
-  color: #FFF;
+  background: #b3b3b3;
+  color: #000;
 }
 .schedule-15 a {
-  color: #FFF;
+  color: #000;
 }
 
-.schedule-open-biz {
-  background: #9a9d29;
-  color: #FFF;
-}
-.schedule-open-biz a {
-  color: #FFF;
-}
-/* Open-biz track 2015 */
-.schedule-10 {
-  background: #9a9d29;
-  color: #FFF;
-}
-.schedule-10 a {
-  color: #FFF;
-}
-
+/* Misc track 2015 */
 .schedule-misc {
   background: #ede6b6;
 }
-/* Misc track 2015 */
 .schedule-16 {
   background: #ede6b6;
 }
 
-.schedule-open-art {
-  background: #88cbf0;
-}
-/* OpenArt track 2015*/
-.schedule-11 {
-  background: #88cbf0;
+/* Workshop 2015 */
+.schedule-workshop {
+  background: #E2E0E9;
 }
 
 .schedule-en::after {
