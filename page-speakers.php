@@ -1,6 +1,8 @@
 <?php
 /* Template Name: Speakers */
 get_header();
+wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
+
 $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
 //var_dump($data);
 ?>

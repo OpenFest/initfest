@@ -1,6 +1,7 @@
 <?php
 /* Template Name: Schedule */
 get_header();
+wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
 $lang = pll_current_language('slug');
 
