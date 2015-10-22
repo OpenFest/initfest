@@ -42,7 +42,7 @@ if ('en' === $lang) {
 }
 
 $args = array(
-	'name'        => $s_slug,
+	'name'        => $CF['s_slug'],
 	'post_type'   => 'page',
 	'numberposts' => 1
 );
@@ -53,7 +53,6 @@ $my_posts = get_posts($args);
 if( $my_posts ) {
 	$CF['speakers_url'] = get_permalink( $my_posts[0]->ID );
 }
-
 
 
 ?>
