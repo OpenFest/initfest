@@ -3,41 +3,7 @@
 get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
-$lang = pll_current_language('slug');
-
-
-/* TODO make this read the ids from the proper place, as this breaks other years*/
-if ( preg_match('/^workshop/', $pagename) ) {
-	$workshop = true;
-	$allowedhallids = array(9);
-} else {
-	$workshop = false;
-	$allowedhallids = array(6,7,8);
-}
-
-
-/*
- * There is no better way to get where the speakers are
- */
-
-if ('en' === $lang) {
-	$s_slug = 'speakers';
-} else {
-	$s_slug = 'lektori';
-}
-
-$args = array(
-	'name'        => $s_slug,
-	'post_type'   => 'page',
-	'numberposts' => 1
-);
-
-$url = '';
-
-$my_posts = get_posts($args);
-if( $my_posts ) {
-	$url = get_permalink( $my_posts[0]->ID );
-}
+require("schedule-config.php");
 
 $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
 //var_dump($data);
@@ -63,7 +29,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 		<tbody>
 <?php
 		foreach ($content['lines'] as $line) {
-			echo str_replace('SPKURL', $url, $line), PHP_EOL;
+			echo str_replace('SPKURL', $CF['speakers_url'], $line), PHP_EOL;
 		}
 ?>
 		</tbody>
@@ -80,7 +46,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 	</table>
 <?php
 	foreach ($content['fulltalks'] as $line) {
-		echo str_replace('SPKURL', $url, $line), PHP_EOL;
+		echo str_replace('SPKURL', $CF['speakers_url'], $line), PHP_EOL;
 	}
 ?>
 	</div>

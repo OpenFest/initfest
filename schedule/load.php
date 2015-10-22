@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . DIRECTORY_SEPARATOR . 'class.SmartCurl.php';
 
-$base_url = 'https://cfp.openfest.org/api/conferences/2/';
+$base_url = 'https://cfp.openfest.org/api/conferences/'. $CF['confid'] .'/';
 
 $filenames = [
 	'events'			=>	'events.json',
@@ -13,17 +13,14 @@ $filenames = [
 ];
 
 
-if (empty($allowedhallids)) {
-	$allowedhallids = array (6,7,8);
-}
 $data = [];
 
 foreach ($filenames as $name => $filename) {
-	$curl = new SmartCurl($base_url);
+	$curl = new SmartCurl($base_url, 'cache' . DIRECTORY_SEPARATOR .$CF['confid']);
 	$json = $curl->getUrl($filename);
 
 	if ($json === false) {
-		echo 'get failed: ', $filename, PHP_EOL;
+		echo 'get failed: ', $filename, ' ', $base_url, PHP_EOL;
 		exit;
 	}
 	
@@ -39,7 +36,7 @@ foreach ($filenames as $name => $filename) {
 		case 'halls':
 			$ret = array();
 			foreach($decoded as $id => $hall) {
-					if (in_array($id, $allowedhallids)) $ret[$id] = $hall['name'];
+					if (in_array($id, $CF['allowedhallids'])) $ret[$id] = $hall['name'];
 			}
 			$decoded = $ret;
 		break;

@@ -3,7 +3,7 @@
 get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
-$allowedhallids = array(6,7,8,9);
+require("schedule-config.php");
 
 $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
 //var_dump($data);
