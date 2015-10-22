@@ -33,6 +33,7 @@ date_default_timezone_set('Europe/Sofia');
 setlocale(LC_TIME, $languages[$lang]['locale']);
 
 foreach ($data['slots'] as $slot_id => $slot) {
+	if (! in_array($slot['hall_id'], $allowedhallids)) continue;
 	$slotTime = $slot['starts_at'];
 	$slotDate = date('d', $slotTime);
 		
