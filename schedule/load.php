@@ -12,6 +12,10 @@ $filenames = [
 	'slots'				=>	'slots.json',
 ];
 
+
+if (empty($allowedhallids)) {
+	$allowedhallids = array (6,7,8);
+}
 $data = [];
 
 foreach ($filenames as $name => $filename) {
@@ -31,12 +35,13 @@ foreach ($filenames as $name => $filename) {
 	}
 	
 	$add = true;
-	
 	switch ($name) {
 		case 'halls':
-			$decoded = array_map(function($el) {
-				return $el['name'];
-			}, $decoded);
+			$ret = array();
+			foreach($decoded as $id => $hall) {
+					if (in_array($id, $allowedhallids)) $ret[$id] = $hall['name'];
+			}
+			$decoded = $ret;
 		break;
 		case 'slots':
 			$decoded = array_map(function($el) {
@@ -63,6 +68,6 @@ uasort($data['slots'], function($a, $b) {
 	return compareKeys($a, $b, 'starts_at') ?: compareKeys($a, $b, 'hall_id');
 });
 
-array_pop($data['halls']);
+//array_pop($data['halls']);
 
 return $data;

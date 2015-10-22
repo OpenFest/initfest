@@ -5,6 +5,17 @@ wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 
 
 $lang = pll_current_language('slug');
 
+
+/* TODO make this read the ids from the proper place, as this breaks other years*/
+if ( preg_match('/^workshop/', $pagename) ) {
+	$workshop = true;
+	$allowedhallids = array(9);
+} else {
+	$workshop = false;
+	$allowedhallids = array(6,7,8);
+}
+
+
 /*
  * There is no better way to get where the speakers are
  */
