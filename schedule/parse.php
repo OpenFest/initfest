@@ -9,9 +9,6 @@
 
 $data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
 
-/* sensible default */
-if (empty($lang)) $lang = 'bg';
-
 /* no idea why do I have to write this, doesn't seem to exist in the system */
 
 $languages = array('en' => array('name' => 'English', 'locale' => 'en_US.UTF8'), 'bg' => array ('name' => 'Български', 'locale' => 'bg_BG.UTF8'));
@@ -30,7 +27,7 @@ $last_hall_id = max($hall_ids);
 
 /* We need to set these so we actually parse properly the dates. WP fucks up both. */
 date_default_timezone_set('Europe/Sofia');
-setlocale(LC_TIME, $languages[$lang]['locale']);
+setlocale(LC_TIME, $languages[$CF['lang']]['locale']);
 
 foreach ($data['slots'] as $slot_id => $slot) {
 	if (! in_array($slot['hall_id'], $CF['allowedhallids'])) continue;
@@ -127,7 +124,7 @@ $lines[] = '</tr>';
 $legend = [];
 
 foreach($data['tracks'] as $track) {
-	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$lang] . '</td></tr>';
+	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$CF['lang']] . '</td></tr>';
 }
 foreach ($languages as $l => $n) {
 	$legend[] = '<tr><td class="schedule-' . $l . '">' . $n['name'] . '</td></tr>';
