@@ -35,7 +35,7 @@ if ( preg_match('/^workshop/', $pagename) ) {
  * There is no better way to get where the speakers are
  */
 
-if ('en' === $lang) {
+if ('en' === $CF['lang']) {
 	$CF['s_slug'] = 'speakers';
 } else {
 	$CF['s_slug'] = 'lektori';

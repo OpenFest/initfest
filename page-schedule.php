@@ -20,7 +20,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 <?php
 				foreach ($content['halls'] as $hall_name) {
 ?>
-				<td><?php echo htmlspecialchars($hall_name[$lang]); ?></td>
+				<td><?php echo htmlspecialchars($hall_name[$CF['lang']]); ?></td>
 <?php
 				}
 ?>
