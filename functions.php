@@ -341,4 +341,5 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('low_quality','LOW_QUALITY');
 	pll_register_string('normal_quality','NORMAL_QUALITY');
 	pll_register_string('high_quality','HIGH_QUALITY');
+	pll_register_string('all_streams','ALL_STREAMS');
 }

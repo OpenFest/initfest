@@ -78,7 +78,7 @@
 </script>
 
 <section class="content">
-    <h3>Streaming | <small><a href="streaming">всички зали</a></small></h3>
+    <h3>Streaming | <small><a href="streaming"><?php echo htmlentities(pll__('ALL_STREAMS'));?></a></small></h3>
 	<h3 id="of-stream-halls-container" class="ofhr-text-center">
 	</h3>
 	<p id="of-stream-iframe-container">
