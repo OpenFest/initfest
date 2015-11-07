@@ -335,4 +335,10 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('hall3','G1');
 	pll_register_string('hall4','Пловдив');
 	pll_register_string('hall5','Бургас');
+	pll_register_string('bulgaria_hall','BULGARIA_HALL');
+	pll_register_string('chamber_hall','CHAMBER_HALL');
+	pll_register_string('music_hall','MUSIC_HALL');
+	pll_register_string('low_quality','LOW_QUALITY');
+	pll_register_string('normal_quality','NORMAL_QUALITY');
+	pll_register_string('high_quality','HIGH_QUALITY');
 }
