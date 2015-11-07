@@ -276,6 +276,10 @@ nav .menu > li:hover {
   text-indent: -9999px;
 }
 
+nav > .content {
+  max-width: 1080px;
+}
+
 nav ul a {
   color: #000;
   text-decoration: none;
