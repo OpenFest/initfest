@@ -14,24 +14,24 @@
 <script>
 	var g_streams_info = [
 		{
-			"hall": "<?php pll_e('BULGARIA_HALL');?>",
+			"hall": <?php echo json_encode(pll__('BULGARIA_HALL')); ?>,
 			"default": true,
 			"qualities": [
 				{
-					"label": "<?php pll_e('LOW_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('LOW_QUALITY'));?>,
 					"iframe_url": "http://stream.openfest.org/bulgaria-low.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/bulgaria-low",
 					"hls_url": "http://stream.openfest.org/hls/bulgaria-low.m3u8",
 				},
 				{
-					"label": "<?php pll_e('NORMAL_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('NORMAL_QUALITY'));?>,
 					"default": true,
 					"iframe_url": "http://stream.openfest.org/bulgaria.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/bulgaria",
 					"hls_url": "http://stream.openfest.org/hls/bulgaria.m3u8",
 				},
 				{
-					"label": "<?php pll_e('HIGH_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('HIGH_QUALITY'));?>,
 					"iframe_url": "http://stream.openfest.org/bulgaria-hd.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/bulgaria-hd",
 					"hls_url": "http://stream.openfest.org/hls/bulgaria-hd.m3u8",
@@ -39,16 +39,16 @@
 			]
 		},
 		{
-			"hall": "<?php pll_e('CHAMBER_HALL');?>",
+			"hall": <?php echo json_encode(pll__('CHAMBER_HALL'));?>,
 			"qualities": [
 				{
-					"label": "<?php pll_e('LOW_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('LOW_QUALITY'));?>,
 					"iframe_url": "http://stream.openfest.org/chamber-low.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/chamber-low",
 					"hls_url": "http://stream.openfest.org/hls/chamber-low.m3u8",
 				},
 				{
-					"label": "<?php pll_e('NORMAL_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('NORMAL_QUALITY'));?>,
 					"default": true,
 					"iframe_url": "http://stream.openfest.org/chamber.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/chamber",
@@ -57,16 +57,16 @@
 			]
 		},
 		{
-			"hall": "<?php pll_e('MUSIC_HALL');?>",
+			"hall": <?php echo json_encode(pll__('MUSIC_HALL'));?>,
 			"qualities": [
 				{
-					"label": "<?php pll_e('LOW_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('LOW_QUALITY'));?>,
 					"iframe_url": "http://stream.openfest.org/music-low.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/music-low",
 					"hls_url": "http://stream.openfest.org/hls/music-low.m3u8",
 				},
 				{
-					"label": "<?php pll_e('NORMAL_QUALITY');?>",
+					"label": <?php echo json_encode(pll__('NORMAL_QUALITY'));?>,
 					"default": true,
 					"iframe_url": "http://stream.openfest.org/music.html",
 					"rtmp_url": "rtmp://stream.openfest.org/st/music",
