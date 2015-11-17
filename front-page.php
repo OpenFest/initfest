@@ -9,7 +9,7 @@
 <?php
 	// set this to 0 if there is something not working with the stream player code
 	// (people will still have the Streaming page with all the links to the streams)
-	if (1) {
+	if (0) {
 ?>
 <script>
 	var g_streams_info = [
