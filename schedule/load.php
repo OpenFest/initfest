@@ -20,8 +20,8 @@ foreach ($filenames as $name => $filename) {
 	$json = $curl->getUrl($filename);
 
 	if ($json === false) {
-		echo 'get failed: ', $filename, ' ', $base_url, PHP_EOL;
-		exit;
+		// echo 'get failed: ', $filename, ' ', $base_url, PHP_EOL;
+		return null;
 	}
 	
 	$decoded = json_decode($json, true);

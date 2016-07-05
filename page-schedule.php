@@ -12,7 +12,8 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 <div class="col-left">
 <h1><?php pll_e('Програма') ?></h1>
 
-
+<?php
+if (!empty($content)) { ?>
 	<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">
 		<thead>
 			<tr>
@@ -48,6 +49,9 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 	foreach ($content['fulltalks'] as $line) {
 		echo str_replace('SPKURL', $CF['speakers_url'], $line), PHP_EOL;
 	}
+} else {
+	pll_e("TBA");
+}
 ?>
 	</div>
 	<?php  get_sidebar(); ?>

@@ -9,11 +9,12 @@ $CF['lang']  = pll_current_language('slug');
 
 
 $hall_defs = array( '2014' => array('lectures' => array(1, 2, 3), 'workshops' => array(4, 5), 'all' => array(1, 2, 3, 4, 5) ),
-	'2015' => array('lectures' => array(6, 7, 8), 'workshops' => array(9), 'all' => array(6, 7, 8, 9) )
+	'2015' => array('lectures' => array(6, 7, 8), 'workshops' => array(9), 'all' => array(6, 7, 8, 9) ),
+	'2016' => array('lectures' => array(6, 7), 'workshops' => array(8, 9), 'all' => array(6, 7, 8, 9) )
 );
 
 /* clarion conference ids */
-$confids = array('2014' => 1, '2015' => 2);
+$confids = array('2014' => 1, '2015' => 2, '2016' => 3);
 
 
 /* get stuff from WP and parse */
