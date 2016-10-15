@@ -4,7 +4,6 @@ get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
 require("schedule-config.php");
-
 $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
 //var_dump($data);
 ?>
@@ -13,7 +12,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 <h1><?php pll_e('Програма') ?></h1>
 
 <?php
-if (!empty($content)) { ?>
+if (!empty($content) && !empty($content['slots'])) { ?>
 	<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">
 		<thead>
 			<tr>
