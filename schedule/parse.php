@@ -72,7 +72,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 				} else {
 					/* TODO: fix the URL */
 					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-					$spk[$uid] = '<a class="vt-p" href="#'. $name . '">' . $name . '</a>';
+					$spk[$uid] = '<a class="vt-p" href="SPKURL#'. $name . '">' . $name . '</a>';
 				}
 			}
 			$speakers = implode (', ', $spk);
@@ -95,9 +95,9 @@ foreach ($data['slots'] as $slot_id => $slot) {
 		$fulltalks[$eid] .= '<section id="lecture-' . $eid . '">';
 		/* We don't want '()' when we don't have a speaker name */
 		$fulltalk_spkr = strlen($speakers)>1 ? ' (' . $speakers . ')' : '';
-		$fulltalks[$eid] .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong>';
+		$fulltalks[$eid] .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
 		$fulltalks[$eid] .= '<p>' . $event['abstract'] . '</p>';
-		$fulltalks[$eid] .= '<div class="separator"></div>';
+		$fulltalks[$eid] .= '<div class="separator"></div></section>';
 
 		if ($slot['event_id'] === $prev_event_id) {
 			array_pop($lines);
@@ -143,6 +143,7 @@ foreach ($data['speakers'] as $speaker) {
 			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a>';
 		}
 	}
+	$fspk[] = '</div>';
 	$fspk[] = '<p>' . $speaker['biography'] . '</p>';
 	$fspk[] = '</div><div class="separator"></div>';
 }
