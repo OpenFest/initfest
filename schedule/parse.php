@@ -46,6 +46,11 @@ foreach ($data['slots'] as $slot_id => $slot) {
 	}
 	
 	$eid = &$slot['event_id'];
+	
+	if (!array_key_exists($eid, $data['events'])) {
+		continue;
+	}
+	
 	$event = &$data['events'][$eid];
 	
 	if (is_null($eid)) {
