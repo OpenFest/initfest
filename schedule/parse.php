@@ -9,7 +9,7 @@
 
 $data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
 
-$cut_len = 50;
+$cut_len = 70;
 $cfp_url = 'http://cfp.openfest.org';
 $time = 0;
 $date = 0;
@@ -57,7 +57,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 		$lines[] = '<td>TBA</td>';
 	}
 	else {
-		$title = mb_substr($event['title'], 0, $cut_len) . (strlen($event['title']) > $cut_len ? '...' : '');
+		$title = mb_substr($event['title'], 0, $cut_len) . (mb_strlen($event['title']) > $cut_len ? '...' : '');
 		$speakers = '';
 		
 		if (count($event['participant_user_ids']) > 0) {
