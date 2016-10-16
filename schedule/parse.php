@@ -9,6 +9,10 @@
 
 $data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
 
+if (!defined('SCHED_LANG')) {
+	define('SCHED_LANG', 'bg');
+}
+
 $cut_len = 70;
 $cfp_url = 'http://cfp.openfest.org';
 $time = 0;
@@ -21,13 +25,28 @@ $hall_ids = array_keys($data['halls']);
 $first_hall_id = min($hall_ids);
 $last_hall_id = max($hall_ids);
 
+$languages = array(
+	'en' => array(
+		'name' => 'English',
+		'locale' => 'en_US.UTF8'
+	),
+	'bg' => array(
+		'name' => 'Български',
+		'locale' => 'bg_BG.UTF8'
+	)
+);
+
+/* We need to set these so we actually parse properly the dates. WP fucks up both. */
+date_default_timezone_set('Europe/Sofia');
+setlocale(LC_TIME, $languages[SCHED_LANG]['locale']);
+
 foreach ($data['slots'] as $slot_id => $slot) {
 	$slotTime = $slot['starts_at'];
 	$slotDate = date('d', $slotTime);
 		
 	if ($slotDate !== $date) {
 		$lines[] = '<tr>';
-		$lines[] = '<td>' . date('d F - l', $slotTime) . '</td>';
+		$lines[] = '<td>' . strftime('%d %B - %A', $slotTime) . '</td>';
 		$lines[] = '<td colspan="3">&nbsp;</td>';
 		$lines[] = '</tr>';
 		
@@ -114,6 +133,17 @@ foreach ($data['slots'] as $slot_id => $slot) {
 
 $lines[] = '</tr>';
 
+/* create the legend */
+$legend = [];
+
+foreach($data['tracks'] as $track) {
+	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][SCHED_LANG] . '</td></tr>';
+}
+
+foreach ($languages as $code => $lang) {
+	$legend[] = '<tr><td class="schedule-' . $code . '">' . $lang['name'] . '</td></tr>';
+}
+
 $gspk = [];
 $fspk = [];
 $types = [];
@@ -150,4 +180,4 @@ foreach ($data['speakers'] as $speaker) {
 
 $gspk[] = '</div>';
 
-return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk'));
+return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk', 'legend'));

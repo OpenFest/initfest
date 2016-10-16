@@ -2,7 +2,7 @@
 error_reporting(~0);
 ini_set('display_errors', 1);
 
-$lang = 'bg';
+define('SCHED_LANG', 'bg');
 ?>
 <html>
 	<head>
@@ -23,7 +23,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'parse.php';
 <?php
 foreach ($content['halls'] as $hall_name) {
 ?>
-					<td><?php echo htmlspecialchars($hall_name[$lang]); ?></td>
+					<td><?php echo htmlspecialchars($hall_name[SCHED_LANG]); ?></td>
 <?php
 }
 ?>
@@ -38,6 +38,15 @@ foreach ($content['lines'] as $line) {
 			</tbody>
 		</table>
 		<div class="separator"></div>
+		<table border="1">
+			<tbody>
+<?php
+foreach ($content['legend'] as $line) {
+	echo $line, PHP_EOL;
+}
+?>
+			</tbody>
+		</table>
 <?php
 foreach ($content['fulltalks'] as $line) {
 	echo $line, PHP_EOL;
