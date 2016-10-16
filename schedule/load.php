@@ -12,6 +12,17 @@ $filenames = [
 	'slots'				=>	'slots.json',
 ];
 
+if (empty($allowedhallids)) {
+	$allowedhallids = array(6, 7, 8);
+}
+
+function compareKeys($a, $b, $key) {
+	$valA = &$a[$key];
+	$valB = &$b[$key];
+	
+	return ($valA < $valB) ? -1 : (($valA > $valB) ? 1 : 0);
+}
+
 $data = [];
 
 foreach ($filenames as $name => $filename) {
@@ -52,17 +63,12 @@ foreach ($filenames as $name => $filename) {
 	$data[$name] = $decoded;
 }
 
-function compareKeys($a, $b, $key) {
-	$valA = &$a[$key];
-	$valB = &$b[$key];
-	
-	return ($valA < $valB) ? -1 : (($valA > $valB) ? 1 : 0);
-}
-
 uasort($data['slots'], function($a, $b) {
 	return compareKeys($a, $b, 'starts_at') ?: compareKeys($a, $b, 'hall_id');
 });
 
-array_pop($data['halls']);
+$data['halls'] = array_filter($data['halls'], function($key) use ($allowedhallids) {
+	return in_array($key, $allowedhallids);
+}, ARRAY_FILTER_USE_KEY);
 
 return $data;
