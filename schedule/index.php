@@ -2,7 +2,14 @@
 error_reporting(~0);
 ini_set('display_errors', 1);
 
-define('SCHED_LANG', 'bg');
+$requirePath = __DIR__ . DIRECTORY_SEPARATOR;
+require $requirePath . 'class.SmartCurl.php';
+require $requirePath . 'config.php';
+require $requirePath . 'load.php';
+require $requirePath . 'parse.php';
+$sched_config = getSchedConfig();
+$data = loadData($sched_config);
+$content = parseData($sched_config, $data);
 ?>
 <html>
 	<head>
@@ -11,19 +18,14 @@ define('SCHED_LANG', 'bg');
 		<link rel="stylesheet" type="text/css" href="http://www.openfest.org/2014/wp-content/themes/initfest/style.css" />
 	</head>
 	<body>
-		<pre>
-<?php
-$content = require __DIR__ . DIRECTORY_SEPARATOR . 'parse.php';
-?>
-		</pre>
 		<table border="1" style="text-align: center;">
 			<thead>
 				<tr>
 					<td>&nbsp;</td>
 <?php
-foreach ($content['halls'] as $hall_name) {
+foreach ($data['halls'] as $hall_name) {
 ?>
-					<td><?php echo htmlspecialchars($hall_name[SCHED_LANG]); ?></td>
+					<td><?php echo htmlspecialchars($hall_name[$sched_config['lang']]); ?></td>
 <?php
 }
 ?>
