@@ -9,11 +9,7 @@
 
 $data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
 
-/* no idea why do I have to write this, doesn't seem to exist in the system */
-
-$languages = array('en' => array('name' => 'English', 'locale' => 'en_US.UTF8'), 'bg' => array ('name' => 'Български', 'locale' => 'bg_BG.UTF8'));
-
-$cut_len = 70;
+$cut_len = 50;
 $cfp_url = 'http://cfp.openfest.org';
 $time = 0;
 $date = 0;
@@ -25,20 +21,13 @@ $hall_ids = array_keys($data['halls']);
 $first_hall_id = min($hall_ids);
 $last_hall_id = max($hall_ids);
 
-/* We need to set these so we actually parse properly the dates. WP fucks up both. */
-date_default_timezone_set('Europe/Sofia');
-setlocale(LC_TIME, $languages[$CF['lang']]['locale']);
-
 foreach ($data['slots'] as $slot_id => $slot) {
-	if (! in_array($slot['hall_id'], $CF['allowedhallids'])) continue;
 	$slotTime = $slot['starts_at'];
 	$slotDate = date('d', $slotTime);
 		
 	if ($slotDate !== $date) {
-		/* this seems to be the easiest way to localize the date */
-		$localdate = strftime('%d %B - %A' ,$slotTime);
 		$lines[] = '<tr>';
-		$lines[] = '<td>' . $localdate . '</td>';
+		$lines[] = '<td>' . date('d F - l', $slotTime) . '</td>';
 		$lines[] = '<td colspan="3">&nbsp;</td>';
 		$lines[] = '</tr>';
 		
@@ -63,7 +52,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 		$lines[] = '<td>TBA</td>';
 	}
 	else {
-		$title = mb_substr($event['title'], 0, $cut_len) . (mb_strlen($event['title']) > $cut_len ? '...' : '');
+		$title = mb_substr($event['title'], 0, $cut_len) . (strlen($event['title']) > $cut_len ? '...' : '');
 		$speakers = '';
 		
 		if (count($event['participant_user_ids']) > 0) {
@@ -78,7 +67,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 				} else {
 					/* TODO: fix the URL */
 					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-					$spk[$uid] = '<a class="vt-p" href="SPKURL#'. $name . '">' . $name . '</a>';
+					$spk[$uid] = '<a class="vt-p" href="#'. $name . '">' . $name . '</a>';
 				}
 			}
 			$speakers = implode (', ', $spk);
@@ -103,7 +92,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 		$fulltalk_spkr = strlen($speakers)>1 ? ' (' . $speakers . ')' : '';
 		$fulltalks[$eid] .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong>';
 		$fulltalks[$eid] .= '<p>' . $event['abstract'] . '</p>';
-		$fulltalks[$eid] .= '<div class="separator"></div></section>';
+		$fulltalks[$eid] .= '<div class="separator"></div>';
 
 		if ($slot['event_id'] === $prev_event_id) {
 			array_pop($lines);
@@ -119,16 +108,6 @@ foreach ($data['slots'] as $slot_id => $slot) {
 }
 
 $lines[] = '</tr>';
-/* create the legend */
-
-$legend = [];
-
-foreach($data['tracks'] as $track) {
-	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$CF['lang']] . '</td></tr>';
-}
-foreach ($languages as $l => $n) {
-	$legend[] = '<tr><td class="schedule-' . $l . '">' . $n['name'] . '</td></tr>';
-}
 
 $gspk = [];
 $fspk = [];
@@ -159,11 +138,10 @@ foreach ($data['speakers'] as $speaker) {
 			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a>';
 		}
 	}
-	$fspk[] = '</div>';
 	$fspk[] = '<p>' . $speaker['biography'] . '</p>';
 	$fspk[] = '</div><div class="separator"></div>';
 }
 
 $gspk[] = '</div>';
 
-return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk', 'legend'));
+return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk'));

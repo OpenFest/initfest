@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . DIRECTORY_SEPARATOR . 'class.SmartCurl.php';
 
-$base_url = 'https://cfp.openfest.org/api/conferences/'. $CF['confid'] .'/';
+$base_url = 'https://cfp.openfest.org/api/conferences/2/';
 
 $filenames = [
 	'events'			=>	'events.json',
@@ -12,15 +12,14 @@ $filenames = [
 	'slots'				=>	'slots.json',
 ];
 
-
 $data = [];
 
 foreach ($filenames as $name => $filename) {
-	$curl = new SmartCurl($base_url, 'cache' . DIRECTORY_SEPARATOR .$CF['confid']);
+	$curl = new SmartCurl($base_url);
 	$json = $curl->getUrl($filename);
 
 	if ($json === false) {
-		echo 'get failed: ', $filename, ' ', $base_url, PHP_EOL;
+		echo 'get failed: ', $filename, PHP_EOL;
 		exit;
 	}
 	
@@ -32,13 +31,12 @@ foreach ($filenames as $name => $filename) {
 	}
 	
 	$add = true;
+	
 	switch ($name) {
 		case 'halls':
-			$ret = array();
-			foreach($decoded as $id => $hall) {
-					if (in_array($id, $CF['allowedhallids'])) $ret[$id] = $hall['name'];
-			}
-			$decoded = $ret;
+			$decoded = array_map(function($el) {
+				return $el['name'];
+			}, $decoded);
 		break;
 		case 'slots':
 			$decoded = array_map(function($el) {
@@ -65,6 +63,6 @@ uasort($data['slots'], function($a, $b) {
 	return compareKeys($a, $b, 'starts_at') ?: compareKeys($a, $b, 'hall_id');
 });
 
-//array_pop($data['halls']);
+array_pop($data['halls']);
 
 return $data;
