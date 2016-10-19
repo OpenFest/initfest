@@ -3,7 +3,7 @@ function parseData($config, $data) {
 	$time = 0;
 	$date = 0;
 	$lines = [];
-	$fulltalks = [];
+	$fulltalks = '';
 	$prev_event_id = 0;
 	$colspan = 1;
 
@@ -22,11 +22,7 @@ function parseData($config, $data) {
 	date_default_timezone_set('Europe/Sofia');
 	setlocale(LC_TIME, $languages[$config['lang']]['locale']);
 
-	foreach ($data['slots'] as $slot_id => $slot) {
-		if (!in_array($slot['hall_id'], $config['allowedHallIds'])) {
-			continue;
-		}
-		
+	foreach ($data['slots'] as $slot) {
 		$slotTime = $slot['starts_at'];
 		$slotDate = date('d', $slotTime);
 			
@@ -77,7 +73,7 @@ function parseData($config, $data) {
 					} else {
 						/* TODO: fix the URL */
 						$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-						$spk[$uid] = '<a class="vt-p" href="SPKURL#'. $name . '">' . $name . '</a>';
+						$spk[$uid] = '<a class="vt-p" href="#'. $name . '">' . $name . '</a>';
 					}
 				}
 				$speakers = implode (', ', $spk);
@@ -86,9 +82,9 @@ function parseData($config, $data) {
 			
 			/* Hack, we don't want language for the misc track. This is the same for all years. */
 			if ('misc' !== $data['tracks'][$event['track_id']]['name']['en']) {
-				$csslang = "schedule-".$event['language'];
+				$csslang = 'schedule-' . $event['language'];
 			} else {
-				$csslang = "";
+				$csslang = '';
 			}
 			$cssclass = &$data['tracks'][$event['track_id']]['css_class'];
 			$style = ' class="' . $cssclass . ' ' . $csslang . '"';
@@ -96,13 +92,12 @@ function parseData($config, $data) {
 
 
 			/* these are done by $eid, as otherwise we get some talks more than once (for example the lunch) */
-			$fulltalks[$eid] = '';
-			$fulltalks[$eid] .= '<section id="lecture-' . $eid . '">';
+			$fulltalks .= '<section id="lecture-' . $eid . '">';
 			/* We don't want '()' when we don't have a speaker name */
 			$fulltalk_spkr = strlen($speakers)>1 ? ' (' . $speakers . ')' : '';
-			$fulltalks[$eid] .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
-			$fulltalks[$eid] .= '<p>' . $event['abstract'] . '</p>';
-			$fulltalks[$eid] .= '<div class="separator"></div></section>';
+			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
+			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
+			$fulltalks .= '<div class="separator"></div></section>';
 
 			if ($slot['event_id'] === $prev_event_id) {
 				array_pop($lines);
@@ -120,51 +115,58 @@ function parseData($config, $data) {
 	$lines[] = '</tr>';
 
 	/* create the legend */
-	$legend = [];
+	$legend = '';
 
 	foreach($data['tracks'] as $track) {
-		$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$config['lang']] . '</td></tr>';
+		$legend .= '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$config['lang']] . '</td></tr>';
 	}
 
 	foreach ($languages as $code => $lang) {
-		$legend[] = '<tr><td class="schedule-' . $code . '">' . $lang['name'] . '</td></tr>';
+		$legend .= '<tr><td class="schedule-' . $code . '">' . $lang['name'] . '</td></tr>';
 	}
 
-	$gspk = [];
-	$fspk = [];
-	$types = [];
-	$types['twitter']['url']='https://twitter.com/';
-	$types['twitter']['class']='fa fa-twitter';
-	$types['github']['url']='https://github.com/';
-	$types['github']['class']='fa fa-github';
-	$types['email']['url']='mailto:';
-	$types['email']['class']='fa fa-envelope';
-
-	$gspk[] = '<div class="grid members">';
+	$gspk = '<div class="grid members">';
+	$fspk = '';
+	$types = [
+		'twitter' => [
+			'class' => 'twitter',
+			'url' => 'https://twitter.com/',
+		],
+		'github' => [
+			'class' => 'github',
+			'url' => 'https://github.com/',
+		],
+		'email' => [
+			'class' => 'envelope',
+			'url' => 'mailto:',
+		],
+	];
 
 	foreach ($data['speakers'] as $speaker) {
 		$name = $speaker['first_name'] . ' ' . $speaker['last_name'];
 
-		$gspk[] = '<div class="member col4">';
-		$gspk[] = '<a href="#' . $name . '">';
-		$gspk[] = '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />';
-		$gspk[] = '</a> </div>';
+		$gspk .= '<div class="member col4">';
+		$gspk .= '<a href="#' . $name . '">';
+		$gspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />';
+		$gspk .= '</a> </div>';
 
-		$fspk[] = '<div class="speaker" id="' . $name . '">';
-		$fspk[] = '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />'; 
-		$fspk[] = '<h3>' . $name . '</h3>';
-		$fspk[] = '<div class="icons">';
-		foreach ($types as $type => $parm) {
+		$fspk .= '<div class="speaker" id="' . $name . '">';
+		$fspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />'; 
+		$fspk .= '<h3>' . $name . '</h3>';
+		$fspk .= '<div class="icons">';
+		
+		foreach ($types as $type => $param) {
 			if (!empty($speaker[$type])) {
-				$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a>';
+				$fspk .= '<a href="' . $param['url'] . $speaker[$type] . '"><i class="fa fa-' . $param['class'] . '"></i></a>';
 			}
 		}
-		$fspk[] = '</div>';
-		$fspk[] = '<p>' . $speaker['biography'] . '</p>';
-		$fspk[] = '</div><div class="separator"></div>';
+		
+		$fspk .= '</div>';
+		$fspk .= '<p>' . $speaker['biography'] . '</p>';
+		$fspk .= '</div><div class="separator"></div>';
 	}
 
-	$gspk[] = '</div>';
+	$gspk .= '</div>';
 
 	return compact('lines', 'fulltalks', 'gspk', 'fspk', 'legend');
 }

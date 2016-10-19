@@ -43,24 +43,14 @@ foreach ($content['lines'] as $line) {
 		<table border="1">
 			<tbody>
 <?php
-foreach ($content['legend'] as $line) {
-	echo $line, PHP_EOL;
-}
+echo $content['legend'], PHP_EOL;
 ?>
 			</tbody>
 		</table>
 <?php
-foreach ($content['fulltalks'] as $line) {
-	echo $line, PHP_EOL;
-}
-
-foreach ($content['gspk'] as $line) {
-	echo $line, PHP_EOL;
-}
-
-foreach ($content['fspk'] as $line) {
-	echo $line, PHP_EOL;
-}
+echo $content['fulltalks'];
+echo $content['gspk'];
+echo $content['fspk'];
 ?>
 	</body>
 </html>

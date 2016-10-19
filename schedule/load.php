@@ -7,8 +7,6 @@ function compareKeys($a, $b, $key) {
 }
 
 function loadData($config) {
-	$base_url = $config['cfp_url'] . '/api/conferences/2/';
-
 	$filenames = [
 		'events'			=>	'events.json',
 		'speakers'			=>	'speakers.json',
@@ -19,10 +17,10 @@ function loadData($config) {
 	];
 
 	$data = [];
-
+	$curl = new SmartCurl($config['cfp_url'] . '/api/conferences/');
+	
 	foreach ($filenames as $name => $filename) {
-		$curl = new SmartCurl($base_url);
-		$json = $curl->getUrl($filename);
+		$json = $curl->getUrl($config['conferenceId'] . '/' . $filename);
 
 		if ($json === false) {
 			echo 'get failed: ', $filename, PHP_EOL;
@@ -61,10 +59,6 @@ function loadData($config) {
 	uasort($data['slots'], function($a, $b) {
 		return compareKeys($a, $b, 'starts_at') ?: compareKeys($a, $b, 'hall_id');
 	});
-
-	$data['halls'] = array_filter($data['halls'], function($key) use ($config) {
-		return in_array($key, $config['allowedHallIds']);
-	}, ARRAY_FILTER_USE_KEY);
 
 	return $data;
 }
