@@ -18,19 +18,18 @@ function parseData($config, $data) {
 		)
 	);
 	
-	$microslots = [];
-	
+	// We need to set these so we actually parse properly the dates. WP fucks up both.
+	date_default_timezone_set('Europe/Sofia');
+	setlocale(LC_TIME, $languages[$config['lang']]['locale']);
+
+	// Filter out invalid slots
 	$data['slots'] = array_filter($data['slots'], function($slot) {
 		return isset($slot['starts_at'], $slot['ends_at'], $slot['hall_id'], $slot['event_id']);
 	});
 	
-	$data['slots'] = array_map(function($slot) {
-		$slot['start'] = date('d.m H:i', $slot['starts_at']);
-		$slot['end'] = date('d.m H:i', $slot['ends_at']);
-		return $slot;
-	}, $data['slots']);
-	
+	// Collect the events for each hall, sort them in order of starting
 	$events = [];
+	$microslots = [];
 	
 	foreach ($data['halls'] as $hall_id => $hall) {
 		$events[$hall_id] = [];
@@ -56,42 +55,29 @@ function parseData($config, $data) {
 	
 	sort($microslots);
 	
-	$times = [];
-	
-	foreach ($microslots as $microslot) {
-		$times[$microslot] = date('d.m H:i', $microslot);
-	}
-	
+	// Find all microslots (the smallest time unit)
 	$intervals = [];
 	$lastTs = 0;
-	$last = '';
 	$first = true;
 	
-	foreach ($times as $ts => $time) {
+	foreach ($microslots as $ts) {
 		if ($first) {
-			$last = $time;
 			$lastTs = $ts;
 			$first = false;
 			continue;
 		}
 		
-		if (date('d.m.Y', $lastTs) !== date('d.m.Y', $ts)) {
-			//echo PHP_EOL;
-			
-			$last = $time;
+		if (date('d.m', $lastTs) !== date('d.m', $ts)) {
 			$lastTs = $ts;
 			continue;
 		}
 		
-		//echo count($intervals), '. ', $last, ' - ', $time, PHP_EOL;
 		$intervals[] = [$lastTs, $ts];
-		
 		$lastTs = $ts;
-		$last = $time;
 	}
 	
-	$schedule = [];
-	$hall_ids = array_keys($data['halls']);
+	// Fill in the event ID for each time slot in each hall
+	$slot_list = [];
 	
 	foreach ($data['halls'] as $hall_id => $hall) {
 		$hall_data = [];
@@ -119,177 +105,109 @@ function parseData($config, $data) {
 			}
 		}
 		
-		$schedule[] = $hall_data;
+		$slot_list[] = $hall_data;
 	}
 	
-	$schedule = array_map(null, ...$schedule);
-	$table = '<table border="1"><thead><tr><th></th>';
+	// Transpose the matrix
+	// rows->halls, cols->timeslots ===> rows->timeslots, cols->halls
+	$slot_list = array_map(null, ...$slot_list);
 	
-	foreach ($hall_ids as $hall_id) {
-		$table .= '<th>' . $data['halls'][$hall_id]['bg'] . '</th>';
+	// Build the HTML
+	$schedule = '<table border="1"><thead><tr><th></th>';
+	
+	foreach ($data['halls'] as $hall_id => $hall) {
+		$schedule .= '<th>' . $hall['bg'] . '</th>';
 	}
 	
-	$table .= '</tr></thead><tbody>';
+	$schedule .= '</tr></thead><tbody>';
 	$lastTs = 0;
 	
-	foreach ($schedule as $slot_index => $events) {
+	foreach ($slot_list as $slot_index => $events) {
 		$columns = [];
 		$hasEvents = false;
 		
 		if (date('d.m', $intervals[$slot_index][0]) !== date('d.m', $lastTs)) {
-			$table .= '<tr><th colspan="' . (count($events) + 1) . '">' . date('d.m', $intervals[$slot_index][0]) . '</th></tr>';
+			$schedule .= '<tr><th colspan="' . (count($events) + 1) . '">' . strftime('%d %B - %A', $intervals[$slot_index][0]) . '</th></tr>';
 		}
 		
 		$lastTs = $intervals[$slot_index][0];
 		$lastEventId = 0;
+		$colspan = 1;
 		
-		foreach ($events as $hall_index => $event) {
-			if (is_null($event['event_id']) || !array_key_exists($event['event_id'], $data['events'])) {
+		foreach ($events as $hall_index => $hall_data) {
+			if (is_null($hall_data['event_id']) || !array_key_exists($hall_data['event_id'], $data['events'])) {
 				$columns[] = '<td>&nbsp;</td>';
 				continue;
 			}
 
-			if ($event['edge']) {
+			if ($hall_data['edge']) {
 				$hasEvents = true;
 			}
 			
-			if ($lastEventId === $event['event_id']) {
-				$lastColumn = array_pop($columns);
-				$lastColumn = preg_replace_callback('/<td(?: colspan="(\d+)")?>/', function($matches) {
-					$colspan = array_key_exists(1, $matches) ? intval($matches[1]) + 1 : 2;
-					return '<td colspan="' . $colspan . '">';
-				}, $lastColumn);
-				$columns[] = $lastColumn;
-				continue;
-			}
+			$eid = &$hall_data['event_id'];
+			$event = &$data['events'][$eid];
 
-			$columns[] = '<td>' . $data['events'][$event['event_id']]['title'] . ' (' . $event['event_id'] . ')</td>';
-			$lastEventId = $event['event_id'];
+			$title = mb_substr($event['title'], 0, $config['cut_len']) . (mb_strlen($event['title']) > $config['cut_len'] ? '...' : '');
+			$speakers = '';
+			
+			if (count($event['participant_user_ids']) > 0) {
+				$spk = array();
+				$speaker_name = array();
+				foreach ($event['participant_user_ids'] as $uid) {
+					if (in_array($uid, $config['hidden_speakers']) || empty($data['speakers'][$uid])) {
+						continue;
+					}
+
+					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
+					$spk[$uid] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
+				}
+				$speakers = implode (', ', $spk);
+			}
+			
+			if (in_array($event['track_id'], $config['hidden_language_tracks'])) {
+				$csslang = '';
+			} else {
+				$csslang = 'schedule-' . $event['language'];
+			}
+			
+			$cssclass = &$data['tracks'][$event['track_id']]['css_class'];
+			$style = ' class="' . $cssclass . ' ' . $csslang . '"';
+			$content = '<a href="#lecture-' . $eid . '">' . htmlspecialchars($title) . '</a><br>' . $speakers;
+
+			/* these are done by $eid, as otherwise we get some talks more than once (for example the lunch) */
+			$fulltalks .= '<section id="lecture-' . $eid . '">';
+			/* We don't want '()' when we don't have a speaker name */
+			$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
+			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
+			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
+			$fulltalks .= '<div class="separator"></div></section>';
+/*
+			if ($eid === $lastEventId) {
+				array_pop($columns);
+				++$colspan;
+			}
+			else {
+				$colspan = 1;
+			}
+*/
+			$columns[] = '<td' . $style . ($colspan > 1 ? ' colspan="' . $colspan . '"' : '') . '>' . $content . '</td>';
+			$lastEventId = $eid;
 		}
 		
 		if (!$hasEvents) {
 			continue;
 		}
 		
-		$table .= '<tr><td>';
-		$table .= date('H:i', $intervals[$slot_index][0]) . ' - ' . date('H:i', $intervals[$slot_index][1]);
-		$table .= '</td>';
-		$table .= implode('', $columns);
-		$table .= '</tr>';
+		$schedule .= '<tr><td>';
+		$schedule .= strftime('%H:%M', $intervals[$slot_index][0]) . ' - ' . strftime('%H:%M', $intervals[$slot_index][1]);
+		$schedule .= '</td>';
+		$schedule .= implode('', $columns);
+		$schedule .= '</tr>';
 	}
 	
-	$table .= '</tbody></table>';
+	$schedule .= '</tbody></table>';
 	
-	echo $table;
-	//var_dump($schedule);
-	exit;
-
-	/* We need to set these so we actually parse properly the dates. WP fucks up both. */
-	date_default_timezone_set('Europe/Sofia');
-	setlocale(LC_TIME, $languages[$config['lang']]['locale']);
-
-	foreach ($data['slots'] as $slot) {
-		$slotTime = $slot['starts_at'];
-		$slotDate = date('d', $slotTime);
-			
-		if ($slotDate !== $date) {
-			$lines[] = '<tr>';
-			$lines[] = '<td>' . strftime('%d %B - %A', $slotTime) . '</td>';
-			$lines[] = '<td colspan="3">&nbsp;</td>';
-			$lines[] = '</tr>';
-			
-			$date = $slotDate;
-		}
-		
-		if ($slotTime !== $time) {
-			if ($time !== 0) {
-				$lines[] = '</tr>';
-			}
-			
-			$lines[] = '<tr>';
-			$lines[] = '<td>' . date('H:i', $slot['starts_at']) . ' - ' . date('H:i', $slot['ends_at']) . '</td>';
-			
-			$time = $slotTime;
-		}
-		
-		$eid = &$slot['event_id'];
-		
-		if (!array_key_exists($eid, $data['events'])) {
-			continue;
-		}
-		
-		$event = &$data['events'][$eid];
-		
-		if (
-			array_key_exists('filterEventType', $config) &&
-			array_key_exists($config['filterEventType'], $config['eventTypes'])
-		) {
-			if ($config['eventTypes'][$config['filterEventType']] !== $event['event_type_id']) {
-				continue;
-			}
-		}
-		
-		if (is_null($eid)) {
-			$lines[] = '<td>TBA</td>';
-		}
-		else {
-			$title = mb_substr($event['title'], 0, $config['cut_len']) . (mb_strlen($event['title']) > $config['cut_len'] ? '...' : '');
-			$speakers = '';
-			
-			if (count($event['participant_user_ids']) > 0) {
-				$speakers = json_encode($event['participant_user_ids']) . '<br>';
-
-				$spk = array();
-				$speaker_name = array();
-				foreach ($event['participant_user_ids'] as $uid) {
-					/* The check for uid==4 is for us not to show the "Opefest Team" as a presenter for lunches, etc. */
-					if ($uid == 4 || empty ($data['speakers'][$uid])) {
-						continue;
-					} else {
-						/* TODO: fix the URL */
-						$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-						$spk[$uid] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
-					}
-				}
-				$speakers = implode (', ', $spk);
-			}
-			
-			
-			/* Hack, we don't want language for the misc track. This is the same for all years. */
-			if ('misc' !== $data['tracks'][$event['track_id']]['name']['en']) {
-				$csslang = 'schedule-' . $event['language'];
-			} else {
-				$csslang = '';
-			}
-			$cssclass = &$data['tracks'][$event['track_id']]['css_class'];
-			$style = ' class="' . $cssclass . ' ' . $csslang . '"';
-			$content = '<a href=#lecture-' . $eid . '>' . htmlspecialchars($title) . '</a> <br>' . $speakers;
-
-
-			/* these are done by $eid, as otherwise we get some talks more than once (for example the lunch) */
-			$fulltalks .= '<section id="lecture-' . $eid . '">';
-			/* We don't want '()' when we don't have a speaker name */
-			$fulltalk_spkr = strlen($speakers)>1 ? ' (' . $speakers . ')' : '';
-			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
-			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
-			$fulltalks .= '<div class="separator"></div></section>';
-
-			if ($slot['event_id'] === $prev_event_id) {
-				array_pop($lines);
-				$lines[] = '<td' . $style . ' colspan="' . ++$colspan . '">' . $content . '</td>';
-			}
-			else {
-				$lines[] = '<td' . $style . '>' . $content . '</td>';
-				$colspan = 1;
-			}
-		}
-		
-		$prev_event_id = $slot['event_id'];
-	}
-
-	$lines[] = '</tr>';
-
-	/* create the legend */
+	// Create the legend
 	$legend = '';
 
 	foreach($data['tracks'] as $track) {
@@ -299,7 +217,8 @@ function parseData($config, $data) {
 	foreach ($languages as $code => $lang) {
 		$legend .= '<tr><td class="schedule-' . $code . '">' . $lang['name'] . '</td></tr>';
 	}
-
+	
+	// Speaker list
 	$gspk = '<div class="grid members">';
 	$fspk = '';
 	$types = [
@@ -343,5 +262,5 @@ function parseData($config, $data) {
 
 	$gspk .= '</div>';
 
-	return compact('lines', 'fulltalks', 'gspk', 'fspk', 'legend');
+	return compact('schedule', 'fulltalks', 'gspk', 'fspk', 'legend');
 }

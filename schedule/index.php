@@ -19,27 +19,9 @@ $content = parseData($sched_config, $data);
 		<link rel="stylesheet" type="text/css" href="http://www.openfest.org/2014/wp-content/themes/initfest/style.css" />
 	</head>
 	<body>
-		<table border="1" style="text-align: center;">
-			<thead>
-				<tr>
-					<td>&nbsp;</td>
 <?php
-foreach ($data['halls'] as $hall_name) {
+echo $content['schedule'];
 ?>
-					<td><?php echo htmlspecialchars($hall_name[$sched_config['lang']]); ?></td>
-<?php
-}
-?>
-				</tr>
-			</thead>
-			<tbody>
-<?php
-foreach ($content['lines'] as $line) {
-	echo $line, PHP_EOL;
-}
-?>
-			</tbody>
-		</table>
 		<div class="separator"></div>
 		<table border="1">
 			<tbody>

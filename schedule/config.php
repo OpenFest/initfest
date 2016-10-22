@@ -4,8 +4,10 @@ function getSchedConfig($year = 2015) {
 		'lang' => 'bg',
 		'cfp_url' => 'https://cfp.openfest.org',
 		'cut_len' => 70,
+		'hidden_speakers' => [4],
+		'hidden_language_tracks' => [],
 	];
-
+	
 	$config = [
 		2014 => [
 			'conferenceId' => 1,
@@ -20,6 +22,7 @@ function getSchedConfig($year = 2015) {
 				'lecture' => 3,
 				'workshop' => 4,
 			],
+			'hidden_language_tracks' => [16],
 		],
 		2016 => [
 			'conferenceId' => 3,
@@ -27,6 +30,7 @@ function getSchedConfig($year = 2015) {
 				'lecture' => 5,
 				'workshop' => 6,
 			],
+			'hidden_language_tracks' => [25],
 		],
 	];
 	
