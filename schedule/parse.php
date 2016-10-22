@@ -18,10 +18,7 @@ function parseData($config, $data) {
 		)
 	);
 	
-	// PATCH WHILE CLARION RETURNS WRONG DATA
-	$data['slots'][188]['ends_at'] = strtotime('2016-11-06T13:15:00.000+02:00');
-	
-	$moments = [];
+	$microslots = [];
 	
 	$data['slots'] = array_filter($data['slots'], function($slot) {
 		return isset($slot['starts_at'], $slot['ends_at'], $slot['hall_id'], $slot['event_id']);
@@ -43,12 +40,12 @@ function parseData($config, $data) {
 				continue;
 			}
 			
-			if (!in_array($slot['starts_at'], $moments)) {
-				$moments[] = $slot['starts_at'];
+			if (!in_array($slot['starts_at'], $microslots)) {
+				$microslots[] = $slot['starts_at'];
 			}
 			
-			if (!in_array($slot['ends_at'], $moments)) {
-				$moments[] = $slot['ends_at'];
+			if (!in_array($slot['ends_at'], $microslots)) {
+				$microslots[] = $slot['ends_at'];
 			}
 			
 			$events[$hall_id][$slot['starts_at']] = $slot;
@@ -57,12 +54,12 @@ function parseData($config, $data) {
 		ksort($events[$hall_id]);
 	}
 	
-	sort($moments);
+	sort($microslots);
 	
 	$times = [];
 	
-	foreach ($moments as $moment) {
-		$times[$moment] = date('d.m H:i', $moment);
+	foreach ($microslots as $microslot) {
+		$times[$microslot] = date('d.m H:i', $microslot);
 	}
 	
 	$intervals = [];
@@ -133,10 +130,18 @@ function parseData($config, $data) {
 	}
 	
 	$table .= '</tr></thead><tbody>';
+	$lastTs = 0;
 	
 	foreach ($schedule as $slot_index => $events) {
 		$columns = [];
 		$hasEvents = false;
+		
+		if (date('d.m', $intervals[$slot_index][0]) !== date('d.m', $lastTs)) {
+			$table .= '<tr><th colspan="' . (count($events) + 1) . '">' . date('d.m', $intervals[$slot_index][0]) . '</th></tr>';
+		}
+		
+		$lastTs = $intervals[$slot_index][0];
+		$lastEventId = 0;
 		
 		foreach ($events as $hall_index => $event) {
 			if (is_null($event['event_id']) || !array_key_exists($event['event_id'], $data['events'])) {
@@ -147,8 +152,19 @@ function parseData($config, $data) {
 			if ($event['edge']) {
 				$hasEvents = true;
 			}
+			
+			if ($lastEventId === $event['event_id']) {
+				$lastColumn = array_pop($columns);
+				$lastColumn = preg_replace_callback('/<td(?: colspan="(\d+)")?>/', function($matches) {
+					$colspan = array_key_exists(1, $matches) ? intval($matches[1]) + 1 : 2;
+					return '<td colspan="' . $colspan . '">';
+				}, $lastColumn);
+				$columns[] = $lastColumn;
+				continue;
+			}
 
 			$columns[] = '<td>' . $data['events'][$event['event_id']]['title'] . ' (' . $event['event_id'] . ')</td>';
+			$lastEventId = $event['event_id'];
 		}
 		
 		if (!$hasEvents) {
