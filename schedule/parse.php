@@ -17,6 +17,152 @@ function parseData($config, $data) {
 			'locale' => 'bg_BG.UTF8'
 		)
 	);
+	
+	// PATCH WHILE CLARION RETURNS WRONG DATA
+	$data['slots'][188]['ends_at'] = strtotime('2016-11-06T13:15:00.000+02:00');
+	
+	$moments = [];
+	
+	$data['slots'] = array_map(function($slot) {
+		$slot['start'] = date('d.m H:i', $slot['starts_at']);
+		$slot['end'] = date('d.m H:i', $slot['ends_at']);
+		return $slot;
+	}, $data['slots']);
+	
+	$events = [];
+	
+	foreach ($data['halls'] as $hall_id => $hall) {
+		$events[$hall_id] = [];
+		
+		foreach ($data['slots'] as $slot_id => $slot) {
+			if ($slot['hall_id'] !== $hall_id) {
+				continue;
+			}
+			
+			if (!in_array($slot['starts_at'], $moments)) {
+				$moments[] = $slot['starts_at'];
+			}
+			
+			if (!in_array($slot['ends_at'], $moments)) {
+				$moments[] = $slot['ends_at'];
+			}
+			
+			$events[$hall_id][$slot['starts_at']] = $slot;
+		}
+		
+		ksort($events[$hall_id]);
+	}
+	
+	sort($moments);
+	
+	$times = [];
+	
+	foreach ($moments as $moment) {
+		$times[$moment] = date('d.m H:i', $moment);
+	}
+	
+	$intervals = [];
+	$lastTs = 0;
+	$last = '';
+	$first = true;
+	
+	foreach ($times as $ts => $time) {
+		if ($first) {
+			$last = $time;
+			$lastTs = $ts;
+			$first = false;
+			continue;
+		}
+		
+		if (date('d.m.Y', $lastTs) !== date('d.m.Y', $ts)) {
+			//echo PHP_EOL;
+			
+			$last = $time;
+			$lastTs = $ts;
+			continue;
+		}
+		
+		//echo count($intervals), '. ', $last, ' - ', $time, PHP_EOL;
+		$intervals[] = [$lastTs, $ts];
+		
+		$lastTs = $ts;
+		$last = $time;
+	}
+	
+	$schedule = [];
+	$hall_ids = array_keys($data['halls']);
+	
+	foreach ($data['halls'] as $hall_id => $hall) {
+		$hall_data = [];
+		
+		foreach ($intervals as $timestamps) {
+			$found = false;
+			
+			foreach ($data['slots'] as $slot_id => $slot) {
+				if (
+					$slot['hall_id'] === $hall_id &&
+					$slot['starts_at'] <= $timestamps[0] &&
+					$slot['ends_at'] >= $timestamps[1]
+				) {
+					$found = true;
+					$hall_data[] = [
+						'event_id' => $slot['event_id'],
+						'edge' => $slot['starts_at'] === $timestamps[0] || $slot['ends_at'] === $timestamps[1],
+					];
+					break;
+				}
+			}
+			
+			if (!$found) {
+				$hall_data[] = null;
+			}
+		}
+		
+		$schedule[] = $hall_data;
+	}
+	
+	$schedule = array_map(null, ...$schedule);
+	$table = '<table border="1"><thead><tr><th></th>';
+	
+	foreach ($hall_ids as $hall_id) {
+		$table .= '<th>' . $data['halls'][$hall_id]['bg'] . '</th>';
+	}
+	
+	$table .= '</tr></thead><tbody>';
+	
+	foreach ($schedule as $slot_index => $events) {
+		$columns = [];
+		$hasEvents = false;
+		
+		foreach ($events as $hall_index => $event) {
+			if (is_null($event['event_id'])) {
+				$columns[] = '<td>&nbsp;</td>';
+				continue;
+			}
+
+			if ($event['edge']) {
+				$hasEvents = true;
+			}
+			
+			$columns[] = '<td>' . $data['events'][$event['event_id']]['title'] . ' (' . $event['event_id'] . ')</td>';
+		}
+		
+		if (!$hasEvents) {
+			continue;
+		}
+		
+		$table .= '<tr><td>';
+		$table .= date('H:i', $intervals[$slot_index][0]) . ' - ' . date('H:i', $intervals[$slot_index][1]);
+		$table .= '</td>';
+		$table .= implode('', $columns);
+		$table .= '</tr>';
+	}
+	
+	$table .= '</tbody></table>';
+	
+	echo $table;
+	//var_dump($schedule);
+	exit;
 
 	/* We need to set these so we actually parse properly the dates. WP fucks up both. */
 	date_default_timezone_set('Europe/Sofia');
@@ -54,6 +200,15 @@ function parseData($config, $data) {
 		
 		$event = &$data['events'][$eid];
 		
+		if (
+			array_key_exists('filterEventType', $config) &&
+			array_key_exists($config['filterEventType'], $config['eventTypes'])
+		) {
+			if ($config['eventTypes'][$config['filterEventType']] !== $event['event_type_id']) {
+				continue;
+			}
+		}
+		
 		if (is_null($eid)) {
 			$lines[] = '<td>TBA</td>';
 		}
@@ -73,7 +228,7 @@ function parseData($config, $data) {
 					} else {
 						/* TODO: fix the URL */
 						$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-						$spk[$uid] = '<a class="vt-p" href="#'. $name . '">' . $name . '</a>';
+						$spk[$uid] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
 					}
 				}
 				$speakers = implode (', ', $spk);
@@ -147,11 +302,11 @@ function parseData($config, $data) {
 
 		$gspk .= '<div class="member col4">';
 		$gspk .= '<a href="#' . $name . '">';
-		$gspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />';
+		$gspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />';
 		$gspk .= '</a> </div>';
 
 		$fspk .= '<div class="speaker" id="' . $name . '">';
-		$fspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />'; 
+		$fspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />'; 
 		$fspk .= '<h3>' . $name . '</h3>';
 		$fspk .= '<div class="icons">';
 		

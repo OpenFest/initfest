@@ -7,8 +7,9 @@ require $requirePath . 'class.SmartCurl.php';
 require $requirePath . 'config.php';
 require $requirePath . 'load.php';
 require $requirePath . 'parse.php';
-$sched_config = getSchedConfig();
+$sched_config = getSchedConfig(date('Y'));
 $data = loadData($sched_config);
+//$sched_config['filterEventType'] = 'workshop';
 $content = parseData($sched_config, $data);
 ?>
 <html>

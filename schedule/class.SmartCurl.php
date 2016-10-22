@@ -12,7 +12,7 @@ class SmartCurl {
 		}
 		
 		if (!file_exists($this->cache_dir)) {
-			mkdir($this->cache_dir);
+			mkdir($this->cache_dir, 0777, true);
 		}
 		
 		$this->cache_index = $this->cache_dir . '.json';
