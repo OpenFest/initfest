@@ -23,6 +23,10 @@ function parseData($config, $data) {
 	
 	$moments = [];
 	
+	$data['slots'] = array_filter($data['slots'], function($slot) {
+		return isset($slot['starts_at'], $slot['ends_at'], $slot['hall_id'], $slot['event_id']);
+	});
+	
 	$data['slots'] = array_map(function($slot) {
 		$slot['start'] = date('d.m H:i', $slot['starts_at']);
 		$slot['end'] = date('d.m H:i', $slot['ends_at']);
@@ -135,7 +139,7 @@ function parseData($config, $data) {
 		$hasEvents = false;
 		
 		foreach ($events as $hall_index => $event) {
-			if (is_null($event['event_id'])) {
+			if (is_null($event['event_id']) || !array_key_exists($event['event_id'], $data['events'])) {
 				$columns[] = '<td>&nbsp;</td>';
 				continue;
 			}
@@ -143,7 +147,7 @@ function parseData($config, $data) {
 			if ($event['edge']) {
 				$hasEvents = true;
 			}
-			
+
 			$columns[] = '<td>' . $data['events'][$event['event_id']]['title'] . ' (' . $event['event_id'] . ')</td>';
 		}
 		
