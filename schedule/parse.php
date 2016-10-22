@@ -181,7 +181,7 @@ function parseData($config, $data) {
 			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
 			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
 			$fulltalks .= '<div class="separator"></div></section>';
-/*
+
 			if ($eid === $lastEventId) {
 				array_pop($columns);
 				++$colspan;
@@ -189,7 +189,7 @@ function parseData($config, $data) {
 			else {
 				$colspan = 1;
 			}
-*/
+
 			$columns[] = '<td' . $style . ($colspan > 1 ? ' colspan="' . $colspan . '"' : '') . '>' . $content . '</td>';
 			$lastEventId = $eid;
 		}
