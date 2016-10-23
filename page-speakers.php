@@ -13,7 +13,7 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 <h1><?php pll_e('Лектори') ?></h1>
 
 <?php
-
+if (!empty($content)) {
 	foreach ($content['gspk'] as $line) {
 		echo $line, PHP_EOL;
 	}
@@ -24,6 +24,9 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 	foreach ($content['fspk'] as $line) {
 		echo $line, PHP_EOL;
 	}
+} else {
+	pll_e('TBA');
+}
 ?>
 	</div>
 	<?php  get_sidebar(); ?>

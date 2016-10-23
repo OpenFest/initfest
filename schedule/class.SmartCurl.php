@@ -86,7 +86,12 @@ class SmartCurl {
 		$response = curl_exec($this->ch);
 		
 		if ($response === false) {
-			return false;
+			if (file_exists($cache_file)) {
+				return file_get_contents($cache_file);
+			}
+			else {
+				return false;
+			}
 		}
 		
 		//var_dump(curl_getinfo($this->ch, CURLINFO_HEADER_OUT));

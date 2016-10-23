@@ -35,6 +35,6 @@
 			if(openfest_home_page()){
 				$blog_details = get_blog_details();
 				$blog_slug = str_replace('/', '', $blog_details->path);
-				echo '<section class="banner cf"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
+				echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 258px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
 			}
 		?>
