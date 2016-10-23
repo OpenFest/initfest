@@ -12,7 +12,7 @@ class SmartCurl {
 		}
 		
 		if (!file_exists($this->cache_dir)) {
-			mkdir($this->cache_dir);
+			mkdir($this->cache_dir, 0777, true);
 		}
 		
 		$this->cache_index = $this->cache_dir . '.json';
@@ -71,17 +71,16 @@ class SmartCurl {
 		}
 		
 		if (curl_setopt($this->ch, CURLOPT_URL, $url) === false) {
-			throw new Exception('set url failed');
+			throw new Exception('set url failed: ' . $url);
 		}
 		
-		$cache_file = $this->cache_dir . DIRECTORY_SEPARATOR . $filename;
-		
+		$cache_file = $this->cache_dir . DIRECTORY_SEPARATOR . str_replace('/', '@', $filename);
 		$etag = array_key_exists($url, static::$etags) && file_exists($cache_file) ? static::$etags[$url] : null;
 		
 		if (curl_setopt($this->ch, CURLOPT_HTTPHEADER, [
 			'If-None-Match:' . (is_null($etag) ? '' : ' ' . $etag),
 		]) === false) {
-			throw new Exception('set etag failed');
+			throw new Exception('set etag failed: ' . $url);
 		}
 	
 		$response = curl_exec($this->ch);
@@ -128,12 +127,6 @@ class SmartCurl {
 		$body = substr($response, $header_size);
 		
 		if ($http_code === 200) {
-			$dirname = dirname($filename);
-			
-			if ($dirname !== '.') {
-				mkdir($this->cache_dir . DIRECTORY_SEPARATOR . $dirname, 0777, true);
-			}
-			
 			file_put_contents($cache_file, $body);
 		}
 		

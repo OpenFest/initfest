@@ -1,49 +1,39 @@
-<html>
-<head>
-<title>Test schedule</title>
-		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="http://www.openfest.org/2014/wp-content/themes/initfest/style.css" />
-</head>
-<pre>
 <?php
-//header('Content-Type: text/plain; charset=utf-8');
 error_reporting(~0);
 ini_set('display_errors', 1);
 
-$content = require __DIR__ . DIRECTORY_SEPARATOR . 'parse.php';
+$requirePath = __DIR__ . DIRECTORY_SEPARATOR;
+require $requirePath . 'class.SmartCurl.php';
+require $requirePath . 'config.php';
+require $requirePath . 'load.php';
+require $requirePath . 'parse.php';
+$sched_config = getSchedConfig(date('Y'));
+$data = loadData($sched_config);
+$sched_config['filterEventType'] = array_key_exists('event_type', $_GET) ? $_GET['event_type'] : null;
+$content = parseData($sched_config, $data);
 ?>
-</pre>
-<table border="1" style="text-align: center;">
-	<thead>
-		<tr>
-			<td>&nbsp;</td>
+<html>
+	<head>
+		<title>Test schedule</title>
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="http://www.openfest.org/2014/wp-content/themes/initfest/style.css" />
+	</head>
+	<body>
 <?php
-foreach ($content['halls'] as $hall_name) {
+echo $content['schedule'];
 ?>
-			<td><?php echo htmlspecialchars($hall_name); ?></td>
+		<div class="separator"></div>
+		<table border="1">
+			<tbody>
 <?php
-}
+echo $content['legend'], PHP_EOL;
 ?>
-		</tr>
-	</thead>
-	<tbody>
+			</tbody>
+		</table>
 <?php
-foreach ($content['lines'] as $line) {
-	echo $line, PHP_EOL;
-}
+echo $content['fulltalks'];
+echo $content['gspk'];
+echo $content['fspk'];
 ?>
-	</tbody>
-</table>
-<div class="separator"></div>
-<?php
-foreach ($content['fulltalks'] as $line) {
-	echo $line, PHP_EOL;
-}
-
-foreach ($content['gspk'] as $line) {
-	echo $line, PHP_EOL;
-}
-
-foreach ($content['fspk'] as $line) {
-	echo $line, PHP_EOL;
-}
+	</body>
+</html>

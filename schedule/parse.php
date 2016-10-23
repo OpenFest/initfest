@@ -1,169 +1,383 @@
 <?php
-// 'halfnarp_friendly'
-// 'events'
-// 'speakers'
-// 'tracks' [en/bg]
-// 'event_types' [en/bg]
-// 'halls'
-// 'slots'
-
-$data = require __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
-
-/* no idea why do I have to write this, doesn't seem to exist in the system */
-
-$languages = array('en' => array('name' => 'English', 'locale' => 'en_US.UTF8'), 'bg' => array ('name' => 'Български', 'locale' => 'bg_BG.UTF8'));
-
-$cut_len = 70;
-$cfp_url = 'http://cfp.openfest.org';
-$time = 0;
-$date = 0;
-$lines = [];
-$fulltalks = [];
-$prev_event_id = 0;
-$colspan = 1;
-$hall_ids = array_keys($data['halls']);
-$first_hall_id = min($hall_ids);
-$last_hall_id = max($hall_ids);
-
-/* We need to set these so we actually parse properly the dates. WP fucks up both. */
-date_default_timezone_set('Europe/Sofia');
-setlocale(LC_TIME, $languages[$CF['lang']]['locale']);
-
-foreach ($data['slots'] as $slot_id => $slot) {
-	if (! in_array($slot['hall_id'], $CF['allowedhallids'])) continue;
-	$slotTime = $slot['starts_at'];
-	$slotDate = date('d', $slotTime);
-		
-	if ($slotDate !== $date) {
-		/* this seems to be the easiest way to localize the date */
-		$localdate = strftime('%d %B - %A' ,$slotTime);
-		$lines[] = '<tr>';
-		$lines[] = '<td>' . $localdate . '</td>';
-		$lines[] = '<td colspan="3">&nbsp;</td>';
-		$lines[] = '</tr>';
-		
-		$date = $slotDate;
-	}
+function parseData($config, $data) {
+	$languages = array(
+		'en' => array(
+			'name' => 'English',
+			'locale' => 'en_US.UTF8'
+		),
+		'bg' => array(
+			'name' => 'Български',
+			'locale' => 'bg_BG.UTF8'
+		)
+	);
 	
-	if ($slotTime !== $time) {
-		if ($time !== 0) {
-			$lines[] = '</tr>';
+	// We need to set these so we actually parse properly the dates. WP fucks up both.
+	date_default_timezone_set('Europe/Sofia');
+	setlocale(LC_TIME, $languages[$config['lang']]['locale']);
+
+	// Filter out invalid slots
+	$data['slots'] = array_filter($data['slots'], function($slot) {
+		return isset($slot['starts_at'], $slot['ends_at'], $slot['hall_id'], $slot['event_id']);
+	});
+	
+	// Collect the slots for each hall, sort them in order of starting
+	$slots = [];
+	$timestamps = [];
+	
+	foreach ($data['halls'] as $hall_id => $hall) {
+		$slots[$hall_id] = [];
+		
+		foreach ($data['slots'] as $slot_id => $slot) {
+			if ($slot['hall_id'] !== $hall_id) {
+				continue;
+			}
+			
+			if (!in_array($slot['starts_at'], $timestamps)) {
+				$timestamps[] = $slot['starts_at'];
+			}
+			
+			if (!in_array($slot['ends_at'], $timestamps)) {
+				$timestamps[] = $slot['ends_at'];
+			}
+
+			$slots[$hall_id][$slot['starts_at']] = $slot;
 		}
 		
-		$lines[] = '<tr>';
-		$lines[] = '<td>' . date('H:i', $slot['starts_at']) . ' - ' . date('H:i', $slot['ends_at']) . '</td>';
-		
-		$time = $slotTime;
+		ksort($slots[$hall_id]);
 	}
 	
-	$eid = &$slot['event_id'];
-	$event = &$data['events'][$eid];
+	sort($timestamps);
 	
-	if (is_null($eid) || $event['event_type_id']==6) {
-		$lines[] = '<td>TBA</td>';
-	}
-	else {
-		$title = mb_substr($event['title'], 0, $cut_len) . (mb_strlen($event['title']) > $cut_len ? '...' : '');
-		$speakers = '';
+	// Find all microslots (the smallest time unit)
+	$microslots = [];
+	$lastTs = 0;
+	$first = true;
+	
+	foreach ($timestamps as $ts) {
+		if ($first) {
+			$lastTs = $ts;
+			$first = false;
+			continue;
+		}
 		
-		if (count($event['participant_user_ids']) > 0) {
-			$speakers = json_encode($event['participant_user_ids']) . '<br>';
+		if (date('d.m', $lastTs) !== date('d.m', $ts)) {
+			$lastTs = $ts;
+			continue;
+		}
+		
+		$microslots[] = [$lastTs, $ts];
+		$lastTs = $ts;
+	}
+	
+	// Fill in the event ID for each time slot in each hall
+	$events = [];
+	$filtered_type_id =
+		array_key_exists('filterEventType', $config) &&
+		array_key_exists($config['filterEventType'], $config['eventTypes']) ?
+			$config['eventTypes'][$config['filterEventType']] :
+			null;
 
-			$spk = array();
-			$speaker_name = array();
-			foreach ($event['participant_user_ids'] as $uid) {
-				/* The check for uid==4 is for us not to show the "Opefest Team" as a presenter for lunches, etc. */
-				if ($uid == 4 || empty ($data['speakers'][$uid])) {
-					continue;
-				} else {
-					/* TODO: fix the URL */
-					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-					$spk[$uid] = '<a class="vt-p" href="SPKURL#'. $name . '">' . $name . '</a>';
+	foreach ($data['halls'] as $hall_id => $hall) {
+		$hall_data = [];
+		
+		foreach ($microslots as $timestamps) {
+			$found = false;
+			
+			foreach ($data['slots'] as $slot_id => $slot) {
+				if (
+					$slot['hall_id'] === $hall_id &&
+					$slot['starts_at'] <= $timestamps[0] &&
+					$slot['ends_at'] >= $timestamps[1] &&
+					array_key_exists($slot['event_id'], $data['events'])
+				) {
+					if (!is_null($filtered_type_id)) {
+						if ($data['events'][$slot['event_id']]['event_type_id'] !== $filtered_type_id) {
+							continue;
+						}
+					}
+					
+					$found = true;
+					$hall_data[] = [
+						'event_id' => $slot['event_id'],
+						'hall_id' => $slot['hall_id'],
+						'edge' => $slot['starts_at'] === $timestamps[0] || $slot['ends_at'] === $timestamps[1],
+					];
+					break;
 				}
 			}
-			$speakers = implode (', ', $spk);
+			
+			if (!$found) {
+				$hall_data[] = null;
+			}
 		}
 		
+		$events[] = $hall_data;
+	}
+	
+	// Remove halls with no events after filtering
+	$count = count($events);
+	for ($i = 0; $i < $count; ++$i) {
+		$hasEvents = false;
+		foreach ($events[$i] as $event_info) {
+			if (!is_null($event_info)) {
+				$hasEvents = true;
+				break;
+			}
+		}
+		if (!$hasEvents) {
+			unset($events[$i]);
+		}
+	}
+
+	// Transpose the matrix
+	// rows->halls, cols->timeslots ===> rows->timeslots, cols->halls
+	$events = array_map(null, ...$events);
+
+	// Filter empty slots
+	$count = count($events);
+	for ($i = 0; $i < $count; ++$i) {
+		$hall_count = count($events[$i]);
+		$hasEvents = false;
 		
-		/* Hack, we don't want language for the misc track. This is the same for all years. */
-		if ('misc' !== $data['tracks'][$event['track_id']]['name']['en']) {
-			$csslang = "schedule-".$event['language'];
-		} else {
-			$csslang = "";
+		for ($j = 0; $j < $hall_count; ++$j) {
+			if (!is_null($events[$i][$j]) && $events[$i][$j]['edge']) {
+				$hasEvents = true;
+				continue 2;
+			}
 		}
-		$cssclass = &$data['tracks'][$event['track_id']]['css_class'];
-		$style = ' class="' . $cssclass . ' ' . $csslang . '"';
-		$content = '<a href=#lecture-' . $eid . '>' . htmlspecialchars($title) . '</a> <br>' . $speakers;
-
-
-		/* these are done by $eid, as otherwise we get some talks more than once (for example the lunch) */
-		$fulltalks[$eid] = '';
-		$fulltalks[$eid] .= '<section id="lecture-' . $eid . '">';
-		/* We don't want '()' when we don't have a speaker name */
-		$fulltalk_spkr = strlen($speakers)>1 ? ' (' . $speakers . ')' : '';
-		$fulltalks[$eid] .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong>';
-		$fulltalks[$eid] .= '<p>' . $event['abstract'] . '</p>';
-		$fulltalks[$eid] .= '<div class="separator"></div></section>';
-
-		if ($slot['event_id'] === $prev_event_id) {
-			array_pop($lines);
-			$lines[] = '<td' . $style . ' colspan="' . ++$colspan . '">' . $content . '</td>';
-		}
-		else {
-			$lines[] = '<td' . $style . '>' . $content . '</td>';
-			$colspan = 1;
+		
+		if (!$hasEvents) {
+			unset($events[$i]);
 		}
 	}
 	
-	$prev_event_id = $slot['event_id'];
-}
-
-$lines[] = '</tr>';
-/* create the legend */
-
-$legend = [];
-
-foreach($data['tracks'] as $track) {
-	$legend[] = '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$CF['lang']] . '</td></tr>';
-}
-foreach ($languages as $l => $n) {
-	$legend[] = '<tr><td class="schedule-' . $l . '">' . $n['name'] . '</td></tr>';
-}
-
-$gspk = [];
-$fspk = [];
-$types = [];
-$types['twitter']['url']='https://twitter.com/';
-$types['twitter']['class']='fa fa-twitter';
-$types['github']['url']='https://github.com/';
-$types['github']['class']='fa fa-github';
-$types['email']['url']='mailto:';
-$types['email']['class']='fa fa-envelope';
-
-$gspk[] = '<div class="grid members">';
-
-foreach ($data['speakers'] as $speaker) {
-	$name = $speaker['first_name'] . ' ' . $speaker['last_name'];
-
-	$gspk[] = '<div class="member col4">';
-	$gspk[] = '<a href="#' . $name . '">';
-	$gspk[] = '<img width="100" height="100" src="' . $cfp_url . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />';
-	$gspk[] = '</a> </div>';
-
-	$fspk[] = '<div class="speaker" id="' . $name . '">';
-	$fspk[] = '<img width="100" height="100" src="' . $cfp_url . $speaker['picture']['schedule']['url'].'" class="attachment-100x100 wp-post-image" alt="' . $name .'" />'; 
-	$fspk[] = '<h3>' . $name . '</h3>';
-	$fspk[] = '<div class="icons">';
-	foreach ($types as $type => $parm) {
-		if (!empty($speaker[$type])) {
-			$fspk[] = '<a href="'. $parm['url'] . $speaker[$type] . '"><i class="' . $parm['class'] . '"></i></a>';
+	// Merge events longer than one slot
+	$prevEventId = [];
+	$prevEventSlot = [];
+	$prevSlotIndex = 0;
+	$first = true;
+	
+	foreach ($events as $slot_index => &$events_data) {
+		if ($first) {
+			$prevEventId = array_map(function($event_info) {
+				return is_null($event_info) ? null : $event_info['event_id'];
+			}, $events_data);
+			$prevEventSlot = array_fill(0, count($events_data), null);
+			$prevSlotIndex = $slot_index;
+			$first = false;
+			continue;
 		}
+		
+		foreach ($events_data as $hall_index => &$event_info) {
+			if (is_null($event_info)) {
+				$prevEventId[$hall_index] = null;
+				$prevEventSlot[$hall_index] = null;
+				continue;
+			}
+			
+			if ($event_info['event_id'] !== $prevEventId[$hall_index]) {
+				$prevEventId[$hall_index] = $event_info['event_id'];
+				$prevEventSlot[$hall_index] = null;
+				continue;
+			}
+			
+			// We have a long event
+			if (is_null($prevEventSlot[$hall_index])) {
+				$prevEventSlot[$hall_index] = $prevSlotIndex;
+			}
+			
+			$master_slot = &$events[$prevEventSlot[$hall_index]][$hall_index];
+			
+			if (!array_key_exists('rowspan', $master_slot)) {
+				$master_slot['rowspan'] = 2;
+			}
+			else {
+				++$master_slot['rowspan'];
+			}
+			
+			unset($master_slot);
+			
+			$event_info = false;
+		}
+		
+		unset($event_info);
+		
+		$prevSlotIndex = $slot_index;
 	}
-	$fspk[] = '</div>';
-	$fspk[] = '<p>' . $speaker['biography'] . '</p>';
-	$fspk[] = '</div><div class="separator"></div>';
+	
+	unset($events_data);
+	
+	// Build the HTML
+	$schedule_body = '';
+	$lastTs = 0;
+	$fulltalks = '';
+	$hall_ids = [];
+	
+	foreach ($events as $slot_index => $events_data) {
+		$columns = [];
+		
+		if (date('d.m', $microslots[$slot_index][0]) !== date('d.m', $lastTs)) {
+			$schedule_body .= '<tr><th colspan="' . (count($events_data) + 1) . '">' . strftime('%d %B - %A', $microslots[$slot_index][0]) . '</th></tr>';
+		}
+		
+		$lastTs = $microslots[$slot_index][0];
+		$lastEventId = 0;
+		$colspan = 1;
+		
+		foreach ($events_data as $event_info) {
+			if ($event_info === false) {
+				continue;
+			}
+			
+			if (is_null($event_info['event_id'])) {
+				$columns[] = '<td>&nbsp;</td>';
+				continue;
+			}
+			
+			if (!in_array($event_info['hall_id'], $hall_ids)) {
+				$hall_ids[] = $event_info['hall_id'];
+			}
+			
+			$eid = &$event_info['event_id'];
+			$event = &$data['events'][$eid];
+
+			$title = mb_substr($event['title'], 0, $config['cut_len']) . (mb_strlen($event['title']) > $config['cut_len'] ? '...' : '');
+			$speakers = '';
+			
+			if (count($event['participant_user_ids']) > 0) {
+				$spk = [];
+
+				foreach ($event['participant_user_ids'] as $uid) {
+					if (in_array($uid, $config['hidden_speakers']) || empty($data['speakers'][$uid])) {
+						continue;
+					}
+
+					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
+					$spk[] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
+				}
+				
+				$speakers = implode (', ', $spk);
+			}
+			
+			$content = '<a href="#lecture-' . $eid . '">' . htmlspecialchars($title) . '</a><br>' . $speakers;
+
+			// these are done by $eid, as otherwise we get some talks more than once (for example the lunch)
+			// TODO: fix this, it's broken
+			$fulltalks .= '<section id="lecture-' . $eid . '">';
+			
+			// We don't want '()' when we don't have a speaker name
+			$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
+			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
+			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
+			$fulltalks .= '<div class="separator"></div></section>';
+
+			if ($eid === $lastEventId) {
+				array_pop($columns);
+				++$colspan;
+			}
+			else {
+				$colspan = 1;
+			}
+
+			$rowspan = array_key_exists('rowspan', $event_info) ? (' rowspan="' . $event_info['rowspan'] . '"') : '';
+			
+			// CSS
+			$cssClasses = [];
+			
+			if (!in_array($event['track_id'], $config['hidden_language_tracks'])) {
+				$cssClasses[] = 'schedule-' . $event['language'];
+			}
+			
+			$cssClass = $data['tracks'][$event['track_id']]['css_class'];
+			
+			if (strlen($cssClass) > 0) {
+				$cssClasses[] = $cssClass;
+			}
+			
+			$cssClasses = count($cssClasses) > 0 ? (' class="' . implode(' ', $cssClasses) . '"') : '';
+
+			// Render cell
+			$columns[] = '<td' . ($colspan > 1 ? ' colspan="' . $colspan . '"' : $rowspan) . $cssClasses . '>' . $content . '</td>';
+			
+			$lastEventId = $eid;
+			unset($eid, $event);
+		}
+		
+		$schedule_body .= '<tr><td>';
+		$schedule_body .= strftime('%H:%M', $microslots[$slot_index][0]) . ' - ' . strftime('%H:%M', $microslots[$slot_index][1]);
+		$schedule_body .= '</td>';
+		$schedule_body .= implode('', $columns);
+		$schedule_body .= '</tr>';
+	}
+	
+	$schedule = '<table border="1"><thead><tr><th></th>';
+	
+	foreach ($data['halls'] as $hall_id => $hall) {
+		if (!in_array($hall_id, $hall_ids)) {
+			continue;
+		}
+		
+		$schedule .= '<th>' . $hall['bg'] . '</th>';
+	}
+	
+	$schedule .= '</tr></thead><tbody>';
+	$schedule .= $schedule_body;
+	$schedule .= '</tbody></table>';
+	
+	// Create the legend
+	$legend = '';
+
+	foreach($data['tracks'] as $track) {
+		$legend .= '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$config['lang']] . '</td></tr>';
+	}
+
+	foreach ($languages as $code => $lang) {
+		$legend .= '<tr><td class="schedule-' . $code . '">' . $lang['name'] . '</td></tr>';
+	}
+	
+	// Speaker list
+	$gspk = '<div class="grid members">';
+	$fspk = '';
+	$types = [
+		'twitter' => [
+			'class' => 'twitter',
+			'url' => 'https://twitter.com/',
+		],
+		'github' => [
+			'class' => 'github',
+			'url' => 'https://github.com/',
+		],
+		'email' => [
+			'class' => 'envelope',
+			'url' => 'mailto:',
+		],
+	];
+
+	foreach ($data['speakers'] as $speaker) {
+		$name = $speaker['first_name'] . ' ' . $speaker['last_name'];
+
+		$gspk .= '<div class="member col4">';
+		$gspk .= '<a href="#' . $name . '">';
+		$gspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />';
+		$gspk .= '</a> </div>';
+
+		$fspk .= '<div class="speaker" id="' . $name . '">';
+		$fspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />'; 
+		$fspk .= '<h3>' . $name . '</h3>';
+		$fspk .= '<div class="icons">';
+		
+		foreach ($types as $type => $param) {
+			if (!empty($speaker[$type])) {
+				$fspk .= '<a href="' . $param['url'] . $speaker[$type] . '"><i class="fa fa-' . $param['class'] . '"></i></a>';
+			}
+		}
+		
+		$fspk .= '</div>';
+		$fspk .= '<p>' . $speaker['biography'] . '</p>';
+		$fspk .= '</div><div class="separator"></div>';
+	}
+
+	$gspk .= '</div>';
+
+	return compact('schedule', 'fulltalks', 'gspk', 'fspk', 'legend');
 }
-
-$gspk[] = '</div>';
-
-return array_merge($data, compact('lines', 'fulltalks', 'gspk', 'fspk', 'legend'));
