@@ -99,6 +99,7 @@ function parseData($config, $data) {
 					$found = true;
 					$hall_data[] = [
 						'event_id' => $slot['event_id'],
+						'hall_id' => $slot['hall_id'],
 						'edge' => $slot['starts_at'] === $timestamps[0] || $slot['ends_at'] === $timestamps[1],
 					];
 					break;
@@ -111,6 +112,21 @@ function parseData($config, $data) {
 		}
 		
 		$events[] = $hall_data;
+	}
+	
+	// Remove halls with no events after filtering
+	$count = count($events);
+	for ($i = 0; $i < $count; ++$i) {
+		$hasEvents = false;
+		foreach ($events[$i] as $event_info) {
+			if (!is_null($event_info)) {
+				$hasEvents = true;
+				break;
+			}
+		}
+		if (!$hasEvents) {
+			unset($events[$i]);
+		}
 	}
 
 	// Transpose the matrix
@@ -192,28 +208,23 @@ function parseData($config, $data) {
 	unset($events_data);
 	
 	// Build the HTML
-	$schedule = '<table border="1"><thead><tr><th></th>';
-	
-	foreach ($data['halls'] as $hall_id => $hall) {
-		$schedule .= '<th>' . $hall['bg'] . '</th>';
-	}
-	
-	$schedule .= '</tr></thead><tbody>';
+	$schedule_body = '';
 	$lastTs = 0;
 	$fulltalks = '';
+	$hall_ids = [];
 	
 	foreach ($events as $slot_index => $events_data) {
 		$columns = [];
 		
 		if (date('d.m', $microslots[$slot_index][0]) !== date('d.m', $lastTs)) {
-			$schedule .= '<tr><th colspan="' . (count($events_data) + 1) . '">' . strftime('%d %B - %A', $microslots[$slot_index][0]) . '</th></tr>';
+			$schedule_body .= '<tr><th colspan="' . (count($events_data) + 1) . '">' . strftime('%d %B - %A', $microslots[$slot_index][0]) . '</th></tr>';
 		}
 		
 		$lastTs = $microslots[$slot_index][0];
 		$lastEventId = 0;
 		$colspan = 1;
 		
-		foreach ($events_data as $hall_index => $event_info) {
+		foreach ($events_data as $event_info) {
 			if ($event_info === false) {
 				continue;
 			}
@@ -222,7 +233,11 @@ function parseData($config, $data) {
 				$columns[] = '<td>&nbsp;</td>';
 				continue;
 			}
-
+			
+			if (!in_array($event_info['hall_id'], $hall_ids)) {
+				$hall_ids[] = $event_info['hall_id'];
+			}
+			
 			$eid = &$event_info['event_id'];
 			$event = &$data['events'][$eid];
 
@@ -288,13 +303,25 @@ function parseData($config, $data) {
 			unset($eid, $event);
 		}
 		
-		$schedule .= '<tr><td>';
-		$schedule .= strftime('%H:%M', $microslots[$slot_index][0]) . ' - ' . strftime('%H:%M', $microslots[$slot_index][1]);
-		$schedule .= '</td>';
-		$schedule .= implode('', $columns);
-		$schedule .= '</tr>';
+		$schedule_body .= '<tr><td>';
+		$schedule_body .= strftime('%H:%M', $microslots[$slot_index][0]) . ' - ' . strftime('%H:%M', $microslots[$slot_index][1]);
+		$schedule_body .= '</td>';
+		$schedule_body .= implode('', $columns);
+		$schedule_body .= '</tr>';
 	}
 	
+	$schedule = '<table border="1"><thead><tr><th></th>';
+	
+	foreach ($data['halls'] as $hall_id => $hall) {
+		if (!in_array($hall_id, $hall_ids)) {
+			continue;
+		}
+		
+		$schedule .= '<th>' . $hall['bg'] . '</th>';
+	}
+	
+	$schedule .= '</tr></thead><tbody>';
+	$schedule .= $schedule_body;
 	$schedule .= '</tbody></table>';
 	
 	// Create the legend
