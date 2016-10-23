@@ -310,7 +310,7 @@ function parseData($config, $data) {
 		$schedule_body .= '</tr>';
 	}
 	
-	$schedule = '<table border="1"><thead><tr><th></th>';
+	$schedule = '<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule"><thead><tr><th></th>';
 	
 	foreach ($data['halls'] as $hall_id => $hall) {
 		if (!in_array($hall_id, $hall_ids)) {
