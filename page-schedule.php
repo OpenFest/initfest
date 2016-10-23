@@ -3,58 +3,54 @@
 get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
-require("schedule-config.php");
-// REENABLE!
-if  (!(($year=='2016') &&  (preg_match('/^workshop/', $pagename)))) $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
-//var_dump($data);
+
+$requirePath = __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR;
+require $requirePath . 'class.SmartCurl.php';
+require $requirePath . 'config.php';
+require $requirePath . 'load.php';
+require $requirePath . 'parse.php';
+$sched_config = getSchedConfig(date('Y'));
+$data = loadData($sched_config);
+
+if ( preg_match('/^workshop/', $pagename) ) {
+	$sched_config['filterEventType'] = "workshop";
+} else {
+	$sched_config['filterEventType'] = "lecture";
+}
+$content = parseData($sched_config, $data);
+
+
 ?>
 <section class="content grid">
 <div class="col-left">
 <h1><?php pll_e('Програма') ?></h1>
 
 <?php
-if (!empty($content) && !empty($content['slots'])) { ?>
-	<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">
-		<thead>
-			<tr>
-				<td>&nbsp;</td>
-<?php
-				foreach ($content['halls'] as $hall_name) {
+if (!empty($content)) {
+	echo $content['schedule'];
 ?>
-				<td><?php echo htmlspecialchars($hall_name[$CF['lang']]); ?></td>
+
+
+   <div class="separator"></div>
+   <table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">
+     <tbody>
 <?php
-				}
+	echo $content['legend'], PHP_EOL;
 ?>
-			</tr>
-		</thead>
-		<tbody>
+      </tbody>
+    </table>
+   <div class="separator"></div>
 <?php
-		foreach ($content['lines'] as $line) {
-			echo str_replace('SPKURL', $CF['speakers_url'], $line), PHP_EOL;
-		}
-?>
-		</tbody>
-	</table>
-	<div class="separator"></div>
-	<table cellpadding="0" cellspacing="0" class="schedule schedule-legend">
-	<tbody>
-<?php
-		foreach ($content['legend'] as $line) {
-			echo $line, PHP_EOL;
-		}
-?>
-	</tbody>
-	</table>
-<?php
-	foreach ($content['fulltalks'] as $line) {
-		echo str_replace('SPKURL', $CF['speakers_url'], $line), PHP_EOL;
-	}
-} else {
-	pll_e("TBA");
+	echo $content['fulltalks'];
+	echo $content['gspk'];
+	echo $content['fspk'];
 }
+
 ?>
-	</div>
-	<?php  get_sidebar(); ?>
+</div>
+<?php
+	get_sidebar();
+?>
 </section>
 
 <?php echo do_shortcode( '[transport]' ); ?>
