@@ -1,12 +1,5 @@
 <?php
 function parseData($config, $data) {
-	$time = 0;
-	$date = 0;
-	$lines = [];
-	$fulltalks = '';
-	$prev_event_id = 0;
-	$colspan = 1;
-
 	$languages = array(
 		'en' => array(
 			'name' => 'English',
@@ -78,7 +71,12 @@ function parseData($config, $data) {
 	
 	// Fill in the event ID for each time slot in each hall
 	$events = [];
-	
+	$filtered_type_id =
+		array_key_exists('filterEventType', $config) &&
+		array_key_exists($config['filterEventType'], $config['eventTypes']) ?
+			$config['eventTypes'][$config['filterEventType']] :
+			null;
+
 	foreach ($data['halls'] as $hall_id => $hall) {
 		$hall_data = [];
 		
@@ -92,6 +90,12 @@ function parseData($config, $data) {
 					$slot['ends_at'] >= $timestamps[1] &&
 					array_key_exists($slot['event_id'], $data['events'])
 				) {
+					if (!is_null($filtered_type_id)) {
+						if ($data['events'][$slot['event_id']]['event_type_id'] !== $filtered_type_id) {
+							continue;
+						}
+					}
+					
 					$found = true;
 					$hall_data[] = [
 						'event_id' => $slot['event_id'],
@@ -196,6 +200,7 @@ function parseData($config, $data) {
 	
 	$schedule .= '</tr></thead><tbody>';
 	$lastTs = 0;
+	$fulltalks = '';
 	
 	foreach ($events as $slot_index => $events_data) {
 		$columns = [];
@@ -225,32 +230,27 @@ function parseData($config, $data) {
 			$speakers = '';
 			
 			if (count($event['participant_user_ids']) > 0) {
-				$spk = array();
-				$speaker_name = array();
+				$spk = [];
+
 				foreach ($event['participant_user_ids'] as $uid) {
 					if (in_array($uid, $config['hidden_speakers']) || empty($data['speakers'][$uid])) {
 						continue;
 					}
 
 					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-					$spk[$uid] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
+					$spk[] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
 				}
+				
 				$speakers = implode (', ', $spk);
 			}
 			
-			if (in_array($event['track_id'], $config['hidden_language_tracks'])) {
-				$csslang = '';
-			} else {
-				$csslang = 'schedule-' . $event['language'];
-			}
-			
-			$cssclass = &$data['tracks'][$event['track_id']]['css_class'];
-			$style = ' class="' . $cssclass . ' ' . $csslang . '"';
 			$content = '<a href="#lecture-' . $eid . '">' . htmlspecialchars($title) . '</a><br>' . $speakers;
 
-			/* these are done by $eid, as otherwise we get some talks more than once (for example the lunch) */
+			// these are done by $eid, as otherwise we get some talks more than once (for example the lunch)
+			// TODO: fix this, it's broken
 			$fulltalks .= '<section id="lecture-' . $eid . '">';
-			/* We don't want '()' when we don't have a speaker name */
+			
+			// We don't want '()' when we don't have a speaker name
 			$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
 			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
 			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
@@ -265,8 +265,27 @@ function parseData($config, $data) {
 			}
 
 			$rowspan = array_key_exists('rowspan', $event_info) ? (' rowspan="' . $event_info['rowspan'] . '"') : '';
-			$columns[] = '<td' . $style . ($colspan > 1 ? ' colspan="' . $colspan . '"' : $rowspan) . '>' . $content . '</td>';
+			
+			// CSS
+			$cssClasses = [];
+			
+			if (!in_array($event['track_id'], $config['hidden_language_tracks'])) {
+				$cssClasses[] = 'schedule-' . $event['language'];
+			}
+			
+			$cssClass = $data['tracks'][$event['track_id']]['css_class'];
+			
+			if (strlen($cssClass) > 0) {
+				$cssClasses[] = $cssClass;
+			}
+			
+			$cssClasses = count($cssClasses) > 0 ? (' class="' . implode(' ', $cssClasses) . '"') : '';
+
+			// Render cell
+			$columns[] = '<td' . ($colspan > 1 ? ' colspan="' . $colspan . '"' : $rowspan) . $cssClasses . '>' . $content . '</td>';
+			
 			$lastEventId = $eid;
+			unset($eid, $event);
 		}
 		
 		$schedule .= '<tr><td>';

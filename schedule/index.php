@@ -9,7 +9,7 @@ require $requirePath . 'load.php';
 require $requirePath . 'parse.php';
 $sched_config = getSchedConfig(date('Y'));
 $data = loadData($sched_config);
-//$sched_config['filterEventType'] = 'workshop';
+$sched_config['filterEventType'] = array_key_exists('event_type', $_GET) ? $_GET['event_type'] : null;
 $content = parseData($sched_config, $data);
 ?>
 <html>
