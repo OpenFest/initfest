@@ -27,40 +27,40 @@ function parseData($config, $data) {
 		return isset($slot['starts_at'], $slot['ends_at'], $slot['hall_id'], $slot['event_id']);
 	});
 	
-	// Collect the events for each hall, sort them in order of starting
-	$events = [];
-	$microslots = [];
+	// Collect the slots for each hall, sort them in order of starting
+	$slots = [];
+	$timestamps = [];
 	
 	foreach ($data['halls'] as $hall_id => $hall) {
-		$events[$hall_id] = [];
+		$slots[$hall_id] = [];
 		
 		foreach ($data['slots'] as $slot_id => $slot) {
 			if ($slot['hall_id'] !== $hall_id) {
 				continue;
 			}
 			
-			if (!in_array($slot['starts_at'], $microslots)) {
-				$microslots[] = $slot['starts_at'];
+			if (!in_array($slot['starts_at'], $timestamps)) {
+				$timestamps[] = $slot['starts_at'];
 			}
 			
-			if (!in_array($slot['ends_at'], $microslots)) {
-				$microslots[] = $slot['ends_at'];
+			if (!in_array($slot['ends_at'], $timestamps)) {
+				$timestamps[] = $slot['ends_at'];
 			}
-			
-			$events[$hall_id][$slot['starts_at']] = $slot;
+
+			$slots[$hall_id][$slot['starts_at']] = $slot;
 		}
 		
-		ksort($events[$hall_id]);
+		ksort($slots[$hall_id]);
 	}
 	
-	sort($microslots);
+	sort($timestamps);
 	
 	// Find all microslots (the smallest time unit)
-	$intervals = [];
+	$microslots = [];
 	$lastTs = 0;
 	$first = true;
 	
-	foreach ($microslots as $ts) {
+	foreach ($timestamps as $ts) {
 		if ($first) {
 			$lastTs = $ts;
 			$first = false;
@@ -72,24 +72,25 @@ function parseData($config, $data) {
 			continue;
 		}
 		
-		$intervals[] = [$lastTs, $ts];
+		$microslots[] = [$lastTs, $ts];
 		$lastTs = $ts;
 	}
 	
 	// Fill in the event ID for each time slot in each hall
-	$slot_list = [];
+	$events = [];
 	
 	foreach ($data['halls'] as $hall_id => $hall) {
 		$hall_data = [];
 		
-		foreach ($intervals as $timestamps) {
+		foreach ($microslots as $timestamps) {
 			$found = false;
 			
 			foreach ($data['slots'] as $slot_id => $slot) {
 				if (
 					$slot['hall_id'] === $hall_id &&
 					$slot['starts_at'] <= $timestamps[0] &&
-					$slot['ends_at'] >= $timestamps[1]
+					$slot['ends_at'] >= $timestamps[1] &&
+					array_key_exists($slot['event_id'], $data['events'])
 				) {
 					$found = true;
 					$hall_data[] = [
@@ -105,12 +106,86 @@ function parseData($config, $data) {
 			}
 		}
 		
-		$slot_list[] = $hall_data;
+		$events[] = $hall_data;
 	}
-	
+
 	// Transpose the matrix
 	// rows->halls, cols->timeslots ===> rows->timeslots, cols->halls
-	$slot_list = array_map(null, ...$slot_list);
+	$events = array_map(null, ...$events);
+
+	// Filter empty slots
+	$count = count($events);
+	for ($i = 0; $i < $count; ++$i) {
+		$hall_count = count($events[$i]);
+		$hasEvents = false;
+		
+		for ($j = 0; $j < $hall_count; ++$j) {
+			if (!is_null($events[$i][$j]) && $events[$i][$j]['edge']) {
+				$hasEvents = true;
+				continue 2;
+			}
+		}
+		
+		if (!$hasEvents) {
+			unset($events[$i]);
+		}
+	}
+	
+	// Merge events longer than one slot
+	$prevEventId = [];
+	$prevEventSlot = [];
+	$prevSlotIndex = 0;
+	$first = true;
+	
+	foreach ($events as $slot_index => &$events_data) {
+		if ($first) {
+			$prevEventId = array_map(function($event_info) {
+				return is_null($event_info) ? null : $event_info['event_id'];
+			}, $events_data);
+			$prevEventSlot = array_fill(0, count($events_data), null);
+			$prevSlotIndex = $slot_index;
+			$first = false;
+			continue;
+		}
+		
+		foreach ($events_data as $hall_index => &$event_info) {
+			if (is_null($event_info)) {
+				$prevEventId[$hall_index] = null;
+				$prevEventSlot[$hall_index] = null;
+				continue;
+			}
+			
+			if ($event_info['event_id'] !== $prevEventId[$hall_index]) {
+				$prevEventId[$hall_index] = $event_info['event_id'];
+				$prevEventSlot[$hall_index] = null;
+				continue;
+			}
+			
+			// We have a long event
+			if (is_null($prevEventSlot[$hall_index])) {
+				$prevEventSlot[$hall_index] = $prevSlotIndex;
+			}
+			
+			$master_slot = &$events[$prevEventSlot[$hall_index]][$hall_index];
+			
+			if (!array_key_exists('rowspan', $master_slot)) {
+				$master_slot['rowspan'] = 2;
+			}
+			else {
+				++$master_slot['rowspan'];
+			}
+			
+			unset($master_slot);
+			
+			$event_info = false;
+		}
+		
+		unset($event_info);
+		
+		$prevSlotIndex = $slot_index;
+	}
+	
+	unset($events_data);
 	
 	// Build the HTML
 	$schedule = '<table border="1"><thead><tr><th></th>';
@@ -122,29 +197,28 @@ function parseData($config, $data) {
 	$schedule .= '</tr></thead><tbody>';
 	$lastTs = 0;
 	
-	foreach ($slot_list as $slot_index => $events) {
+	foreach ($events as $slot_index => $events_data) {
 		$columns = [];
-		$hasEvents = false;
 		
-		if (date('d.m', $intervals[$slot_index][0]) !== date('d.m', $lastTs)) {
-			$schedule .= '<tr><th colspan="' . (count($events) + 1) . '">' . strftime('%d %B - %A', $intervals[$slot_index][0]) . '</th></tr>';
+		if (date('d.m', $microslots[$slot_index][0]) !== date('d.m', $lastTs)) {
+			$schedule .= '<tr><th colspan="' . (count($events_data) + 1) . '">' . strftime('%d %B - %A', $microslots[$slot_index][0]) . '</th></tr>';
 		}
 		
-		$lastTs = $intervals[$slot_index][0];
+		$lastTs = $microslots[$slot_index][0];
 		$lastEventId = 0;
 		$colspan = 1;
 		
-		foreach ($events as $hall_index => $hall_data) {
-			if (is_null($hall_data['event_id']) || !array_key_exists($hall_data['event_id'], $data['events'])) {
+		foreach ($events_data as $hall_index => $event_info) {
+			if ($event_info === false) {
+				continue;
+			}
+			
+			if (is_null($event_info['event_id'])) {
 				$columns[] = '<td>&nbsp;</td>';
 				continue;
 			}
 
-			if ($hall_data['edge']) {
-				$hasEvents = true;
-			}
-			
-			$eid = &$hall_data['event_id'];
+			$eid = &$event_info['event_id'];
 			$event = &$data['events'][$eid];
 
 			$title = mb_substr($event['title'], 0, $config['cut_len']) . (mb_strlen($event['title']) > $config['cut_len'] ? '...' : '');
@@ -190,16 +264,13 @@ function parseData($config, $data) {
 				$colspan = 1;
 			}
 
-			$columns[] = '<td' . $style . ($colspan > 1 ? ' colspan="' . $colspan . '"' : '') . '>' . $content . '</td>';
+			$rowspan = array_key_exists('rowspan', $event_info) ? (' rowspan="' . $event_info['rowspan'] . '"') : '';
+			$columns[] = '<td' . $style . ($colspan > 1 ? ' colspan="' . $colspan . '"' : $rowspan) . '>' . $content . '</td>';
 			$lastEventId = $eid;
 		}
 		
-		if (!$hasEvents) {
-			continue;
-		}
-		
 		$schedule .= '<tr><td>';
-		$schedule .= strftime('%H:%M', $intervals[$slot_index][0]) . ' - ' . strftime('%H:%M', $intervals[$slot_index][1]);
+		$schedule .= strftime('%H:%M', $microslots[$slot_index][0]) . ' - ' . strftime('%H:%M', $microslots[$slot_index][1]);
 		$schedule .= '</td>';
 		$schedule .= implode('', $columns);
 		$schedule .= '</tr>';
