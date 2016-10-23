@@ -4,7 +4,8 @@ get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
 require("schedule-config.php");
-$content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
+// REENABLE!
+if  (!(($year=='2016') &&  (preg_match('/^workshop/', $pagename)))) $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
 //var_dump($data);
 ?>
 <section class="content grid">

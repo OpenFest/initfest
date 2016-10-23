@@ -59,7 +59,7 @@ foreach ($data['slots'] as $slot_id => $slot) {
 	$eid = &$slot['event_id'];
 	$event = &$data['events'][$eid];
 	
-	if (is_null($eid)) {
+	if (is_null($eid) || $event['event_type_id']==6) {
 		$lines[] = '<td>TBA</td>';
 	}
 	else {
