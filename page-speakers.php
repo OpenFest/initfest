@@ -3,10 +3,17 @@
 get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
-require("schedule-config.php");
+$requirePath = __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR;
+require $requirePath . 'class.SmartCurl.php';
+require $requirePath . 'config.php';
+require $requirePath . 'load.php';
+require $requirePath . 'parse.php';
+$sched_config = getSchedConfig(date('Y'));
+$data = loadData($sched_config);
 
-$content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR . 'parse.php';
-//var_dump($data);
+$content = parseData($sched_config, $data);
+
+
 ?>
 <section class="content grid">
 <div class="col-left">
@@ -14,16 +21,11 @@ $content = require __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARA
 
 <?php
 if (!empty($content)) {
-	foreach ($content['gspk'] as $line) {
-		echo $line, PHP_EOL;
-	}
-
+	echo $content['gspk'];
 ?>
 <div class="separator"></div>
 <?php
-	foreach ($content['fspk'] as $line) {
-		echo $line, PHP_EOL;
-	}
+	echo $content['fspk'];
 } else {
 	pll_e('TBA');
 }
