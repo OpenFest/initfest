@@ -3,16 +3,7 @@
 get_header();
 wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
 
-$requirePath = __DIR__ . DIRECTORY_SEPARATOR . 'schedule' . DIRECTORY_SEPARATOR;
-require $requirePath . 'class.SmartCurl.php';
-require $requirePath . 'config.php';
-require $requirePath . 'load.php';
-require $requirePath . 'parse.php';
-$sched_config = getSchedConfig(date('Y'));
-$data = loadData($sched_config);
-
-$content = parseData($sched_config, $data);
-
+require("schedule-config.php");
 
 ?>
 <section class="content grid">
