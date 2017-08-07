@@ -379,5 +379,5 @@ function parseData($config, $data) {
 
 	$gspk .= '</div>';
 
-	return compact('schedule', 'fulltalks', 'gspk', 'fspk', 'legend');
+	return compact('slots', 'schedule', 'fulltalks', 'gspk', 'fspk', 'legend');
 }
