@@ -1,5 +1,5 @@
 <?php
-function getSchedConfig($year = 2015) {
+function getSchedConfig($year = 2016) {
 	$globalConfig = [
 		'lang' => 'bg',
 		'cfp_url' => 'https://cfp.openfest.org',
@@ -32,6 +32,15 @@ function getSchedConfig($year = 2015) {
 			],
 			'hidden_language_tracks' => [25],
 		],
+		2017 => [
+			'conferenceId' => 4,
+			'eventTypes' => [
+				'lecture' => 7,
+				'workshop' => 8,
+			],
+			'hidden_language_tracks' => [25],
+		],
+
 	];
 	
 	return array_merge($globalConfig, $config[$year]);
