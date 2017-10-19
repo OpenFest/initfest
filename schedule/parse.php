@@ -317,7 +317,7 @@ function parseData($config, $data) {
 			continue;
 		}
 		
-		$schedule .= '<th>' . $hall['bg'] . '</th>';
+		$schedule .= '<th>' . $hall[$config['lang']] . '</th>';
 	}
 	
 	$schedule .= '</tr></thead><tbody>';
