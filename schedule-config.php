@@ -10,6 +10,8 @@ $year = preg_replace('%.*/([0-9]*)$%', '\1', $siteurl);
 
 $sched_config = getSchedConfig($year);
 
+$sched_config['lang'] = of_get_lang();
+
 $data = loadData($sched_config);
 
 if ( preg_match('/^workshop/', $pagename) ) {
