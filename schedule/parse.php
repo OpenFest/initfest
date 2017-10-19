@@ -23,12 +23,24 @@ function parseData($config, $data) {
 	// Collect the slots for each hall, sort them in order of starting
 	$slots = [];
 	$timestamps = [];
-	
+
+	$filtered_type_id =
+	array_key_exists('filterEventType', $config) &&
+	array_key_exists($config['filterEventType'], $config['eventTypes']) ?
+		$config['eventTypes'][$config['filterEventType']] :
+		null;
+
 	foreach ($data['halls'] as $hall_id => $hall) {
 		$slots[$hall_id] = [];
 		
 		foreach ($data['slots'] as $slot_id => $slot) {
 			if ($slot['hall_id'] !== $hall_id) {
+				continue;
+			}
+
+			$eid = $slot['event_id'];
+			$etype = $data['events'][$eid]['event_type_id'];
+			if ($etype !== $filtered_type_id) {
 				continue;
 			}
 			
@@ -42,8 +54,8 @@ function parseData($config, $data) {
 
 			$slots[$hall_id][$slot['starts_at']] = $slot;
 		}
-		
 		ksort($slots[$hall_id]);
+		if (empty($slots[$hall_id])) unset($slots[$hall_id]);
 	}
 	
 	sort($timestamps);
@@ -71,11 +83,6 @@ function parseData($config, $data) {
 	
 	// Fill in the event ID for each time slot in each hall
 	$events = [];
-	$filtered_type_id =
-		array_key_exists('filterEventType', $config) &&
-		array_key_exists($config['filterEventType'], $config['eventTypes']) ?
-			$config['eventTypes'][$config['filterEventType']] :
-			null;
 
 	foreach ($data['halls'] as $hall_id => $hall) {
 		$hall_data = [];
