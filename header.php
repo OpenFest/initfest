@@ -23,18 +23,19 @@
 		
 	</head>
 	<body>
-
+<?php
+	$blog_details = get_blog_details();
+	$blog_slug = str_replace('/', '', $blog_details->path);
+?>
 		<nav>
 			<div class="content cf">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="OpenFest" /></a>
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo"><img src="<?php echo get_template_directory_uri().'/img/logo-'.$blog_slug.'.png'; ?>" alt="OpenFest" /></a>
 				
 				<?php wp_nav_menu( array('theme_location' => 'main-menu') ); ?>
 			</div>
 		</nav>
 		<?php 
 			if(openfest_home_page()){
-				$blog_details = get_blog_details();
-				$blog_slug = str_replace('/', '', $blog_details->path);
 				echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 258px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
 			}
 		?>
