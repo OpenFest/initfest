@@ -628,7 +628,8 @@ h6 { font-size: 1.0em; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: normal; }
 
-a { color: #428bca; text-decoration: none; }
+a { color: #764C9E; text-decoration: none; }
+/* a { color: #428bca; text-decoration: none; } */
 a:hover { text-decoration: underline; }
 
 
