@@ -276,6 +276,7 @@ function parseData($config, $data) {
 			$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
 			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
 			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
+			$fulltalks .= '<p align=right><strong><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">Submit feedback</a></strong></p>';
 			$fulltalks .= '<div class="separator"></div></section>';
 
 			if ($eid === $lastEventId) {
