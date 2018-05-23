@@ -27,10 +27,14 @@ add_action( 'init', 'register_shortcodes');
 
 
 function sh_latest_posts($atts){
-	$atts = shortcode_atts( array(
-		  'cat' => 'news',
+	if (of_get_lang()=='bg')
+		$ncat = "news-bg";
+	else
+		$ncat = "news";
+	$atts = array(
+		  'cat' => $ncat,
 		  'label' => __('News', 'initfest')
-	  ), $atts );
+	  );
 	
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
 	
