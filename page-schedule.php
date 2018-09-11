@@ -29,6 +29,8 @@ if (!empty($content)) {
 	echo $content['fulltalks'];
 	echo $content['gspk'];
 	echo $content['fspk'];
+} else {
+	echo "TBA";
 }
 
 ?>

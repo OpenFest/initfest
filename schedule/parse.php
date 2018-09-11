@@ -11,6 +11,8 @@ function parseData($config, $data) {
 		)
 	);
 	
+	if ($data === false) return false; 
+
 	// We need to set these so we actually parse properly the dates. WP fucks up both.
 	date_default_timezone_set('Europe/Sofia');
 	setlocale(LC_TIME, $languages[$config['lang']]['locale']);

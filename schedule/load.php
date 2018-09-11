@@ -23,7 +23,8 @@ function loadData($config) {
 		$json = $curl->getUrl($config['conferenceId'] . '/' . $filename);
 
 		if ($json === false) {
-			echo 'get failed: ', $filename, PHP_EOL;
+			#echo 'get failed: ', $filename, PHP_EOL;
+			return false;
 			exit;
 		}
 		
