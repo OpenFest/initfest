@@ -272,15 +272,17 @@ function parseData($config, $data) {
 
 			// these are done by $eid, as otherwise we get some talks more than once (for example the lunch)
 			// TODO: fix this, it's broken
-			$fulltalks .= '<section id="lecture-' . $eid . '">';
-			
-			// We don't want '()' when we don't have a speaker name
-			$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
-			$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
-			$fulltalks .= '<p>' . $event['abstract'] . '</p>';
-			$fulltalks .= '<p align=right><strong><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">Submit feedback</a></strong></p>';
-			$fulltalks .= '<div class="separator"></div></section>';
 
+ 			if (!in_array($data['events'][$event_info['event_id']]['track_id'], $config['hidden_language_tracks'])) {
+				$fulltalks .= '<section id="lecture-' . $eid . '">';
+				
+				// We don't want '()' when we don't have a speaker name
+				$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
+				$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
+				$fulltalks .= '<p>' . $event['abstract'] . '</p>';
+				$fulltalks .= '<p align=right><strong><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">Submit feedback</a></strong></p>';
+				$fulltalks .= '<div class="separator"></div></section>';
+			}
 			if ($eid === $lastEventId) {
 				array_pop($columns);
 				++$colspan;
