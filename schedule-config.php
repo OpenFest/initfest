@@ -16,7 +16,7 @@ $data = loadData($sched_config);
 
 if ( preg_match('/^workshop/', $pagename) ) {
 	    $sched_config['filterEventType'] = "workshop";
-} else {
+} else if (!preg_match('/^full/', $pagename)) {
 	    $sched_config['filterEventType'] = "lecture";
 }
 $content = parseData($sched_config, $data);

@@ -7,7 +7,12 @@ require("schedule-config.php");
 
 ?>
 <section class="content grid">
-<div class="col-left">
+<?php
+// full schedule is not limited in only one column
+if (!preg_match('/^full/', $pagename)) {
+	echo '<div class="col-left">';
+}
+?>
 <h1><?php pll_e('Програма') ?></h1>
 
 <?php
@@ -34,9 +39,11 @@ if (!empty($content)) {
 }
 
 ?>
-</div>
 <?php
+if (!preg_match('/^full/', $pagename)) {
+	echo "</div>";
 	get_sidebar();
+};
 ?>
 </section>
 

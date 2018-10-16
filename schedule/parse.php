@@ -42,7 +42,7 @@ function parseData($config, $data) {
 
 			$eid = $slot['event_id'];
 			$etype = $data['events'][$eid]['event_type_id'];
-			if ($etype !== $filtered_type_id) {
+			if ($etype !== $filtered_type_id && !is_null($filtered_type_id)) {
 				continue;
 			}
 			
