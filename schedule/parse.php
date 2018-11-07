@@ -221,7 +221,8 @@ function parseData($config, $data) {
 	$lastTs = 0;
 	$fulltalks = '';
 	$hall_ids = [];
-	
+	$now = time();
+
 	foreach ($events as $slot_index => $events_data) {
 		$columns = [];
 		
@@ -250,6 +251,7 @@ function parseData($config, $data) {
 			$eid = &$event_info['event_id'];
 			$event = &$data['events'][$eid];
 
+#			var_dump($microslots[$slot_index]);
 			$title = mb_substr($event['title'], 0, $config['cut_len']) . (mb_strlen($event['title']) > $config['cut_len'] ? '...' : '');
 			$speakers = '';
 			
@@ -268,6 +270,14 @@ function parseData($config, $data) {
 				$speakers = implode (', ', $spk);
 			}
 			
+			if ($microslots[$slot_index][0] < $now) {
+				// talk has already started. Provide feedback links
+				$fullfb = '<p align=right><strong><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">'.pll__('Submit feedback').'</a></strong></p>';
+				$progfb = '<p><i><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">'.pll__('Submit feedback').'</a></i></p>';
+			} else {
+				$fullfb = "";
+				$progfb = "";
+			}
 			$content = '<a href="#lecture-' . $eid . '">' . htmlspecialchars($title) . '</a><br>' . $speakers;
 
 			// these are done by $eid, as otherwise we get some talks more than once (for example the lunch)
@@ -280,9 +290,10 @@ function parseData($config, $data) {
 				$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
 				$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
 				$fulltalks .= '<p>' . $event['abstract'] . '</p>';
-				$fulltalks .= '<p align=right><strong><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">Submit feedback</a></strong></p>';
+				$fulltalks .= $fullfb;
 				$fulltalks .= '<div class="separator"></div></section>';
 			}
+			
 			if ($eid === $lastEventId) {
 				array_pop($columns);
 				++$colspan;
@@ -309,7 +320,7 @@ function parseData($config, $data) {
 			$cssClasses = count($cssClasses) > 0 ? (' class="' . implode(' ', $cssClasses) . '"') : '';
 
 			// Render cell
-			$columns[] = '<td' . ($colspan > 1 ? ' colspan="' . $colspan . '"' : $rowspan) . $cssClasses . '>' . $content . '</td>';
+			$columns[] = '<td' . ($colspan > 1 ? ' colspan="' . $colspan . '"' : $rowspan) . $cssClasses . '>' . $content . $progfb . '</td>';
 			
 			$lastEventId = $eid;
 			unset($eid, $event);

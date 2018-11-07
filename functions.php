@@ -347,4 +347,5 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('high_quality','HIGH_QUALITY');
 	pll_register_string('all_streams','ALL_STREAMS');
 	pll_register_string('tba','TBA');
+	pll_register_string('feedback','Submit feedback');
 }
