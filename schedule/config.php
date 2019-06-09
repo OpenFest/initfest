@@ -48,6 +48,14 @@ function getSchedConfig($year = 2017) {
 			],
 			'hidden_language_tracks' => [42],
 		],
+		2019 => [
+			'conferenceId' => 6,
+			'eventTypes' => [
+				'lecture' => 12,
+				'workshop' => 11,
+			],
+			'hidden_language_tracks' => [50],
+		],
 
 	];
 	
