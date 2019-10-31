@@ -15,8 +15,10 @@ if (!preg_match('/^full/', $pagename)) {
 ?>
 <h1><?php pll_e('Програма') ?></h1>
 
+
 <?php
 if (!empty($content)) {
+    echo '<p> <a href="https://cfp.openfest.org/api/conferences/6/events.ics?locale='.$lang.'">iCalendar</a> or <a href="https://calendar.google.com/calendar?cid=b2s3bW9sOWpyczNjODVjbjRrZ3JpYmY5ODRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ">Google calendar</a></p>';
 	echo $content['schedule'];
 ?>
 
