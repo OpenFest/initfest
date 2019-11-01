@@ -223,6 +223,8 @@ function parseData($config, $data) {
 	$hall_ids = [];
 	$now = time();
 
+	$known_events = array();
+
 	foreach ($events as $slot_index => $events_data) {
 		$columns = [];
 		
@@ -280,10 +282,7 @@ function parseData($config, $data) {
 			}
 			$content = '<a href="#lecture-' . $eid . '">' . htmlspecialchars($title) . '</a><br>' . $speakers;
 
-			// these are done by $eid, as otherwise we get some talks more than once (for example the lunch)
-			// TODO: fix this, it's broken
-
- 			if (!in_array($data['events'][$event_info['event_id']]['track_id'], $config['hidden_language_tracks'])) {
+ 			if (!in_array($data['events'][$event_info['event_id']]['track_id'], $config['hidden_language_tracks']) && !isset($known_events[$eid])) {
 				$fulltalks .= '<section id="lecture-' . $eid . '">';
 				
 				// We don't want '()' when we don't have a speaker name
@@ -292,6 +291,7 @@ function parseData($config, $data) {
 				$fulltalks .= '<p>' . $event['abstract'] . '</p>';
 				$fulltalks .= $fullfb;
 				$fulltalks .= '<div class="separator"></div></section>';
+				$known_events[$eid] = $eid;
 			}
 			
 			if ($eid === $lastEventId) {
