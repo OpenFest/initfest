@@ -14,12 +14,18 @@
 						<?php wp_nav_menu(array('theme_location' => 'footer-schedule', 'items_wrap' => '%3$s<br/>' )); ?>
 					</p>
 				</div>
+                <?php
+                    $blog_details = get_blog_details();
+                    $blog_slug = str_replace('/', '', $blog_details->path);
+                    if ( $blog_slug != "2020" ) {
+                ?>
 				<div class="col4">
 				<h3><?php e_('Други')?></h3>
 					<p>
 						<?php wp_nav_menu(array('theme_location' => 'footer-others', 'items_wrap' => '%3$s<br/>' )); ?>
 					</p>
 				</div>
+                <?php } ?>
 				<div class="col4">
 				<h3><?php e_('Последвайте ни в:')?></h3>
 					<p>
