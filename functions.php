@@ -4,6 +4,8 @@
 add_theme_support( 'post-thumbnails' );
 add_theme_support( 'automatic-feed-links' );
 
+add_filter( 'the_excerpt', 'shortcode_unautop');
+add_filter( 'the_excerpt', 'do_shortcode');
 
 register_nav_menus(
 	array( 'main-menu' => __( 'Main Menu', 'initfest' ),
