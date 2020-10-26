@@ -56,7 +56,13 @@ function getSchedConfig($year = 2017) {
 			],
 			'hidden_language_tracks' => [50],
 		],
-
+		2020 => [
+			'conferenceId' => 7,
+			'eventTypes' => [
+				'lecture' => 14,
+			],
+			'hidden_language_tracks' => [59],
+		],
 	];
 	
 	return array_merge($globalConfig, $config[$year]);
