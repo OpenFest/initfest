@@ -7,6 +7,26 @@ add_theme_support( 'automatic-feed-links' );
 add_filter( 'the_excerpt', 'shortcode_unautop');
 add_filter( 'the_excerpt', 'do_shortcode');
 
+// OpenGraph image for FB/Twitter
+// TODO: less hacky solution
+function og_image( $tags ) {
+	$og_image = esc_url("https://www.openfest.org/2020/wp-content/themes/initfest/img/2020_fb_preview.jpg");
+
+	unset( $tags['og:image'] );
+	$tags['og:image'] = $og_image;
+	unset( $tags['og:image:width'] );
+	$tags['og:image:width'] = 1200;
+	unset( $tags['og:image:height'] );
+	$tags['og:image:height'] = 630;
+
+	unset( $tags['twitter:image'] );
+	$tags['twitter:image'] = $og_image;
+
+	return $tags;
+}
+add_filter( 'jetpack_open_graph_tags', 'og_image' );
+
+
 register_nav_menus(
 	array( 'main-menu' => __( 'Main Menu', 'initfest' ),
            'subnav-menu' => __( 'Sub Navigation', 'initfest'),
