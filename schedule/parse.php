@@ -350,7 +350,10 @@ function parseData($config, $data) {
 	// Create the legend
 	$legend = '';
 
-	foreach($data['tracks'] as $track) {
+	foreach($data['tracks'] as $track_id => $track) {
+		if ( in_array($track_id, $config['hidden_language_tracks'])) {
+			continue;
+		}
 		$legend .= '<tr><td class="' . $track['css_class'] . '">' . $track['name'][$config['lang']] . '</td></tr>';
 	}
 
