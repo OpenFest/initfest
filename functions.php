@@ -29,7 +29,8 @@ add_filter( 'jetpack_open_graph_tags', 'og_image' );
 
 register_nav_menus(
 	array( 'main-menu' => __( 'Main Menu', 'initfest' ),
-           'subnav-menu' => __( 'Sub Navigation', 'initfest'),
+		   'subnav-menu' => __( 'Sub Navigation', 'initfest'),
+		   'stream-menu' => __('Stream Menu', 'initfest'),
 		   'footer-openfest' => __('OpenFest', 'initfest'),
 		   'footer-openfest' => __('OpenFest', 'initfest'),
 		   'footer-schedule' => __('Schedule', 'initfest'),

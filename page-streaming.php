@@ -1,11 +1,11 @@
 <?php
 /* Template Name: Streaming */
 get_header();
-//wp_nav_menu( array( 'theme_location' => 'footer-schedule', 'container_class' => 'content subnav cf' ) );
+wp_nav_menu( array( 'theme_location' => 'stream-menu', 'container_class' => 'content subnav cf' ) );
 ?>
 <section class="content grid">
 <div class="col-left">
-<h1><?php pll_e('Streaming') ?></h1>
+<!-- <h1><?php pll_e('Streaming') ?></h1> -->
 
 <?php
 if (!empty($_GET['track'])) {
