@@ -44,7 +44,10 @@
 				if ($blog_slug == '2019') {
 					echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="position:absolute;top:0;left:50%;margin-left:-550px;height:100%;width:430px" /></section>';
 					#echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="padding-right: 35%; margin-top: -0.2em;;height:400px" /></section>'; 
-				} else {
+                } else if ($blog_slug == "2021") {
+					echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="position:absolute;top:0;left:50%;margin-left:-900px;height:100%;width:1900px" /></section>';
+
+                } else {
 					echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 258px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
 				}
 			}
