@@ -932,3 +932,9 @@ footer.entry-footer {
 	height: 100%;
 	border: 0;
 }
+@media all and (max-width: 600px) {
+  p.info + p {
+    height: auto;
+  }
+}
+
