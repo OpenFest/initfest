@@ -73,7 +73,6 @@ function sh_latest_posts($atts){
 ?>
         <div class="col3">
             <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-			<p class="info"><?php pll_e('От');?> <?php the_author(); ?> | <?php pll_e('Публикувано на');?> <?php the_date(); ?> </p>
             <?php the_excerpt(); ?>
 	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
         </div>
