@@ -77,7 +77,7 @@ function sh_latest_posts($atts){
 	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
         </div>
 <?php 
-		if ($i==3)
+#		if ($i==3)
 			echo '</div></section><section class="content"><div class="grid">';
 		endwhile;
 
