@@ -940,4 +940,9 @@ footer.entry-footer {
     height: auto;
   }
 }
-
+section.subtitle_content {
+	background: #f0f0f0;
+	padding: 10px;
+	text-align: justify;
+	font-weight: bold;
+}

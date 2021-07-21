@@ -371,4 +371,5 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('all_streams','ALL_STREAMS');
 	pll_register_string('tba','TBA');
 	pll_register_string('feedback','Submit feedback');
+	pll_register_string('about_event','about_event');
 }

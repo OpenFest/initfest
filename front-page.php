@@ -6,10 +6,9 @@
 	}
 </style>
 
+<section class="content subtitle_content">
 <?php
-	// set this to 0 if there is something not working with the stream player code
-	// (people will still have the Streaming page with all the links to the streams)
-	if (0) {
+echo '<h1>'.e_('about_event').'</h1>';
 ?>
 <script>
 	var g_streams_info = [
