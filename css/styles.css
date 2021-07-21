@@ -328,7 +328,11 @@ nav .selected {
 }
 @media all and (max-width: 840px) {
   nav .logo {
-    display: none;
+    display: block;
+	position: relative;
+	width: 110px;
+	height: 94px;
+	margin: 0 auto 15px;
   }
   nav .logo img {
     display: block;
