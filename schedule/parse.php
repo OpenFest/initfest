@@ -82,7 +82,6 @@ function parseData($config, $data) {
 		$microslots[] = [$lastTs, $ts];
 		$lastTs = $ts;
 	}
-	
 	// Fill in the event ID for each time slot in each hall
 	$events = [];
 
@@ -120,9 +119,8 @@ function parseData($config, $data) {
 			}
 		}
 		
-		$events[] = $hall_data;
+		$events[$hall_id] = $hall_data;
 	}
-	
 	// Remove halls with no events after filtering
 	$count = count($events);
 	for ($i = 0; $i < $count; ++$i) {
