@@ -69,7 +69,7 @@ function getSchedConfig($year = 2017) {
 				'lecture' => 16,
 				'workshop' => 15,
 			],
-			'hidden_language_tracks' => [59],
+			'hidden_language_tracks' => [66],
 		],
 
 	];
