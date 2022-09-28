@@ -9,7 +9,7 @@ require("schedule-config.php");
 <section class="content grid">
 <?php
 // full schedule is not limited in only one column
-if (!preg_match('/^full/', $pagename)) {
+if (!preg_match('/^full/', $pagename) || $year == '2021') {
 	echo '<div class="col-left">';
 }
 ?>
@@ -42,7 +42,7 @@ if (!empty($content)) {
 
 ?>
 <?php
-if (!preg_match('/^full/', $pagename)) {
+if (!preg_match('/^full/', $pagename) || $year == '2021') {
 	echo "</div>";
 	get_sidebar();
 };
