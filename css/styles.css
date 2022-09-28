@@ -604,19 +604,47 @@ footer .content li a {
 }
 .sponsors-item .tac a {
   display: inline-block;
-  height: 8em;
-  line-height: 8em;
+  width: 15em;
+  height: 9em;
+  line-height: 9em;
+  margin-bottom: 0.5em;
 }
 .sponsors-item .tac a img {
+  width: auto;
+  height: auto;
+  max-width: calc(15em - 0.6em); /* width - (left+right padding) */
+  max-height: calc(9em - 0.6em);
+  padding: 0.3em;
   vertical-align: middle;
 }
 .sponsors-item .tac p {
   text-align: justify;
 }
 
+.sponsors-frontpage {
+  text-align: center;
+}
+.sponsors-frontpage h3,
+.sponsors-frontpage .content {
+  text-align: left;
+}
 .sponsors-frontpage a {
   display: inline-block;
-  padding: 0 2.2em 1em 0;
+  padding: 0;
+  margin: 0.3em;
+  width: calc(15em - 0.6em - 2px); /* width - (left+right margin) - (left+right border) */
+  height: calc(9em - 0.6em - 2px); 
+  line-height: calc(9em - 0.6em - 2px);
+  border: solid 1px #DBDBDB;
+  text-align: center;
+}
+.sponsors-frontpage a img {
+  width: auto;
+  height: auto;
+  max-width: calc(15em - 1.2em - 2px); /* width - (left+right margin&padding) - (left+right border) */
+  max-height: calc(9em - 1.2em - 2px);
+  padding: 0.3em;
+  vertical-align: middle;
 }
 .sponsors-frontpage p a {
   display: inline;
@@ -714,10 +742,10 @@ a.button:hover { opacity: 0.8; }
 .program table {
         width: 99%;
 }
-
+/*
 .program h2 {
 }
-
+*/
 .program table, .program td, .program tr, .program th {
         border: 0;
 }
@@ -835,10 +863,11 @@ a.button:hover { opacity: 0.8; }
 .schedule-social {
   background: #a6b4de;
 }
+/*
 .schedule-14 {
   background: #;
 }
-
+*/
 /* Advanced technical track 2015 */
 .schedule-advanced-technical {
   background: #DF9959;
