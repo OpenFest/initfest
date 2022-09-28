@@ -280,7 +280,8 @@ function parseData($config, $data) {
 			}
 			$content = '<a href="#lecture-' . $eid . '">' . htmlspecialchars($title) . '</a><br>' . $speakers;
 
- 			if (!in_array($data['events'][$event_info['event_id']]['track_id'], $config['hidden_language_tracks']) && !isset($known_events[$eid])) {
+ 			if (!isset($known_events[$eid])) {
+ 			//if (!in_array($data['events'][$event_info['event_id']]['track_id'], $config['hidden_language_tracks']) && !isset($known_events[$eid])) {
 				$fulltalks .= '<section id="lecture-' . $eid . '">';
 				
 				// We don't want '()' when we don't have a speaker name
