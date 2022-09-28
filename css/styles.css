@@ -602,6 +602,17 @@ footer .content li a {
   display: inline-block;
   margin: 0 0 2em 0;
 }
+.sponsors-item .tac a {
+  display: inline-block;
+  height: 8em;
+  line-height: 8em;
+}
+.sponsors-item .tac a img {
+  vertical-align: middle;
+}
+.sponsors-item .tac p {
+  text-align: justify;
+}
 
 .sponsors-frontpage a {
   display: inline-block;
