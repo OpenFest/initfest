@@ -122,8 +122,7 @@ function parseData($config, $data) {
 		$events[$hall_id] = $hall_data;
 	}
 	// Remove halls with no events after filtering
-	$count = count($events);
-	for ($i = 0; $i < $count; ++$i) {
+	foreach ($events as $i => $val) {
 		$hasEvents = false;
 		foreach ($events[$i] as $event_info) {
 			if (!is_null($event_info)) {
@@ -141,8 +140,7 @@ function parseData($config, $data) {
 	$events = array_map(null, ...$events);
 
 	// Filter empty slots
-	$count = count($events);
-	for ($i = 0; $i < $count; ++$i) {
+	foreach($events as $i => $val) {
 		$hall_count = count($events[$i]);
 		$hasEvents = false;
 		
