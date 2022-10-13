@@ -13,7 +13,7 @@ get_header();
 if (!empty($_GET['track'])) {
 	$track = $_GET['track'];
 } else {
-	$track = "stage";
+	$track = "hall-a";
 }
 ?>
 <div class="videoWrapper">
