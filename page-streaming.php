@@ -21,9 +21,6 @@ if (!empty($_GET['track'])) {
 		<p>Your browser does not support iframes</p>
 	</iframe>
 </div>
-<div class="videoWrapper">
-    <iframe src="https://webirc.ludost.net/?channels=ofq&uio=d4&nick=ofq<?php echo rand(10000,99999)?>" width="647" height="400"></iframe>
-</div>
 <br>
 <?php
 if ( have_posts() ) : 
