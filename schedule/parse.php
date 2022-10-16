@@ -284,8 +284,8 @@ function parseData($config, $data) {
 				
 				// We don't want '()' when we don't have a speaker name
 				$fulltalk_spkr = strlen($speakers) > 0 ? (' (' . $speakers . ')') : '';
-				$fulltalks .= '<p><strong>' . $event['title'] . ' ' . $fulltalk_spkr . '</strong></p>';
-				$fulltalks .= '<p>' . $event['abstract'] . '</p>';
+				$fulltalks .= '<p><strong>' . htmlentities($event['title']) . ' ' . $fulltalk_spkr . '</strong></p>';
+				$fulltalks .= '<p>' . htmlentities($event['abstract']) . '</p>';
 				$fulltalks .= $fullfb;
 				$fulltalks .= '<div class="separator"></div></section>';
 				$known_events[$eid] = $eid;
@@ -396,7 +396,7 @@ function parseData($config, $data) {
 		}
 		
 		$fspk .= '</div>';
-		$fspk .= '<p>' . $speaker['biography'] . '</p>';
+		$fspk .= '<p>' . htmlentities($speaker['biography']) . '</p>';
 		$fspk .= '</div><div class="separator"></div>';
 	}
 
