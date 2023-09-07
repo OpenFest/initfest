@@ -10,7 +10,7 @@ add_filter( 'the_excerpt', 'do_shortcode');
 // OpenGraph image for FB/Twitter
 // TODO: less hacky solution
 function og_image( $tags ) {
-	$og_image = esc_url("https://www.openfest.org/2022/wp-content/themes/initfest/img/2022_fb_preview.jpg");
+	$og_image = esc_url("https://www.openfest.org/2023/wp-content/uploads/sites/27/2023/09/2023_fb_preview.jpg");
 
 	unset( $tags['og:image'] );
 	$tags['og:image'] = $og_image;
