@@ -9,6 +9,8 @@ add_filter( 'the_excerpt', 'do_shortcode');
 
 // OpenGraph image for FB/Twitter
 function og_image( $tags ) {
+    global $blog_slug;
+
     $imagePath = __DIR__ . '/img/' . $blog_slug . '_fb_preview.jpg';
 
     if (file_exists($imagePath)) {
