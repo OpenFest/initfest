@@ -7,9 +7,14 @@ add_theme_support( 'automatic-feed-links' );
 add_filter( 'the_excerpt', 'shortcode_unautop');
 add_filter( 'the_excerpt', 'do_shortcode');
 
+function get_blog_slug() {
+    $blog_details = get_blog_details();
+    return trim($blog_details->path, '/');
+}
+
 // OpenGraph image for FB/Twitter
 function og_image( $tags ) {
-    global $blog_slug;
+    $blog_slug = get_blog_slug();
 
     $imagePath = __DIR__ . '/img/' . $blog_slug . '_fb_preview.jpg';
 

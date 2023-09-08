@@ -24,8 +24,7 @@
 	</head>
 	<body>
 <?php
-	$blog_details = get_blog_details();
-	$blog_slug = str_replace('/', '', $blog_details->path);
+    $blog_slug = get_blog_slug();
 
 	if ($blog_slug == '2019' || $blog_slug == '2020')  {
 		echo '<nav style="background: url(\''.get_template_directory_uri().'/img/navbg-'.$blog_slug.'.png\'); height: 84px">';

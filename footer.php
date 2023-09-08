@@ -15,8 +15,7 @@
 					</p>
 				</div>
                 <?php
-                    $blog_details = get_blog_details();
-                    $blog_slug = str_replace('/', '', $blog_details->path);
+                    $blog_slug = get_blog_slug();
                     if ( $blog_slug != "2020" ) {
                 ?>
 				<div class="col4">
