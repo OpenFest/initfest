@@ -1,6 +1,6 @@
 <?php
 
-# Add support for thumbnais 
+# Add support for thumbnais
 add_theme_support( 'post-thumbnails' );
 add_theme_support( 'automatic-feed-links' );
 
@@ -8,19 +8,18 @@ add_filter( 'the_excerpt', 'shortcode_unautop');
 add_filter( 'the_excerpt', 'do_shortcode');
 
 // OpenGraph image for FB/Twitter
-// TODO: less hacky solution
 function og_image( $tags ) {
-	$og_image = esc_url("https://www.openfest.org/2023/wp-content/uploads/sites/27/2023/09/2023_fb_preview.jpg");
+    $imagePath = __DIR__ . '/img/' . $blog_slug . '_fb_preview.jpg';
 
-	unset( $tags['og:image'] );
-	$tags['og:image'] = $og_image;
-	unset( $tags['og:image:width'] );
-	$tags['og:image:width'] = 678;
-	unset( $tags['og:image:height'] );
-	$tags['og:image:height'] = 260;
+    if (file_exists($imagePath)) {
+        $imageUrl = esc_url('https://www.openfest.org/wp-content/themes/initfest/img/' . basename($imagePath));
+        list($width, $height) = getimagesize($imagePath);
 
-	unset( $tags['twitter:image'] );
-	$tags['twitter:image'] = $og_image;
+        $tags['og:image'] = $imageUrl;
+        $tags['og:image:width'] = $width;
+        $tags['og:image:height'] = $height;
+        $tags['twitter:image'] = $imageUrl;
+    }
 
 	return $tags;
 }
@@ -59,12 +58,12 @@ function sh_latest_posts($atts){
 		  'cat' => $ncat,
 		  'label' => __('News', 'initfest')
 	  );
-	
+
 	$result = '<section class="content"><h3>'.$atts['label'].' | <small><a href="'.esc_url(get_term_link($atts['cat'], 'category')).'">'.__('see all', 'initfest').'</a></small></h3><div class="grid">';
-	
-	
+
+
 	$news_args = array( 'category_name' => 'news,news-bg', 'numberposts' => 6, 'lang' => of_get_lang() );
-	$news = new WP_Query( $news_args ); 
+	$news = new WP_Query( $news_args );
 
 	ob_start();
 	if ( $news->have_posts() ) :
@@ -76,7 +75,7 @@ function sh_latest_posts($atts){
             <?php the_excerpt(); ?>
 	<a class="button" href="<?php the_permalink(); ?>"><?php pll_e('виж цялата новина');?></a>
         </div>
-<?php 
+<?php
 #		if ($i==3)
 			echo '</div></section><section class="content"><div class="grid">';
 		endwhile;
@@ -86,9 +85,9 @@ function sh_latest_posts($atts){
 	$result .= ob_get_contents();
 	$result .='</div></section>';
 	ob_end_clean();
-	
+
 	return $result;
-	
+
 }
 
 
@@ -96,9 +95,9 @@ function sh_latest_posts($atts){
 function sponsors_shortcode() {
     $result= '<h3>'.pll__('Спонсори').'</h3>';
 
-    
+
     $sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand', 'nopaging' => 'true');
-    $sponsors = new WP_Query( $sponsors_args ); 
+    $sponsors = new WP_Query( $sponsors_args );
 
 	ob_start();
 
@@ -131,9 +130,9 @@ function sponsors_shortcode() {
 function partners_shortcode() {
 	$result= '<h3>'.pll__('Партньори').'</h3>';
 
-	
+
 	$sponsors_args = array( 'post_type' => 'sponsors', 'orderby' => 'rand', 'nopaging' => 'true' );
-	$sponsors = new WP_Query( $sponsors_args ); 
+	$sponsors = new WP_Query( $sponsors_args );
 
 	ob_start();
 
@@ -163,12 +162,12 @@ function partners_shortcode() {
 }
 
 
-# Create shortcode for transport methods 
+# Create shortcode for transport methods
 function transport_shortcode() {
     $result= '<section class="content"><h3>'.pll__('Място').': '.pll__('VENUE_LOCATION').'</h3>';
 
     $transport_args = array( 'post_type' => 'transportation' );
-    $transport = new WP_Query( $transport_args ); 
+    $transport = new WP_Query( $transport_args );
 
 	ob_start();
 
@@ -177,13 +176,13 @@ function transport_shortcode() {
 ?>
     <h4><?php the_title(); ?></h4>
     <p><?php the_content(); ?></p>
-<?php 
+<?php
         endwhile;
     endif;
 ?>
 </section>
 <?php
-    //echo do_shortcode( '[ready_google_map id="2" map_language="en" align="center"]' ); 
+    //echo do_shortcode( '[ready_google_map id="2" map_language="en" align="center"]' );
 
     $result .= ob_get_contents();
 	ob_end_clean();
@@ -235,7 +234,7 @@ function create_sponsors_posttype() {
 add_action( 'init', 'create_sponsors_posttype' );
 
 
-# Create a custom post type for Speakers 
+# Create a custom post type for Speakers
 function create_speakers_posttype() {
 
 	$labels = array(
@@ -278,7 +277,7 @@ function create_speakers_posttype() {
 add_action( 'init', 'create_speakers_posttype' );
 
 
-# Create a custom post type for Tranportation 
+# Create a custom post type for Tranportation
 function transportation_posttype() {
 
         register_post_type( 'transportation',
@@ -313,31 +312,31 @@ function e_($word) {
 }
 
 function pn_get_attachment_id_from_url( $attachment_url = '' ) {
- 
+
 	global $wpdb;
 	$attachment_id = false;
- 
+
 	// If there is no url, return.
 	if ( '' == $attachment_url )
 		return;
- 
+
 	// Get the upload directory paths
 	$upload_dir_paths = wp_upload_dir();
- 
+
 	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
 	if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
- 
+
 		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
 		$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
- 
+
 		// Remove the upload path base directory from the attachment URL
 		$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
- 
+
 		// Finally, run a custom database query to get the attachment ID from the modified attachment URL
 		$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
- 
+
 	}
- 
+
 	return $attachment_id;
 }
 add_action( 'init', 'transportation_posttype' );
