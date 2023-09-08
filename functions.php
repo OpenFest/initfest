@@ -16,7 +16,7 @@ function get_blog_slug() {
 function og_image( $tags ) {
     $blog_slug = get_blog_slug();
 
-    $imagePath = __DIR__ . '/img/' . $blog_slug . '_fb_preview.jpg';
+    $imagePath = __DIR__ . '/img/fb_preview_' . $blog_slug . '.jpg';
 
     if (file_exists($imagePath)) {
         $imageUrl = esc_url('https://www.openfest.org/wp-content/themes/initfest/img/' . basename($imagePath));
