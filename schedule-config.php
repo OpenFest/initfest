@@ -5,8 +5,7 @@ require $requirePath . 'config.php';
 require $requirePath . 'load.php';
 require $requirePath . 'parse.php';
 
-$siteurl = get_option('siteurl');
-$year = preg_replace('%.*/([0-9]*)$%', '\1', $siteurl);
+$year = get_blog_slug();
 
 $sched_config = getSchedConfig($year);
 
