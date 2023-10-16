@@ -5,7 +5,11 @@ if ($strftimeDeprecated) {
     require 'php-8.1-strftime.php';
 }
 
-$strftime = fn(...$args) => $strftimeDeprecated ? PHP81_BC\strftime(...$args) : \strftime(...$args);
+$strftime = function (...$args) {
+    global $strftimeDeprecated;
+
+    return $strftimeDeprecated ? PHP81_BC\strftime(...$args) : \strftime(...$args);
+};
 
 function parseData($config, $data) {
     global $strftime;
