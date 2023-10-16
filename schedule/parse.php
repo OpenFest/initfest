@@ -280,12 +280,14 @@ function parseData($config, $data) {
 				$spk = [];
 
 				foreach ($event['participant_user_ids'] as $uid) {
-					if (in_array($uid, $config['hidden_speakers']) || empty($data['speakers'][$uid])) {
+                    if (in_array($uid, $config['hidden_speakers']) || empty($data['speakers'][$uid])) {
 						continue;
 					}
 
-					$name = $data['speakers'][$uid]['first_name'] . ' ' . $data['speakers'][$uid]['last_name'];
-					$spk[] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>';
+                    $speaker = $data['speakers'][$uid];
+					$name = $speaker['first_name'] . ' ' . $speaker['last_name'];
+                    $organisation = empty($speaker['organisation']) ? '' : (' /' . $speaker['organisation'] . '/');
+					$spk[] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>' . $organisation;
 				}
 
 				$speakers = implode (', ', $spk);
