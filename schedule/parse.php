@@ -324,7 +324,7 @@ function parseData($config, $data) {
 		}
 		
 		$schedule_body .= '<tr><td>';
-		$schedule_body .= strftime('%H:%M', $microslots[$slot_index][0]) . ' - ' . strftime('%H:%M', $microslots[$slot_index][1]);
+		$schedule_body .= date('H:i', $microslots[$slot_index][0]) . ' - ' . date('H:i', $microslots[$slot_index][1]);
 		$schedule_body .= '</td>';
 		$schedule_body .= implode('', $columns);
 		$schedule_body .= '</tr>';
