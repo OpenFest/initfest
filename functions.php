@@ -8,6 +8,11 @@ add_filter( 'the_excerpt', 'shortcode_unautop');
 add_filter( 'the_excerpt', 'do_shortcode');
 
 function get_blog_slug() {
+    if (!is_multisite()) {
+        // local development, non-multisite
+        return date('Y');
+    }
+
     $blog_details = get_blog_details();
     return trim($blog_details->path, '/');
 }
