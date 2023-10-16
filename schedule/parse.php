@@ -189,12 +189,21 @@ function parseData($config, $data) {
 				continue;
 			}
 
-			// We have a long event
+            // We have a long event
 			if (is_null($prevEventSlot[$hall_index])) {
 				$prevEventSlot[$hall_index] = $prevSlotIndex;
 			}
 
-			$master_slot = &$events[$prevEventSlot[$hall_index]][$hall_index];
+            $masterSlotIndex = $prevEventSlot[$hall_index];
+
+            // check if the events spans on the next day
+            if (date('d.m', $microslots[$slot_index][0]) !== date('d.m', $microslots[$masterSlotIndex][1])) {
+                // not sure why this is needed, but it fixes things
+                $prevEventSlot[$hall_index] = null;
+                continue;
+            }
+
+            $master_slot = &$events[$masterSlotIndex][$hall_index];
 
 			if (!array_key_exists('rowspan', $master_slot)) {
 				$master_slot['rowspan'] = 2;
