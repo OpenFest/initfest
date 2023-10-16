@@ -1,4 +1,7 @@
 <?php
+require 'php-8.1-strftime.php';
+use function PHP81_BC\strftime;
+
 function parseData($config, $data) {
 	$languages = array(
 		'en' => array(
