@@ -1,8 +1,15 @@
 <?php
-require 'php-8.1-strftime.php';
-use function PHP81_BC\strftime;
+$strftimeDeprecated = version_compare(PHP_VERSION, '8.1.0', '>=');
+
+if ($strftimeDeprecated) {
+    require 'php-8.1-strftime.php';
+}
+
+$strftime = fn(...$args) => $strftimeDeprecated ? PHP81_BC\strftime(...$args) : \strftime(...$args);
 
 function parseData($config, $data) {
+    global $strftime;
+
 	$languages = array(
 		'en' => array(
 			'name' => 'English',
@@ -237,7 +244,7 @@ function parseData($config, $data) {
 		$columns = [];
 
 		if (date('d.m', $microslots[$slot_index][0]) !== date('d.m', $lastTs)) {
-			$schedule_body .= '<tr><th colspan="' . (count($events_data) + 1) . '">' . strftime('%d %B - %A', $microslots[$slot_index][0]) . '</th></tr>';
+			$schedule_body .= '<tr><th colspan="' . (count($events_data) + 1) . '">' . $strftime('%d %B - %A', $microslots[$slot_index][0]) . '</th></tr>';
 		}
 
 		$lastTs = $microslots[$slot_index][0];
