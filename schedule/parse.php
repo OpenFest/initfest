@@ -286,7 +286,8 @@ function parseData($config, $data) {
 
                     $speaker = $data['speakers'][$uid];
 					$name = $speaker['first_name'] . ' ' . $speaker['last_name'];
-                    $organisation = empty($speaker['organisation']) ? '' : (' /' . $speaker['organisation'] . '/');
+                    $organisation = empty($speaker['organisation']) ? '' :
+                        ('<br>/&#8288;' . $speaker['organisation'] . '&#8288;/');
 					$spk[] = '<a class="vt-p" href="#' . $name . '">' . $name . '</a>' . $organisation;
 				}
 
