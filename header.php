@@ -28,6 +28,9 @@
 
 	if ($blog_slug === '2019' || $blog_slug === '2020')  {
 		echo '<nav style="background: url(\''.get_template_directory_uri().'/img/navbg-'.$blog_slug.'.png\'); height: 84px">';
+	}
+	elseif ($blog_slug === '2024') {
+	    echo '<nav style="background: none;">';
 	} else {
 		echo '<nav>';
 	}
