@@ -45,7 +45,7 @@ get_header(); ?>
 <?php
 
                 $sponsor_count++; 
-                if ($sponsor_count % 2 == 0) {
+                if ($sponsor_count % 2 === 0) {
 ?>
 </section>
 <section class="content grid sponsors-item">

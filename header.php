@@ -26,10 +26,10 @@
 <?php
     $blog_slug = get_blog_slug();
 
-	if ($blog_slug == '2019' || $blog_slug == '2020')  {
+	if ($blog_slug === '2019' || $blog_slug === '2020')  {
 		echo '<nav style="background: url(\''.get_template_directory_uri().'/img/navbg-'.$blog_slug.'.png\'); height: 84px">';
 	} else {
-		echo "<nav>";
+		echo '<nav>';
 	}
 ?>
 			<div class="content cf">
@@ -40,12 +40,12 @@
 		</nav>
 		<?php
 			if(openfest_home_page()){
-				if ($blog_slug == '2019') {
+				if ($blog_slug === '2019') {
 					echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="position:absolute;top:0;left:50%;margin-left:-550px;height:100%;width:430px" /></section>';
 					#echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="padding-right: 35%; margin-top: -0.2em;;height:400px" /></section>';
-                } else if ($blog_slug == "2021") {
+                } else if ($blog_slug === '2021') {
 					//echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="position:absolute;top:0;left:50%;height:100%;width:608px" /></section>';
-					//if (of_get_lang() == "en") {
+					//if (of_get_lang() === 'en') {
 					//	echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" style="position:absolute;top:0;left:50%;height:100%;width:608px" /></section>';
 					//} else {
 					//	echo '<section class="banner cf content" style="top: repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px; background: none">';
@@ -56,7 +56,7 @@
 
 					echo '<section class="banner cf content" style="top: repeat-x; background-size:cover; position:relative; padding: 0.2em 0 0 0;height: 400px; background: none">';
 					echo '<img src="'.get_template_directory_uri().'/img/banner-back-2021.svg" alt="" style="position:absolute;top:0;right:65%;height:100%;">';
-					if (of_get_lang() == "bg") {
+					if (of_get_lang() === 'bg') {
 						echo '<img src="'.get_template_directory_uri().'/img/banner-bg-2021.svg" alt="" style="position:absolute;top:0;left:50%;height:100%;width:608px">';
 					} else {
 						echo '<img src="'.get_template_directory_uri().'/img/banner-en-2021.png" alt="" style="position:absolute;top:0;left:50%;height:100%;width:608px">';
@@ -64,10 +64,10 @@
 					echo '</section>';
 
 
-                } else if ($blog_slug == '2023') {
+                } else if ($blog_slug === '2023') {
 					echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2023.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-2023.png" alt="" style="margin-left: calc(40vw - 428px);" /></section>';
 
-                } else if ($blog_slug == '2024') {
+                } else if ($blog_slug === '2024') {
 					echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2024.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;"></section>';
 
                 } else {

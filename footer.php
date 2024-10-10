@@ -16,7 +16,7 @@
 				</div>
                 <?php
                     $blog_slug = get_blog_slug();
-                    if ( $blog_slug != "2020" ) {
+                    if ( $blog_slug !== '2020' ) {
                 ?>
 				<div class="col4">
 				<h3><?php e_('Други')?></h3>

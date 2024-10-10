@@ -181,9 +181,9 @@ function strftime (string $format, $timestamp = null, ?string $locale = null) : 
         $prefix = $match[1];
         $char = $match[2];
         $pattern = '%'.$char;
-        if ($pattern == '%n') {
+        if ($pattern === '%n') {
             return "\n";
-        } elseif ($pattern == '%t') {
+        } elseif ($pattern === '%t') {
             return "\t";
         }
 
