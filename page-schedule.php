@@ -8,8 +8,23 @@ require("schedule-config.php");
 ?>
 <section class="content grid">
 <?php
+function should_show_sidebar() {
+    if ($year === '2021') {
+        return true;
+    }
+
+    if (preg_match('/^full/', $pagename)) {
+        return false;
+    }
+
+    if ($year === '2024' && preg_match('/^workshop/', $pagename)) {
+        return false;
+    }
+
+    return true;
+}
 // full schedule is not limited in only one column
-if (!preg_match('/^full/', $pagename) || $year == '2021') {
+if (should_show_sidebar()) {
 	echo '<div class="col-left">';
 }
 ?>
@@ -42,7 +57,7 @@ if (!empty($content)) {
 
 ?>
 <?php
-if (!preg_match('/^full/', $pagename) || $year == '2021') {
+if (should_show_sidebar()) {
 	echo "</div>";
 	get_sidebar();
 };
