@@ -407,11 +407,11 @@ function parseData($config, $data) {
 
 		$gspk .= '<div class="member col4">';
 		$gspk .= '<a href="#' . $name . '">';
-		$gspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />';
+		$gspk .= '<img width="100" height="100" src="' . $speaker['picture'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />';
 		$gspk .= '</a> </div>';
 
 		$fspk .= '<div class="speaker" id="' . $name . '">';
-		$fspk .= '<img width="100" height="100" src="' . $config['cfp_url'] . $speaker['picture']['schedule']['url'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />';
+		$fspk .= '<img width="100" height="100" src="' . $speaker['picture'] . '" class="attachment-100x100 wp-post-image" alt="' . $name . '" />';
 		$fspk .= '<h3>' . $name . '</h3>';
 		$fspk .= '<div class="icons">';
 
