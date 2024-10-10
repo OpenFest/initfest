@@ -9,6 +9,8 @@ require("schedule-config.php");
 <section class="content grid">
 <?php
 function should_show_sidebar() {
+    global $year, $pagename;
+
     if ($year === '2021') {
         return true;
     }
