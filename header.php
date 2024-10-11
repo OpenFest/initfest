@@ -30,7 +30,7 @@
 		echo '<nav style="background: url(\''.get_template_directory_uri().'/img/navbg-'.$blog_slug.'.png\'); height: 84px">';
 	}
 	elseif ($blog_slug === '2024') {
-	    echo '<nav style="background: none;">';
+	    echo '<nav style="background-image: linear-gradient(#FFFFFF, #BFFAF4);">';
 	} else {
 		echo '<nav>';
 	}
