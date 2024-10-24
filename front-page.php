@@ -4,9 +4,20 @@
 <?php
 e_('about_event');
 
+// countdown begin
+$eventStartTimes = [
+    '2024' => '2024-11-02 10:00:00',
+];
+
 $blog_slug = get_blog_slug();
 
-if ($blog_slug === '2024') {
+if (array_key_exists($blog_slug, $eventStartTimes)) {
+    $now = new DateTimeImmutable('now');
+    $eventStart = new DateTimeImmutable($eventStartTimes[$blog_slug] . ' Europe/Sofia');
+    $interval = $now->diff($eventStart);
+}
+
+if ($interval instanceof DateInterval && $interval->invert === 0) {
 ?>
     <style>
 	.countdown {
@@ -32,9 +43,9 @@ if ($blog_slug === '2024') {
         <table>
             <tbody>
                 <tr class="digits">
-                    <td>08</td>
-                    <td>10</td>
-                    <td>21</td>
+                    <td><?php echo $interval->format('%a'); ?></td>
+                    <td><?php echo $interval->format('%H'); ?></td>
+                    <td><?php echo $interval->format('%I'); ?></td>
                 </tr>
                 <tr class="units">
                     <td><?php e_('countdown_days'); ?></td>
@@ -47,6 +58,7 @@ if ($blog_slug === '2024') {
     </div>
 <?php
 }
+// countdown end
 ?>
 </section>
 <section class="content">
