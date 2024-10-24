@@ -27,7 +27,7 @@ if ($blog_slug === '2024') {
     </style>
     <br><br>
     <div class="countdown">
-        <?php e_('countdown_text'); ?>
+        <?php e_('countdown_text_before'); ?>
         <table>
             <tbody>
                 <tr class="digits">
@@ -42,6 +42,7 @@ if ($blog_slug === '2024') {
                 </tr>
             </tbody>
         </table>
+        <?php e_('countdown_text_after'); ?>
     </div>
 <?php
 }

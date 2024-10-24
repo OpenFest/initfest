@@ -383,7 +383,8 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('tba','TBA');
 	pll_register_string('feedback','Submit feedback');
 	pll_register_string('about_event','about_event');
-	pll_register_string('countdown_text','countdown_text');
+	pll_register_string('countdown_text_before','countdown_text_before');
+	pll_register_string('countdown_text_after','countdown_text_after');
 	pll_register_string('countdown_days','countdown_days');
 	pll_register_string('countdown_hours','countdown_hours');
 	pll_register_string('countdown_minutes','countdown_minutes');
