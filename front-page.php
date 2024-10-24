@@ -21,7 +21,7 @@ if ($blog_slug === '2024') {
 	    font-size: 30px;
 	}
 
-	.countdown > .units > td {
+	.countdown .units > td {
 	    font-size: 12px;
 	}
     </style>
