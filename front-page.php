@@ -8,7 +8,7 @@
 
 <section class="content subtitle_content">
 <?php
-echo '<h1>'.e_('about_event').'</h1>';
+e_('about_event');
 ?>
 </section>
 <section class="content">
