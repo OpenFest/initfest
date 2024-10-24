@@ -383,6 +383,10 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('tba','TBA');
 	pll_register_string('feedback','Submit feedback');
 	pll_register_string('about_event','about_event');
+	pll_register_string('countdown_text','countdown_text');
+	pll_register_string('countdown_days','countdown_days');
+	pll_register_string('countdown_hours','countdown_hours');
+	pll_register_string('countdown_minutes','countdown_minutes');
 }
 
 add_filter( 'wp_title', 'wpdocs_hack_wp_title_for_home' );
