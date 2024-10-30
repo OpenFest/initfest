@@ -66,6 +66,9 @@ if ($isBeforeEvent) {
 }
 
 if ($activeStream) {
+    wp_enqueue_style('video.js', 'https://unpkg.com/video.js/dist/video-js.css');
+    wp_enqueue_script('video.js', 'https://unpkg.com/video.js/dist/video.min.js');
+
     // TODO
 }
 
