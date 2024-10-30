@@ -69,7 +69,7 @@ if ($activeStream) {
 ?>
     <div class="stream_players_wrapper">
 <?php
-        foreach ($activeStream as $track) {
+        foreach ($activeStream['tracks'] as $track) {
 ?>
         <div>
             <h3><?php e_($track); ?></h3>
