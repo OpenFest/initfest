@@ -1017,3 +1017,18 @@ section.subtitle_content {
     text-align: center;
     margin-top: 18px;
 }
+
+/* front page stream players */
+.stream_players_wrapper {
+  display: flex;
+}
+
+@media all and (max-width: 960px) {
+  .stream_players_wrapper {
+    flex-direction: column;
+  }
+}
+
+.stream_players_wrapper > * {
+  flex-grow: 1;
+}
