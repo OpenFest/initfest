@@ -13,11 +13,11 @@ if (!array_key_exists($blog_slug, $eventsConfig)) {
 
 $now = new DateTimeImmutable('now');
 
-$eventStart = new DateTimeImmutable($eventsConfig[$blog_slug]['eventStart'] . ' Europe/Sofia');
+$eventStart = new DateTimeImmutable($eventsConfig[$blog_slug]['startTime'] . ' Europe/Sofia');
 $eventStartInterval = $now->diff($eventStart);
 $isBeforeEvent = $eventStartInterval instanceof DateInterval && $eventStartInterval->invert === 0;
 
-$eventEnd = new DateTimeImmutable($eventsConfig[$blog_slug]['eventEnd'] . ' Europe/Sofia');
+$eventEnd = new DateTimeImmutable($eventsConfig[$blog_slug]['endTime'] . ' Europe/Sofia');
 $eventEndInterval = $now->diff($eventEnd);
 $isAfterEvent = $eventEndInterval instanceof DateInterval && $eventEndInterval->invert === 1;
 
