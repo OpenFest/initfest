@@ -418,6 +418,8 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('countdown_minutes','countdown_minutes');
 	pll_register_string('after_event','after_event');
 	pll_register_string('no_current_streams','no_current_streams');
+	pll_register_string('hall-a','hall-a');
+	pll_register_string('hall-b','hall-b');
 }
 
 add_filter( 'wp_title', 'wpdocs_hack_wp_title_for_home' );

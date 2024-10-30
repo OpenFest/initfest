@@ -66,10 +66,20 @@ if ($isBeforeEvent) {
 }
 
 if ($activeStream) {
-    wp_enqueue_style('video.js', 'https://unpkg.com/video.js/dist/video-js.css');
-    wp_enqueue_script('video.js', 'https://unpkg.com/video.js/dist/video.min.js');
-
-    // TODO
+?>
+    <div class="stream_players_wrapper">
+<?php
+        foreach ($activeStream as $track) {
+?>
+        <div>
+            <h3><?php e_($track); ?></h3>
+            <?php do_shortcode('[stream-player track="' . $track . '"]'); ?>
+        </div>
+<?php
+        }
+?>
+    </div>
+<?php
 }
 
 if ($noCurrentStreams) {
