@@ -1021,6 +1021,7 @@ section.subtitle_content {
 /* front page stream players */
 .stream_players_wrapper {
   display: flex;
+  column-gap: 10px;
 }
 
 @media all and (max-width: 960px) {
