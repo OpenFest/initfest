@@ -26,6 +26,7 @@ if ($isBeforeEvent) {
     <style>
 	.countdown {
 		text-align: center;
+		margin-top: 18px;
 	}
 
 	.countdown > table {
@@ -41,7 +42,6 @@ if ($isBeforeEvent) {
 	    font-size: 12px;
 	}
     </style>
-    <br><br>
     <div class="countdown">
         <?php e_('countdown_text_before'); ?>
         <table>
@@ -68,6 +68,7 @@ if ($isAfterEvent) {
     <style>
 	.after_event {
 		text-align: center;
+		margin-top: 18px;
 	}
     </style>
     <div class="after_event">
