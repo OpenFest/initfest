@@ -208,6 +208,10 @@ function stream_player_shortcode($params = []) {
     wp_enqueue_style('video.js', 'https://unpkg.com/video.js/dist/video-js.css');
     wp_enqueue_script('video.js', 'https://unpkg.com/video.js/dist/video.min.js');
 
+    $videoJsConfig = [
+        'fluid' => true,
+    ];
+
     $params = array_merge([
         'host' => 'stream.openfest.org',
         'track' => 'hall-a',
@@ -217,7 +221,7 @@ function stream_player_shortcode($params = []) {
 
     ob_start();
 ?>
-<video class="video-js vjs-fill" controls data-setup="{}">
+<video class="video-js vjs-fill" controls data-setup="<?php echo htmlspecialchars(json_encode($videoJsConfig)); ?>">
     <source type="application/x-mpegURL" src="<?php echo $urlPrefix, 'hls/', $params['track']; ?>.m3u8"></source>
     <source type="application/dash+xml" src="<?php echo $urlPrefix, 'dash/', $params['track']; ?>.mpd"></source>
 </video>
