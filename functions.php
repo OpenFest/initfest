@@ -56,6 +56,7 @@ function register_shortcodes(){
     add_shortcode('sponsors', 'sponsors_shortcode');
     add_shortcode('partners', 'partners_shortcode');
     add_shortcode('transport', 'transport_shortcode');
+    add_shortcode('stream-player', 'stream_player_shortcode');
 }
 
 add_action( 'init', 'register_shortcodes');
@@ -200,6 +201,30 @@ function transport_shortcode() {
 	ob_end_clean();
 
     return $result;
+}
+
+
+function stream_player_shortcode($params = []) {
+    wp_enqueue_style('video.js', 'https://unpkg.com/video.js/dist/video-js.css');
+    wp_enqueue_script('video.js', 'https://unpkg.com/video.js/dist/video.min.js');
+
+    $params = [
+        'host' => 'stream.openfest.org',
+        'track' => 'hall-a',
+        ...$params,
+    ];
+
+    $urlPrefix = 'https://' . $params['host'] . '/';
+
+    ob_start();
+?>
+<video class="video-js vjs-fill" controls data-setup="{}">
+    <source type="application/x-mpegURL" src="<?php echo $urlPrefix, 'hls/', $params['track']; ?>.m3u8"></source>
+    <source type="application/dash+xml" src="<?php echo $urlPrefix, 'dash/', $params['track']; ?>.mpd"></source>
+</video>
+<?php
+
+    return ob_get_clean();
 }
 
 
