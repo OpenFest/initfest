@@ -13,13 +13,34 @@ if (!array_key_exists($blog_slug, $eventsConfig)) {
 
 $now = new DateTimeImmutable('now');
 
-$eventStart = new DateTimeImmutable($eventsConfig[$blog_slug]['startTime'] . ' Europe/Sofia');
-$eventStartInterval = $now->diff($eventStart);
-$isBeforeEvent = $eventStartInterval instanceof DateInterval && $eventStartInterval->invert === 0;
+function interval_to_now(string $dateTimeStr) {
+    global $now;
+    return $now->diff(new DateTimeImmutable($dateTimeStr . ' Europe/Sofia'));
+}
 
-$eventEnd = new DateTimeImmutable($eventsConfig[$blog_slug]['endTime'] . ' Europe/Sofia');
-$eventEndInterval = $now->diff($eventEnd);
-$isAfterEvent = $eventEndInterval instanceof DateInterval && $eventEndInterval->invert === 1;
+function is_before_interval(DateInterval $interval) {
+    return $interval->invert === 0;
+}
+
+function is_after_interval(DateInterval $interval) {
+    return $interval->invert === 1;
+}
+
+$eventStartInterval = interval_to_now($eventsConfig[$blog_slug]['startTime']);
+$isBeforeEvent = is_before_interval($eventStartInterval);
+
+$eventEndInterval = interval_to_now($eventsConfig[$blog_slug]['endTime']);
+$isAfterEvent = is_after_interval($eventEndInterval);
+
+$activeStreams = array_filter($eventsConfig[$blog_slug]['streams'], function($stream) {
+    $streamStartInterval = interval_to_now($stream['startTime']);
+    $streamEndInterval = interval_to_now($stream['endTime']);
+
+    return is_after_interval($streamStartInterval) && is_before_interval($streamEndInterval);
+});
+$activeStream = reset($activeStreams);
+
+$noCurrentStreams = !$isBeforeEvent && !$isAfterEvent && $activeStream === false;
 
 if ($isBeforeEvent) {
 ?>
@@ -59,6 +80,24 @@ if ($isBeforeEvent) {
             </tbody>
         </table>
         <?php e_('countdown_text_after'); ?>
+    </div>
+<?php
+}
+
+if ($activeStream) {
+    // TODO
+}
+
+if ($noCurrentStreams) {
+?>
+    <style>
+	.no_current_streams {
+		text-align: center;
+		margin-top: 18px;
+	}
+    </style>
+    <div class="no_current_streams">
+        <?php e_('no_current_streams'); ?>
     </div>
 <?php
 }
