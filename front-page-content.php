@@ -65,6 +65,13 @@ if ($isBeforeEvent) {
 
 if ($isAfterEvent) {
 ?>
-    <?php e_('after_event'); ?>
+    <style>
+	.after_event {
+		text-align: center;
+	}
+    </style>
+    <div class="after_event">
+        <?php e_('after_event'); ?>
+    </div>
 <?php
 }

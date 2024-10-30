@@ -388,6 +388,7 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('countdown_days','countdown_days');
 	pll_register_string('countdown_hours','countdown_hours');
 	pll_register_string('countdown_minutes','countdown_minutes');
+	pll_register_string('after_event','after_event');
 }
 
 add_filter( 'wp_title', 'wpdocs_hack_wp_title_for_home' );
