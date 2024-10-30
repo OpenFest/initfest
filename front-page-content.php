@@ -73,7 +73,7 @@ if ($activeStream) {
 ?>
         <div>
             <h3><?php e_($track); ?></h3>
-            <?php do_shortcode('[stream-player track="' . $track . '"]'); ?>
+            <?php echo do_shortcode('[stream-player track="' . $track . '"]'); ?>
         </div>
 <?php
         }
