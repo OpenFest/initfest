@@ -44,25 +44,6 @@ $noCurrentStreams = !$isBeforeEvent && !$isAfterEvent && $activeStream === false
 
 if ($isBeforeEvent) {
 ?>
-    <style>
-	.countdown {
-		text-align: center;
-		margin-top: 18px;
-	}
-
-	.countdown > table {
-	    margin: 0 auto;
-	}
-
-	.countdown .digits > td {
-	    font-size: 30px;
-	    padding: 0 10px;
-	}
-
-	.countdown .units > td {
-	    font-size: 12px;
-	}
-    </style>
     <div class="countdown">
         <?php e_('countdown_text_before'); ?>
         <table>
@@ -90,12 +71,6 @@ if ($activeStream) {
 
 if ($noCurrentStreams) {
 ?>
-    <style>
-	.no_current_streams {
-		text-align: center;
-		margin-top: 18px;
-	}
-    </style>
     <div class="no_current_streams">
         <?php e_('no_current_streams'); ?>
     </div>
@@ -104,12 +79,6 @@ if ($noCurrentStreams) {
 
 if ($isAfterEvent) {
 ?>
-    <style>
-	.after_event {
-		text-align: center;
-		margin-top: 18px;
-	}
-    </style>
     <div class="after_event">
         <?php e_('after_event'); ?>
     </div>

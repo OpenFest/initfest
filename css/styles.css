@@ -986,3 +986,34 @@ section.subtitle_content {
 	text-align: justify;
 	font-weight: bold;
 }
+
+/* countdown */
+.countdown {
+    text-align: center;
+    margin-top: 18px;
+}
+
+.countdown > table {
+    margin: 0 auto;
+}
+
+.countdown .digits > td {
+    font-size: 30px;
+    padding: 0 10px;
+}
+
+.countdown .units > td {
+    font-size: 12px;
+}
+
+/* no current streams */
+.no_current_streams {
+    text-align: center;
+    margin-top: 18px;
+}
+
+/* after event */
+.after_event {
+    text-align: center;
+    margin-top: 18px;
+}
