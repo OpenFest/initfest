@@ -27,6 +27,9 @@ function parseData($config, $data) {
 
 	if ($data === false) return false;
 
+	$halls = $data['halls'];
+	ksort($halls);
+
 	// We need to set these so we actually parse properly the dates. WP fucks up both.
 	date_default_timezone_set('Europe/Sofia');
 	setlocale(LC_TIME, $languages[$config['lang']]['locale']);
@@ -46,7 +49,7 @@ function parseData($config, $data) {
 		$config['eventTypes'][$config['filterEventType']] :
 		null;
 
-	foreach ($data['halls'] as $hall_id => $hall) {
+	foreach ($halls as $hall_id => $hall) {
 		$slots[$hall_id] = [];
 
 		foreach ($data['slots'] as $slot_id => $slot) {
@@ -99,7 +102,7 @@ function parseData($config, $data) {
 	// Fill in the event ID for each time slot in each hall
 	$events = [];
 
-	foreach ($data['halls'] as $hall_id => $hall) {
+	foreach ($halls as $hall_id => $hall) {
 		$hall_data = [];
 
 		foreach ($microslots as $timestamps) {
@@ -358,7 +361,7 @@ function parseData($config, $data) {
 
 	$schedule = '<table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule"><thead><tr><th></th>';
 
-	foreach ($data['halls'] as $hall_id => $hall) {
+	foreach ($halls as $hall_id => $hall) {
 		if (!in_array($hall_id, $hall_ids)) {
 			continue;
 		}
