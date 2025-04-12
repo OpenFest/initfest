@@ -35,7 +35,7 @@ if (should_show_sidebar()) {
 
 <?php
 if (!empty($content)) {
-    echo '<p><a href="https://cfp.openfest.org/api/conferences/'.$sched_config['conferenceId'].'/events.ics?locale='.$lang.'">iCalendar</a></p>';
+    echo '<p><a href="https://oldcfp.openfest.org/api/conferences/'.$sched_config['conferenceId'].'/events.ics?locale='.$lang.'">iCalendar</a></p>';
 	echo $content['schedule'];
 ?>
 

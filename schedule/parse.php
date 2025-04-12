@@ -299,8 +299,8 @@ function parseData($config, $data) {
 
 			if ($microslots[$slot_index][0] < $now) {
 				// talk has already started. Provide feedback links
-				$fullfb = '<p align=right><strong><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">'.pll__('Submit feedback').'</a></strong></p>';
-				$progfb = '<p><i><a href="https://cfp.openfest.org/events/' . $eid . '/feedback/new">'.pll__('Submit feedback').'</a></i></p>';
+				$fullfb = '<p align=right><strong><a href="https://oldcfp.openfest.org/events/' . $eid . '/feedback/new">'.pll__('Submit feedback').'</a></strong></p>';
+				$progfb = '<p><i><a href="https://oldcfp.openfest.org/events/' . $eid . '/feedback/new">'.pll__('Submit feedback').'</a></i></p>';
 			} else {
 				$fullfb = "";
 				$progfb = "";

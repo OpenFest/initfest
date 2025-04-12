@@ -2,7 +2,7 @@
 function getSchedConfig($year = 2017) {
 	$globalConfig = [
 		'lang' => 'bg',
-		'cfp_url' => 'https://cfp.openfest.org',
+		'cfp_url' => 'https://oldcfp.openfest.org',
 		'cut_len' => 70,
 		'hidden_speakers' => [4],
 		'hidden_language_tracks' => [],
