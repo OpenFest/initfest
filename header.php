@@ -73,6 +73,8 @@
                 } else if ($blog_slug === '2024') {
 					echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2024.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;"></section>';
 
+                } else if ($blog_slug === '2025') {
+					echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;"></section>';
                 } else {
 					echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 258px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
 				}

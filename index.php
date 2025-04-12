@@ -1,4 +1,6 @@
-<?php get_header(); ?>
+<?php 
+require_once("functions.php");
+get_header(); ?>
 <section id="content" role="main" class="content grid">
     <div class="col-left">
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
