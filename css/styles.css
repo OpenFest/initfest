@@ -651,6 +651,12 @@ footer .content li a {
   padding: 0;
 }
 
+@media all and (max-width: 840px) {
+    .sponsors-item {
+        padding: 1em; 
+    }    
+}
+
 /* Plugins */
 .gmp_map_opts {
   float: none !important;
