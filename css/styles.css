@@ -379,8 +379,15 @@ nav .selected {
   height: 247px;
   margin: 0 auto;
 }
+.banner-mobile {
+  display: none;
+  height: 258px;
+  background-size: cover;
+  padding: 0.2em 0 0 0;
+}
 @media all and (max-width: 840px) {
   .banner { display: none; }
+  .banner-mobile { display: block; }
 }
 
 /* Grid */
