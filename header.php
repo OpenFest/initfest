@@ -77,11 +77,11 @@
 
                 } else if ($blog_slug === '2025') {
 					if (of_get_lang() === 'bg') {
-						echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-bg.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;background-size: contain;"></section>';
-						echo '<section class="banner-mobile cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-mobile-bg.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;background-size: contain;"></section>';
+						echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-bg.png) top center no-repeat;padding: 0.2em 0 0 0;height: auto;background-size: contain;padding-top: 13.63%;"></section>';
+						echo '<section class="banner-mobile cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-mobile-bg.png) top center no-repeat;padding: 0.2em 0 0 0;height: auto;background-size: contain;padding-top: 35.71%;"></section>';
 					} else {
-						echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-en.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;background-size: contain;"></section>';
-						echo '<section class="banner-mobile cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-mobile-en.png) top center no-repeat;padding: 0.2em 0 0 0;height: 258px;background-size: contain;"></section>';
+						echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-en.png) top center no-repeat;padding: 0.2em 0 0 0;height: auto;background-size: contain;padding-top: 13.63%;"></section>';
+						echo '<section class="banner-mobile cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-mobile-en.png) top center no-repeat;padding: 0.2em 0 0 0;height: auto;background-size: contain;padding-top: 35.71%;"></section>';
 					}
 					
                 } else {
