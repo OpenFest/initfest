@@ -22,7 +22,7 @@
 		<?php wp_head(); ?>
 
 		<style>
-			.nav-2025 nav ul a{
+			.nav-2025 ul a{
 				color: white;
 			}
 		</style>
