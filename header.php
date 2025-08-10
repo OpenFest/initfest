@@ -34,6 +34,9 @@
 			.nav-2025 ul .sub-menu {
 				background: #13084A;
 			}
+			.nav-2025 .current-menu-item a {
+				color: #5bfef8;
+			}
 		</style>
 
 	</head>
