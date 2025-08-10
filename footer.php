@@ -57,6 +57,7 @@
 
 	.footer-2025 .content li a {
 		color: #ffffff;
+		text-decoration: none;
 	}
 
 	.footer-2025 li a:hover {
