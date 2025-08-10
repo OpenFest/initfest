@@ -1,6 +1,6 @@
 		<div class="clear"></div>
 
-		<footer class="clear">
+		<footer class="clear <?php if (get_blog_slug() === '2025') echo 'footer-2025' ?>">
 			<div class="content grid footer">
 				<div class="col4">
 					<h3>OpenFest</h3>
@@ -48,5 +48,20 @@
   ga('send', 'pageview');
 
 </script>
+
+<style>
+	.footer-2025 {
+		background: #13084A;
+		color: white;
+	}
+
+	.footer-2025 li a {
+		color: #ffffff;
+	}
+
+	.footer-2025 li a:hover {
+		color: #5bfef8;
+	}
+</style>
 	</body>
 </html>
