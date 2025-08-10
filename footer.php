@@ -55,7 +55,7 @@
 		color: white;
 	}
 
-	.footer-2025 li a {
+	.footer-2025 .content li a {
 		color: #ffffff;
 	}
 
