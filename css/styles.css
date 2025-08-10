@@ -1046,3 +1046,35 @@ section.subtitle_content {
 .stream_players_wrapper > * {
   flex-grow: 1;
 }
+
+/* 2025 specific styles */
+.nav-2025 ul a{
+  color: white;
+}
+.nav-2025 ul a:hover{
+  color: #5bfef8;
+}
+.nav-2025 .menu > li:hover{
+  border-top: 0.4em solid #5bfef8;
+}
+.nav-2025 ul .sub-menu {
+  background: #13084A;
+}
+.nav-2025 .current-menu-item a {
+  color: #5bfef8;
+}
+
+.footer-2025 {
+  background: #13084A;
+  color: white;
+}
+
+.footer-2025 .content li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-2025 li a:hover {
+  color: #5bfef8;
+  text-decoration: underline;
+}
