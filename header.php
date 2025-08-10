@@ -21,6 +21,12 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_uri(); ?>" />
 		<?php wp_head(); ?>
 
+		<style>
+			.nav-2025 nav ul a{
+				color: white;
+			}
+		</style>
+
 	</head>
 	<body>
 <?php
@@ -32,7 +38,7 @@
 	elseif ($blog_slug === '2024') {
 	    echo '<nav style="background-image: linear-gradient(#FFFFFF, #BFFAF4);">';
 	} elseif ($blog_slug === '2025') {
-	    echo '<nav style="background: #e3e0e0;">';
+	    echo '<nav style="background: #13084A; color: white;" class="nav-2025">';
 	} else {
 		echo '<nav>';
 	}
