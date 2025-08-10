@@ -25,6 +25,15 @@
 			.nav-2025 ul a{
 				color: white;
 			}
+			.nav-2025 ul a:hover{
+				color: #5bfef8;
+			}
+			.nav-2025 .menu > li:hover{
+				border-top: 0.4em solid #5bfef8;
+			}
+			.nav-2025 ul .sub-menu {
+				background: #13084A;
+			}
 		</style>
 
 	</head>
