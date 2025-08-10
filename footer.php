@@ -62,6 +62,7 @@
 
 	.footer-2025 li a:hover {
 		color: #5bfef8;
+		text-decoration: underline;
 	}
 </style>
 	</body>
