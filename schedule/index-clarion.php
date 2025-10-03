@@ -6,7 +6,7 @@ $requirePath = __DIR__ . DIRECTORY_SEPARATOR;
 require $requirePath . 'class.SmartCurl.php';
 require $requirePath . 'config.php';
 require $requirePath . 'load.php';
-require $requirePath . 'parse.php';
+require $requirePath . 'parse-clarion.php';
 $sched_config = getSchedConfig(date('Y'));
 $data = loadData($sched_config);
 $sched_config['filterEventType'] = array_key_exists('event_type', $_GET) ? $_GET['event_type'] : null;

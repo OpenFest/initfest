@@ -95,6 +95,14 @@ function getSchedConfig($year = 2017) {
 			],
 			'hidden_language_tracks' => [83],
 		],
+		2025 => [
+			'baseUrl' => 'https://cfp.openfest.org/openfest-2025/',
+			'roomTypes' => [
+				'lecture' => '/(Hall|Зала)/',
+				'workshop' => '/([Ww]orkshop|[Рр]аботилниц)/',
+			],
+		],
+
 	];
 
 	return array_merge($globalConfig, $config[$year]);
