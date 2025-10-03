@@ -1,2 +1,4 @@
 cache
+cache_*
 cache.json
+cache-backup*
