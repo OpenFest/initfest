@@ -693,7 +693,7 @@ a:hover { text-decoration: underline; }
  * Navigation
  *********************************************/
 
-nav .menu > li { margin: 1px 10px; }
+nav .menu > li { margin: 1px 5px; }
 nav .menu a:hover {
   color: #000;
 }
