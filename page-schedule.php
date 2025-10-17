@@ -112,6 +112,9 @@ for($i = 0; $i < count($content['rooms']); $i++) {
 	echo '<td class="schedule-card schedule-' . $talk['talk']['language'] . '" rowspan="'. $talk['span'] .'" style="background-color: ' . getTrackColor($talk['talk']['track'], $content['colors']). '">';
 	echo '<a href="' . htmlspecialchars($talk['talk']['url']) . '">' . $title . '</a>';
 	echo '<br/>' . $speakers;
+	if(time() >= strtotime($talk['talk']['date'])) { // talk has already started
+		echo '<p><strong><a href="' . $talk['talk']['url'] . 'feedback' . '">'.pll__('Submit feedback').'</a></strong></p>';
+	}
 	echo '</td>';
 
 }
