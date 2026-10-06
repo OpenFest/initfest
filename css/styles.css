@@ -388,6 +388,8 @@ nav .selected {
 @media all and (max-width: 840px) {
   .banner { display: none; }
   .banner-mobile { display: block; }
+  .banner {display: block;}
+  .banner img {height: auto; width: auto; position:relative; top: 50px; left: 120px; transform: scale(2);}
 }
 
 /* Grid */
