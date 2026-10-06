@@ -388,8 +388,58 @@ nav .selected {
 @media all and (max-width: 840px) {
   .banner { display: none; }
   .banner-mobile { display: block; }
-  .banner {display: block;}
-  .banner img {height: auto; width: auto; position:relative; top: 50px; left: 120px; transform: scale(2);}
+
+  /* 2026: no separate mobile artwork — keep banner visible without overflowing */
+  .banner.banner-2026 {
+    display: block;
+    height: auto;
+    overflow: hidden;
+    background-size: cover;
+  }
+  .banner.banner-2026 img {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* 2026 homepage date / venue strip (readable on mobile) */
+.event-meta-2026 {
+  background: #e8f4f6;
+  border-bottom: 1px solid #c5dce0;
+  padding: 0.85em 0;
+}
+.event-meta-2026 .content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em 2em;
+  align-items: baseline;
+}
+.event-meta-2026__item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em 0.6em;
+  align-items: baseline;
+}
+.event-meta-2026__label {
+  font-weight: 700;
+  color: #c62828;
+}
+.event-meta-2026__value {
+  font-weight: 700;
+  font-size: 1.15em;
+}
+@media all and (max-width: 840px) {
+  .event-meta-2026 {
+    padding: 1em 0;
+  }
+  .event-meta-2026 .content {
+    flex-direction: column;
+    gap: 0.55em;
+  }
+  .event-meta-2026__value {
+    font-size: 1.25em;
+  }
 }
 
 /* Grid */

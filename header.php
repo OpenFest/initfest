@@ -101,7 +101,28 @@
 						echo '<section class="banner cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-en.png) top center no-repeat;padding: 0.2em 0 0 0;height: auto;background-size: contain;padding-top: 13.63%;"></section>';
 						echo '<section class="banner-mobile cf" style="background: url('.get_template_directory_uri().'/img/banner-back-2025-mobile-en.png) top center no-repeat;padding: 0.2em 0 0 0;height: auto;background-size: contain;padding-top: 35.71%;"></section>';
 					}
-					
+
+                } else if ($blog_slug === '2026') {
+					$uri = get_template_directory_uri();
+					$lang = of_get_lang();
+					echo '<section class="banner banner-2026 cf" style="background: url(\''.$uri.'/img/banner-back-2026.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 258px;"><img src="'.$uri.'/img/banner-'.$lang.'-2026.png" alt="" /></section>';
+
+					if ($lang === 'bg') {
+						$when_label = 'Кога?';
+						$when_value = '7-8 ноември';
+						$where_label = 'Къде?';
+						$where_value = 'Интерпред СТЦ София';
+					} else {
+						$when_label = 'When?';
+						$when_value = '7-8 November';
+						$where_label = 'Where?';
+						$where_value = 'Interpred WTC Sofia';
+					}
+					echo '<section class="event-meta-2026"><div class="content">';
+					echo '<div class="event-meta-2026__item"><span class="event-meta-2026__label">'.esc_html($when_label).'</span> <span class="event-meta-2026__value">'.esc_html($when_value).'</span></div>';
+					echo '<div class="event-meta-2026__item"><span class="event-meta-2026__label">'.esc_html($where_label).'</span> <span class="event-meta-2026__value">'.esc_html($where_value).'</span></div>';
+					echo '</div></section>';
+
                 } else {
 					echo '<section class="banner cf" style="background: url(\''.get_template_directory_uri().'/img/banner-back-'.$blog_slug.'.jpg\') top repeat-x;padding: 0.2em 0 0 0;height: 258px;"><img src="'.get_template_directory_uri().'/img/banner-'.of_get_lang().'-'. $blog_slug .'.png" alt="" /></section>';
 				}
