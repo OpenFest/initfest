@@ -102,6 +102,13 @@ function getSchedConfig($year = 2017) {
 				'workshop' => '/([Ww]orkshop|[Рр]аботилниц)/',
 			],
 		],
+		2026 => [
+			'baseUrl' => 'https://cfp.openfest.org/openfest-2026/',
+			'roomTypes' => [
+				'lecture' => '/([Hh]all|Соф|Вар)/',
+				'workshop' => '/([Rr]oom|G[13])/',
+			],
+		],
 
 	];
 

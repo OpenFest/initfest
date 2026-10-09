@@ -10,7 +10,7 @@ $sched_config = getSchedConfig($year);
 $sched_config['lang'] = of_get_lang();
 
 # we are using clarion
-if($year !== '2025') {
+if((int)$year <= 2024) {
 	require $requirePath . 'load-clarion.php';
 	require $requirePath . 'parse-clarion.php';
 
@@ -24,7 +24,7 @@ if($year !== '2025') {
 	$content = parseData($sched_config, $data);
 
 }
-if($year === '2025') { # pretalx
+else {  # pretalx
 	require $requirePath . 'load-pretalx.php';
 	require $requirePath . 'parse-pretalx.php';
 

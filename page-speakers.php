@@ -11,7 +11,7 @@ require("schedule-config.php");
 
 <?php
 
-if($year !== '2025') {
+if((int)$year <= 2024) {
 ?>
 <h1><?php pll_e('Лектори') ?></h1>
 <?php
@@ -26,7 +26,8 @@ if (!empty($content)) {
 	pll_e('TBA');
 }
 }
-if($year === '2025') {
+#if((int)$year >= 2025) {
+else {
 	echo '<h1><a href="'. $config['baseUrl'] .'speaker/">'. pll__('Лектори') .'</a></h1>';
 
 	echo '<meta http-equiv="refresh" content="0; url=' . $config['baseUrl'].'speaker/' . '" />';

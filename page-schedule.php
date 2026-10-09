@@ -35,7 +35,7 @@ if (should_show_sidebar()) {
 
 <?php
 
-if($year !== '2025') { # we are using clarion
+if((int)$year <= 2024) { # we are using clarion
 	if (!empty($content)) {
 		echo '<p><a href="https://oldcfp.openfest.org/api/conferences/'.$sched_config['conferenceId'].'/events.ics?locale='.$lang.'">iCalendar</a></p>';
 		echo $content['schedule'];
