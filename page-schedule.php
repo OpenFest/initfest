@@ -69,7 +69,7 @@ if((int)$year <= 2024) { # we are using clarion
 
 
 <?php foreach($result as $content) { ?>
-<h1><?php echo $content['date']; ?></h1>
+<h1><?php $dow = date('l',  strtotime($content['date'])); echo $content['date']. " - ".pll__($dow);?></h1>
    <div class="separator"></div>
 <table cellpadding="0" cellspacing="0" style="text-align: center;" class="schedule">
 	<thead>

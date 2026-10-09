@@ -413,6 +413,8 @@ if (function_exists("pll_register_string")) {
 	pll_register_string('no_current_streams','no_current_streams');
 	pll_register_string('hall-a','hall-a');
 	pll_register_string('hall-b','hall-b');
+	pll_register_string('Saturday','Saturday');
+	pll_register_string('Sunday','Sunday');
 }
 
 add_filter( 'wp_title', 'wpdocs_hack_wp_title_for_home' );
